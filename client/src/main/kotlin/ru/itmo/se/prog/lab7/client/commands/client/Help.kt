@@ -1,6 +1,7 @@
-package ru.itmo.se.prog.lab7.client.commands
+package ru.itmo.se.prog.lab7.client.commands.client
 
 
+import ru.itmo.se.prog.lab7.client.commands.Command
 import ru.itmo.se.prog.lab7.client.utils.validation.Data
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
@@ -24,7 +25,7 @@ class Help: Command(ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT) {
     override fun execute(data: Data): String? {
         var result: String? = ""
         result = (message.getMessage("="))
-        val classes = commandManager.parsePackage("ru.itmo.se.prog.lab6.commands", "Command")
+        val classes = commandManager.parsePackage("ru.itmo.se.prog.lab7.client.commands", "Command")
             .filter { klass -> !klass.simpleName.equals("FastAdd") && !klass.simpleName.equals("PrintCollection") && !klass.simpleName.equals("GetElement") }
         for (klass in classes) {
             try {

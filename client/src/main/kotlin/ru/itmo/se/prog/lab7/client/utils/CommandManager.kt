@@ -48,6 +48,7 @@ class CommandManager: KoinComponent {
                                 val command = klass.getConstructor().newInstance() as Command
 
                                 if (command.getName() == commandName) {
+                                        println(commandName)
                                         return command
                                 }
                         } catch (e: CommandException) {

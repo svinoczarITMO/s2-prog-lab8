@@ -22,7 +22,7 @@ fun main() {
     val message = Messages()
     val serializer = Serializer()
     val clientApp = ClientApp()
-    val commandPackage = "ru.itmo.se.prog.lab6.commands"
+    val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
     val kotlinIsBetterThanJava = true
 
 

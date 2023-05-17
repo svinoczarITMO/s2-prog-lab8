@@ -15,7 +15,7 @@ import java.util.*
 class ClientValidator: KoinComponent {
     private val commandManager: CommandManager by inject()
     private val message: Messages by inject()
-    private val commandPackage = "ru.itmo.se.prog.lab6.commands"
+    private val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
     private val addPersonFields = AddPersonFields()
     private val write: PrinterManager by inject()
     private var params = arrayListOf("null parameter", "null parameter", "null parameter", "null parameter", "null parameter",

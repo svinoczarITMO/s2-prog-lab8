@@ -1,4 +1,4 @@
-package ru.itmo.se.prog.lab7.client.commands.dev
+package ru.itmo.se.prog.lab7.client.commands.admin
 
 import ru.itmo.se.prog.lab7.client.commands.Command
 import ru.itmo.se.prog.lab7.client.utils.validation.Data
