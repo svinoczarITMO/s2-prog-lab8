@@ -3,3 +3,6 @@
 gradle
 *.iml
 TODO
+build
+example.json
+.psw
