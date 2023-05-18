@@ -9,7 +9,7 @@ import java.io.File
 
 class ServerValidator : KoinComponent {
     private val commandManager: CommandManager by inject()
-    private val commandPackage = "ru.itmo.se.prog.lab6.commands"
+    private val commandPackage = "ru.itmo.se.prog.lab7.server.commands"
     private val historyFile = File("D:\\ITMO\\2nd-semester\\prog-labs\\s2-prog-lab6\\server\\src\\main\\kotlin\\ru\\itmo\\se\\prog\\lab6\\data\\history.log")
     private val commandBuffer = historyFile.readLines().toMutableList()
 
@@ -25,8 +25,9 @@ class ServerValidator : KoinComponent {
 
         historyFile.writeText(commandBuffer.joinToString())
 
+        val result = commandManager.getCommand(commandPackage, data.name, "Command")?.execute(data)
         return if (data.locationType == LocationType.SERVER) {
-            commandManager.getCommand(commandPackage, data.name, "Command")?.execute(data)
+            result
         } else {
             ""
         }

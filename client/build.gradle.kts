@@ -19,7 +19,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
     implementation("org.reflections:reflections:0.10.2")
     implementation("io.insert-koin:koin-core:$koinVersion")
-    implementation ("ch.qos.logback:logback-classic:1.2.9")
+//    implementation ("ch.qos.logback:logback-classic:1.2.9")
     testImplementation("io.insert-koin:koin-test-junit5:$koinVersion")
     implementation(kotlin("stdlib-jdk8"))
 }

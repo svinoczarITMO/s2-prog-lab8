@@ -25,6 +25,11 @@ class Info: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
     override fun execute(data: Data): String? {
         var result: String? = ""
         val type = collectionManager.getType() //Работает некорректно с пустой коллекций (Выводит "Тип: ArrayList")
+        val yellowText = "\u001B[33m"
+        val resetColor = "\u001B[0m"
+
+        println("${yellowText}Type: $type ${resetColor}")
+
         val size = collectionManager.collection.size
         val initDate = logger.initDate(collectionManager)
         result = (

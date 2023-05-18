@@ -21,7 +21,7 @@ class ServerApp() : KoinComponent {
     private val ip = "localhost"
     private val port = 8844
     private val logger = Logger.getLogger("logger")
-    val serializer: Serializer by inject()
+    val serializer = Serializer()
     val serverValidator = ServerValidator()
     val saveData = Data("save", "save", Person(0,"SAVE", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3)), "main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER)
     val save = Save()
@@ -53,7 +53,6 @@ class ServerApp() : KoinComponent {
             val dataStr = bufferedReader.readLine()?.trim()!!
 
             val data: Data = serializer.deserializeData(dataStr)
-            println(data)
             val result = serverValidator.validate(data)
             response(clientSocketChannel, result)
         } catch (e: Exception) {
@@ -61,12 +60,12 @@ class ServerApp() : KoinComponent {
         }
     }
 
-    private fun response (clientSocketChannel: SocketChannel, result: String?) {
+    private fun response (clientSocketChannel: SocketChannel, res: String?) {
         logger.info("Отправка ответа...")
         try {
             val output = PrintWriter(clientSocketChannel.socket().getOutputStream())
+            val result = res ?: "Ошибка отправки ответа."
             output.write(result)
-            println("result: $result")
             output.flush()
             clientSocketChannel.shutdownOutput()
             save.execute(saveData)

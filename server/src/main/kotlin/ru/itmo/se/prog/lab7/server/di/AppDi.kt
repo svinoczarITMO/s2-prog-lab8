@@ -12,7 +12,7 @@ import ru.itmo.se.prog.lab7.server.utils.*
  * @author svinoczar
  * @since 1.0.0
  */
-val notKoinModule = module {
+val serverKoinModule = module {
     single {
         PrinterManager()
     }
@@ -31,10 +31,6 @@ val notKoinModule = module {
 
     single {
         CollectionManager()
-    }
-
-    single {
-        Serializer()
     }
 
     single {

@@ -12,6 +12,7 @@ version = "1.0-SNAPSHOT"
 dependencies {
     val kotlinVersion = "1.8.10"
     val koinVersion = "3.2.2"
+//    implementation(project(":server"))
     testImplementation(kotlin("test"))
     implementation(kotlin("serialization", version = kotlinVersion))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")

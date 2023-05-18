@@ -6,12 +6,10 @@ import ru.itmo.se.prog.lab7.client.utils.Serializer
 import java.io.*
 import java.net.InetSocketAddress
 import java.nio.channels.SocketChannel
-import java.util.logging.Logger
 
 class ClientApp (): KoinComponent {
     private val ip = "localhost"
     private val port = 8844
-    private val logger = Logger.getLogger("logger")
     val serializer = Serializer()
     val write = PrinterManager()
 
