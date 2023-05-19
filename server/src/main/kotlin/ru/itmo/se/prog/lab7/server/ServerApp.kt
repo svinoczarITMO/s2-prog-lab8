@@ -1,7 +1,6 @@
 package ru.itmo.se.prog.lab7.server
 
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.common.data.*
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
@@ -17,14 +16,14 @@ import java.nio.channels.SocketChannel
 import java.util.*
 import java.util.logging.Logger
 
-class ServerApp() : KoinComponent {
+class ServerApp: KoinComponent {
     private val ip = "localhost"
     private val port = 8844
     private val logger = Logger.getLogger("logger")
-    val serializer = Serializer()
-    val serverValidator = ServerValidator()
-    val saveData = Data("save", "save", Person(0,"SAVE", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3)), "main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER)
-    val save = Save()
+    private val serializer = Serializer()
+    private val serverValidator = ServerValidator()
+    private val saveData = Data("save", "save", Person(0,"SAVE", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3)), "main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER)
+    private val save = Save()
 
     fun start (){
         logger.info("Попытка запуска сервера...")
@@ -32,11 +31,11 @@ class ServerApp() : KoinComponent {
             val serverSocket = ServerSocketChannel.open()
             serverSocket.bind((InetSocketAddress(ip, port)))
             logger.info("Ожидание подключения...")
-            val bufferReader = BufferedReader(InputStreamReader(System.`in`))
+//            val bufferReader = BufferedReader(InputStreamReader(System.`in`))
             while (serverSocket.socket().isBound) {
-                if (bufferReader.ready()) {
-                    val serverCommand = bufferReader.readLine()
-                }
+//                if (bufferReader.ready()) {
+//                    val serverCommand = bufferReader.readLine()
+//                }
                 val clientSocket = serverSocket.accept()
                 request(clientSocket)
             }

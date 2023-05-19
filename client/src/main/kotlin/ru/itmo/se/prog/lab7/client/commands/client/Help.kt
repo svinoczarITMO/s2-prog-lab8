@@ -2,7 +2,8 @@ package ru.itmo.se.prog.lab7.client.commands.client
 
 
 import ru.itmo.se.prog.lab7.client.commands.Command
-import ru.itmo.se.prog.lab7.client.utils.validation.Data
+import ru.itmo.se.prog.lab7.common.data.Data
+import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
@@ -19,7 +20,7 @@ class Help: Command(ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT) {
     }
 
     override fun getDescription(): String {
-        return getName() + " - выводит справку по доступным командам\n"
+        return " - выводит справку по доступным командам\n"
     }
 
     override fun execute(data: Data): String? {
@@ -30,7 +31,7 @@ class Help: Command(ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT) {
         for (klass in classes) {
             try {
                 val command = klass.getConstructor().newInstance() as Command
-                result += (command.getDescription())
+                result += ("${Messages.cyanText}${command.getName()}${Messages.resetColor}" + command.getDescription())
             } catch (e: Exception) {
                 result = e.message
             }

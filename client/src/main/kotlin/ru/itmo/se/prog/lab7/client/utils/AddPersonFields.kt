@@ -2,6 +2,8 @@ package ru.itmo.se.prog.lab7.client.utils
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
+import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
 import ru.itmo.se.prog.lab7.common.data.Color
 import ru.itmo.se.prog.lab7.common.data.Country
 import ru.itmo.se.prog.lab7.common.data.Messages

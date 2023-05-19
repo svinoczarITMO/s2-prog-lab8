@@ -1,7 +1,7 @@
 package ru.itmo.se.prog.lab7.client
 
 import org.koin.core.component.KoinComponent
-import ru.itmo.se.prog.lab7.client.utils.PrinterManager
+import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.client.utils.Serializer
 import java.io.*
 import java.net.InetSocketAddress

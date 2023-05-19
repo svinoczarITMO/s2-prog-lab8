@@ -3,7 +3,8 @@ package ru.itmo.se.prog.lab7.client.commands.server
 
 import org.jetbrains.kotlin.konan.file.File
 import ru.itmo.se.prog.lab7.client.commands.Command
-import ru.itmo.se.prog.lab7.client.utils.validation.Data
+import ru.itmo.se.prog.lab7.common.data.Data
+import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
@@ -23,7 +24,7 @@ class ExecuteScript: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.SERV
     }
 
     override fun getDescription(): String {
-        return getName() + " --file_name - считывает и исполняет скрипт из указанного файла\n"
+        return " ${Messages.cyanText}--file_name${Messages.resetColor} - считывает и исполняет скрипт из указанного файла\n"
     }
 
     override fun execute(data: Data): String? {

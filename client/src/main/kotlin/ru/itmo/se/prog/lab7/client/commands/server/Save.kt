@@ -1,7 +1,8 @@
 package ru.itmo.se.prog.lab7.client.commands.server
 
 import ru.itmo.se.prog.lab7.client.commands.Command
-import ru.itmo.se.prog.lab7.client.utils.validation.Data
+import ru.itmo.se.prog.lab7.common.data.Data
+import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.*
 import ru.itmo.se.prog.lab7.common.data.Person
 import java.util.*
@@ -19,7 +20,7 @@ class Save: Command(ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER) {
     }
 
     override fun getDescription(): String {
-        return getName() + " - сохраняет коллекцию в файл\n"
+        return " - сохраняет коллекцию в файл\n"
     }
 
     /**

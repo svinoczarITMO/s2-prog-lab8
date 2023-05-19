@@ -2,7 +2,8 @@ package ru.itmo.se.prog.lab7.client.commands.server
 
 
 import ru.itmo.se.prog.lab7.client.commands.Command
-import ru.itmo.se.prog.lab7.client.utils.validation.Data
+import ru.itmo.se.prog.lab7.common.data.Data
+import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.*
 
 /**
@@ -17,7 +18,7 @@ class Show: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
     }
 
     override fun getDescription(): String {
-        return getName() + " - выводит в стандартный поток вывода все элементы коллекции в строковом представлении\n"
+        return " - выводит в стандартный поток вывода все элементы коллекции в строковом представлении\n"
     }
 
     override fun execute(data: Data): String? {

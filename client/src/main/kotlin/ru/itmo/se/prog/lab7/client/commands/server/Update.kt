@@ -2,8 +2,9 @@ package ru.itmo.se.prog.lab7.client.commands.server
 
 import ru.itmo.se.prog.lab7.client.commands.Command
 import ru.itmo.se.prog.lab7.client.utils.AddPersonFields
-import ru.itmo.se.prog.lab7.client.utils.PrinterManager
-import ru.itmo.se.prog.lab7.client.utils.validation.Data
+import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
+import ru.itmo.se.prog.lab7.common.data.Data
+import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
@@ -24,7 +25,7 @@ class Update: Command(ArgType.OBJECT_PLUS, StatusType.USER, LocationType.SERVER)
     }
 
     override fun getDescription(): String {
-        return getName() + " - обновляет элемент коллекции по указанному id\n"
+        return " - обновляет элемент коллекции по указанному id\n"
     }
 
     override fun execute(data: Data): String? {

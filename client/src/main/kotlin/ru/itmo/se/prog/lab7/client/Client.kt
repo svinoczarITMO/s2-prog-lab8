@@ -5,6 +5,8 @@ import kotlinx.serialization.json.Json
 import org.koin.core.context.GlobalContext.startKoin
 import ru.itmo.se.prog.lab7.client.di.notKoinModule
 import ru.itmo.se.prog.lab7.client.utils.*
+import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
+import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
 import ru.itmo.se.prog.lab7.client.utils.validation.ClientValidator
 import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
@@ -27,6 +29,7 @@ fun main() {
 
 
     while (kotlinIsBetterThanJava) {
+        write.linesInConsole(message.getMessage("login_info"))
         val flag = ::main.name
         write.inConsole("> ")
         val readFromConsole = (readln().lowercase()).split(" ").toMutableList()

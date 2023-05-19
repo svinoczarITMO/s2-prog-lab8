@@ -5,7 +5,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.client.utils.AddPersonFields
 import ru.itmo.se.prog.lab7.client.utils.CommandManager
-import ru.itmo.se.prog.lab7.client.utils.PrinterManager
+import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.common.data.*
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
@@ -22,6 +22,7 @@ class ClientValidator: KoinComponent {
         "null parameter", "null parameter", "null parameter", "null parameter", "null parameter")
     private val dataObj = Data("command", "none",
         Person(0,"Nikita", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3)),
+        Token("login", "password"),
         "main", ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT)
 
     fun validate (data: MutableList<String>): ArrayList<Data> {
@@ -63,6 +64,11 @@ class ClientValidator: KoinComponent {
                         dataObj.obj = obj
                         dataObj.oneArg = oneArg
                     }
+
+                    ArgType.TOKEN -> {
+                        val token = makeAToken(placeFlag)
+                        dataObj.token = token
+                    }
                 }
                 dataQueue.add(dataObj)
             } else {
@@ -83,6 +89,10 @@ class ClientValidator: KoinComponent {
             dataQueue.add(dataObj)
             return dataQueue
         }
+    }
+
+    private fun makeAToken(placeFlag: String): Token {
+        TODO("Not yet implemented")
     }
 
     private fun makeAnObject (placeFlag: String): Person {

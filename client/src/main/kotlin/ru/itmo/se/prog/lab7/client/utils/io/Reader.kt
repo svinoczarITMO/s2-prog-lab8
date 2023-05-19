@@ -1,4 +1,4 @@
-package ru.itmo.se.prog.lab7.client.utils
+package ru.itmo.se.prog.lab7.client.utils.io
 
 /**
  * A basic interface for implementing a reader. You must implement it before applying readers in ReaderManager.

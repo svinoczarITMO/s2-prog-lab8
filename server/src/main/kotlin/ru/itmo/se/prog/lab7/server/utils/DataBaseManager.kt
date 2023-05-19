@@ -8,30 +8,45 @@ import ru.itmo.se.prog.lab7.server.ServerApp
 import java.io.File
 import java.sql.*
 import java.sql.Date
-import java.text.SimpleDateFormat
-import java.util.*
+
 
 class DataBaseManager: KoinComponent {
     val user = "postgres"
-    val password = File(".psw").readText()
-    val url = ""
+    private val password = File(".psw").readText()
+    private val url = "jdbc:postgresql://localhost:5433/studs"
     val collectionManager: CollectionManager by inject ()
     val serverApp: ServerApp by inject ()
-    val write: PrinterManager by inject()
-    val connectionBD = connect()
+    private val write: PrinterManager by inject()
+    private val connectionBD = connect()
 
     // person table queries
-    val insertPersonQuery = connectionBD.prepareStatement(
-        "insert into person " +
-        "(id, name, coordinte_x , coordinate_y, creation_date, height, weight, hair_color, nationality, location_x,location_y, location_z, owner)" +
-        "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-    val selectPersonQuery = connectionBD.prepareStatement("select * from person;")
-    val deletePersonQuery = connectionBD.prepareStatement("delete from person where person.id = ?;")
-    val clearPersonQuery = connectionBD.prepareStatement("delete from person;")
+    private val insertPersonQuery = connectionBD.prepareStatement(
+        buildString {
+        append("insert into person ")
+        append("(id, name, coordinate_x , coordinate_y, creation_date, height, weight, hair_color, nationality, location_x,location_y, location_z, owner)")
+        append("values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+    })
+    private val selectPersonQuery = connectionBD.prepareStatement(buildString {
+        append("select * from person;")
+    })
+    private val deletePersonQuery = connectionBD.prepareStatement(buildString {
+        append("delete from person where person.id = ?;")
+    })
+    private val clearPersonQuery = connectionBD.prepareStatement(buildString {
+        append("delete from person;")
+    })
     // users table queries
-    val insertUsersQuery = connectionBD.prepareStatement("insert into users " + "(login, password, is_admin)" + "values (?, ?, ?)")
-    val selectUsersQuery = connectionBD.prepareStatement("select * from users")
-    val clearUsersQuery = connectionBD.prepareStatement("delete from users")
+    private val insertUsersQuery = connectionBD.prepareStatement(buildString {
+        append("insert into users ")
+        append("(login, password, is_admin)")
+        append("values (?, ?, ?)")
+    })
+    private val selectUsersQuery = connectionBD.prepareStatement(buildString {
+        append("select * from users")
+    })
+    private val clearUsersQuery = connectionBD.prepareStatement(buildString {
+        append("delete from users")
+    })
 
     fun connect(): Connection {
         try {

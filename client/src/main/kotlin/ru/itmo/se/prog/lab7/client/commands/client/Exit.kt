@@ -2,7 +2,8 @@ package ru.itmo.se.prog.lab7.client.commands.client
 
 
 import ru.itmo.se.prog.lab7.client.commands.Command
-import ru.itmo.se.prog.lab7.client.utils.validation.Data
+import ru.itmo.se.prog.lab7.common.data.Data
+import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.*
 import kotlin.system.exitProcess
 
@@ -20,7 +21,7 @@ class Exit: Command(ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT) {
     }
 
     override fun getDescription(): String {
-        return getName() + " - завершает программу\n"
+        return " - завершает программу\n"
     }
 
     override fun execute(data: Data): String? {

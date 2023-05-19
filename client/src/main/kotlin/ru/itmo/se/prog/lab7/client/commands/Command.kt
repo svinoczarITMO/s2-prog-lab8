@@ -4,7 +4,9 @@ package ru.itmo.se.prog.lab7.client.commands
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.client.utils.*
-import ru.itmo.se.prog.lab7.client.utils.validation.Data
+import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
+import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
+import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
@@ -25,7 +27,6 @@ abstract class Command (
     val collectionManager: CollectionManager by inject()
     val commandManager: CommandManager by inject()
     val write: PrinterManager by inject()
-    val read: ReaderManager by inject()
     val message: Messages by inject()
     val serializer: Serializer by inject()
 

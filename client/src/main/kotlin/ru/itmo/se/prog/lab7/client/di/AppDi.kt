@@ -2,6 +2,8 @@ package ru.itmo.se.prog.lab7.client.di
 
 import org.koin.dsl.module
 import ru.itmo.se.prog.lab7.client.utils.*
+import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
+import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
 import ru.itmo.se.prog.lab7.common.data.Messages
 
 /**

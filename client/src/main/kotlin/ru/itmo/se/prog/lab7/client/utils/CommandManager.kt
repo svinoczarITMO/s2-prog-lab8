@@ -5,6 +5,7 @@ import org.koin.core.component.inject
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import ru.itmo.se.prog.lab7.client.commands.Command
+import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.exceptions.CommandException
 

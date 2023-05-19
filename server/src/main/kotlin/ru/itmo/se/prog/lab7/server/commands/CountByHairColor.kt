@@ -22,7 +22,8 @@ class CountByHairColor: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.S
     }
 
     override fun execute(data: Data): String? {
-        val color = Color.valueOf(data.oneArg)
+        println(data.oneArg)
+        val color = Color.valueOf(data.oneArg.uppercase())
         val copyVector = collectionManager.collection
         var counter = 0
         var result: String? = ""
