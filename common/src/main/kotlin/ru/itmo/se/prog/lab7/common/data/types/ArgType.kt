@@ -7,5 +7,6 @@ enum class ArgType {
     NO_ARG,
     ONE_ARG,
     OBJECT,
-    OBJECT_PLUS
+    OBJECT_PLUS,
+    TOKEN
 }

@@ -7,6 +7,11 @@ package ru.itmo.se.prog.lab7.common.data
  * @since 1.0.0
  */
 class Messages {
+
+    private val redText = "\u001B[31m"
+    private val cyanText = "\u001B[1;36m"
+    private val resetColor = "\u001B[0m" // ANSI escape-код для сброса цвета
+
     private val messages = mapOf(
         //reading data
         "enter_name" to "Введите имя: ",
@@ -19,6 +24,9 @@ class Messages {
         "enter_locationX" to "Введите координату X примерного текущего местоположения: ",
         "enter_locationY" to "Введите координату Y примерного текущего местоположения: ",
         "enter_locationZ" to "Введите координату Z примерного текущего местоположения: ",
+        "enter_login" to "Введите имя пользователя (логин): ",
+        "enter_password" to "Введите пароль: ",
+        "repeat_password" to "Повторите пароль: ",
 
         //successes
         "added" to "Эллемент успешно добавлен.",
@@ -30,10 +38,14 @@ class Messages {
         "type_changed" to "Тип коллекции успешно сменен на ",
 
         //warnings
-        "recurision" to "Скрипт содержит рекурсию! Выполнение невозможно!",
+        "recursion" to "Скрипт содержит рекурсию! Выполнение невозможно!",
         "not_enough_args" to "Не хватает параметров в скрипте для добавления новой команды!\n",
         "weird_command" to "Введена неверная команда. Используйте help для вывода списка команд.\n",
         "invalid_id" to "Объект с указанным id не найден.\n",
+        "invalid_login" to "Такого логина не существует.\n Попробуйте еще раз (комманда $cyanText login $resetColor)" +
+                "или зарегистрируйтесь (команда $cyanText registration $resetColor).",
+        "invalid_password" to "Пароль неверный.\n Попробуйте ещё раз: ",
+        "access_denied" to "Недостаточно прав для выполнения данной команды.",
 
         //info
         "script_start" to "Скрипт выполняется...",
@@ -45,19 +57,24 @@ class Messages {
         "by_id" to "Элемент с id = ",
         "clean_collection" to "В коллекции не содержится элементов.",
         "supported_types" to "Вы можете использовать следующие типы коллекции:\n",
+        "login_info" to "Для дальнейшей работы вам необходимо войти в свой аккаунт (комманда $cyanText login $resetColor)\n" +
+                "или зарегистрироваться (команда $cyanText registration $resetColor)",
+        "permission_upgrade" to "Для повышения прав данного аккаунта введите команду $cyanText uta --key $resetColor (где \"key\" - ключ, выдаваемый администратором).",
+
 
         //extra
         "=" to "=========================================================================================================================================",
+        "welcome" to "Добро пожаловать, ",
 
         //exceptions
-        "NumberFormatException" to "Введенное значение должно быть числом! Попробуйте ещё раз.\n",
-        "IndexOutOfRange" to "Введенное число выходит за диапозон допустимых значений! Попробуйте ещё раз.\n",
-        "IllegalColor" to "Введенный цвет не соответствует ни одному из предложенных! Попробуйте ещё раз.\n",
-        "IllegalCountry" to "Введенная страна не соответствует ни одной из предложенных! Попробуйте ещё раз.\n",
-        "InvalidArgument" to "Введенно недопустимое значение аргумента.\n",
-        "NoSuchFile" to "Указанный файл не найден.\n",
-        "NoSuchType" to "Указанный тип коллекции не найден.\n",
-        "InvalidCommand" to "Такой команды не существует. Напишите help для просмотра списка команд.\n"
+        "NumberFormatException" to "$redText Введенное значение должно быть числом! Попробуйте ещё раз. $resetColor",
+        "IndexOutOfRange" to "$redText Введенное число выходит за диапозон допустимых значений! Попробуйте ещё раз. $resetColor",
+        "IllegalColor" to "$redText Введенный цвет не соответствует ни одному из предложенных! Попробуйте ещё раз. $resetColor",
+        "IllegalCountry" to "$redText Введенная страна не соответствует ни одной из предложенных! Попробуйте ещё раз. $resetColor",
+        "InvalidArgument" to "$redText Введенно недопустимое значение аргумента. $resetColor",
+        "NoSuchFile" to "$redText Указанный файл не найден. $resetColor",
+        "NoSuchType" to "$redText Указанный тип коллекции не найден. $resetColor",
+        "InvalidCommand" to "$redText Такой команды не существует. Напишите help для просмотра списка команд. $resetColor"
     )
 
     /**
