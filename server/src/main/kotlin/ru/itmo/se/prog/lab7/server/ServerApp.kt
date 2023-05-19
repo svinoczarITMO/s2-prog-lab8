@@ -5,10 +5,9 @@ import ru.itmo.se.prog.lab7.common.data.*
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
-import ru.itmo.se.prog.lab7.server.commands.Save
+import ru.itmo.se.prog.lab7.server.commands.server.Save
 import ru.itmo.se.prog.lab7.server.utils.Serializer
-import ru.itmo.se.prog.lab7.server.utils.validation.Data
-import ru.itmo.se.prog.lab7.server.utils.validation.ServerValidator
+import ru.itmo.se.prog.lab7.server.utils.ServerValidator
 import java.io.*
 import java.net.InetSocketAddress
 import java.nio.channels.ServerSocketChannel

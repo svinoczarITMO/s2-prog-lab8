@@ -1,11 +1,12 @@
-package ru.itmo.se.prog.lab7.server.commands
+package ru.itmo.se.prog.lab7.server.commands.server
 
 
+import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.*
 import ru.itmo.se.prog.lab7.common.data.Person
+import ru.itmo.se.prog.lab7.server.commands.Command
 import ru.itmo.se.prog.lab7.server.utils.AddPersonFields
-import ru.itmo.se.prog.lab7.server.utils.PrinterManager
-import ru.itmo.se.prog.lab7.server.utils.validation.Data
+import ru.itmo.se.prog.lab7.server.utils.io.PrinterManager
 
 /**
  * Updates the collection item with the entered identifier.
@@ -21,7 +22,7 @@ class Update: Command(ArgType.OBJECT_PLUS, StatusType.USER, LocationType.SERVER)
     }
 
     override fun getDescription(): String {
-        return getName() + " - обновляет элемент коллекции по указанному id\n"
+        return " - обновляет элемент коллекции по указанному id\n"
     }
 
     override fun execute(data: Data): String? {

@@ -1,4 +1,4 @@
-package ru.itmo.se.prog.lab7.server.commands.dev
+package ru.itmo.se.prog.lab7.server.commands.admin
 
 
 import ru.itmo.se.prog.lab7.common.data.*
@@ -6,7 +6,6 @@ import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
 import ru.itmo.se.prog.lab7.server.commands.Command
-import ru.itmo.se.prog.lab7.server.utils.validation.Data
 
 /**
  * Adds new element to the collection with no input arguments.
@@ -20,7 +19,7 @@ class FastAdd: Command(ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER) {
     }
 
     override fun getDescription(): String {
-        return getName() + " - добавляет новый элемент в коллекцию без указания параметров элемента\n"
+        return " - добавляет новый элемент в коллекцию без указания параметров элемента\n"
     }
 
     override fun execute(data: Data): String? {

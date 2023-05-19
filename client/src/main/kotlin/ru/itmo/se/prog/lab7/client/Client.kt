@@ -9,6 +9,7 @@ import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
 import ru.itmo.se.prog.lab7.client.utils.validation.ClientValidator
 import ru.itmo.se.prog.lab7.common.data.Messages
+import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
 import java.io.File
 
@@ -26,10 +27,28 @@ fun main() {
     val clientApp = ClientApp()
     val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
     val kotlinIsBetterThanJava = true
+    var loginFlag = false
 
 
     while (kotlinIsBetterThanJava) {
-        write.linesInConsole(message.getMessage("login_info"))
+        while (!loginFlag) {
+            write.linesInConsole(message.getMessage("login_info"))
+            val flag = ::main.name
+            write.inConsole("> ")
+            val readFromConsole = (readln().lowercase()).split(" ").toMutableList()
+            readFromConsole.add(flag)
+            val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
+            if (command != null && command.arg == ArgType.TOKEN) {
+                val queue = clientValidator.validate(readFromConsole)
+                for (data in queue) {
+                    val dataStr = Json.encodeToString(data)
+                    clientApp.request(dataStr)
+                }
+            } else {
+                write.linesInConsole(message.getMessage("weird_command"))
+            }
+        }
+
         val flag = ::main.name
         write.inConsole("> ")
         val readFromConsole = (readln().lowercase()).split(" ").toMutableList()
@@ -39,7 +58,6 @@ fun main() {
             val queue = clientValidator.validate(readFromConsole)
             for (data in queue) {
                 val dataStr = Json.encodeToString(data)
-                File("example.json").writeText(dataStr)
                 clientApp.request(dataStr)
             }
         } else {

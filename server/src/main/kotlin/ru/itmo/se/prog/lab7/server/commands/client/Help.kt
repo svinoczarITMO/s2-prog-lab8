@@ -1,8 +1,9 @@
-package ru.itmo.se.prog.lab7.server.commands
+package ru.itmo.se.prog.lab7.server.commands.client
 
 
+import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.*
-import ru.itmo.se.prog.lab7.server.utils.validation.Data
+import ru.itmo.se.prog.lab7.server.commands.Command
 
 /**
  * Outputs all commands and their descriptions.
@@ -16,7 +17,7 @@ class Help: Command(ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT) {
     }
 
     override fun getDescription(): String {
-        return getName() + " - выводит справку по доступным командам\n"
+        return " - выводит справку по доступным командам\n"
     }
 
     override fun execute(data: Data): String? {

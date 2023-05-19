@@ -1,8 +1,10 @@
-package ru.itmo.se.prog.lab7.server.commands
+package ru.itmo.se.prog.lab7.server.commands.server
 
 
+import ru.itmo.se.prog.lab7.common.data.Data
+import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.*
-import ru.itmo.se.prog.lab7.server.utils.validation.Data
+import ru.itmo.se.prog.lab7.server.commands.Command
 
 /**
  * Deletes the collection item with the entered identifier.
@@ -16,7 +18,7 @@ class RemoveByID: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.SERVER)
     }
 
     override fun getDescription(): String {
-        return getName() + " --id - удаляет элемент из коллекции по его id\n"
+        return " ${Messages.cyanText}--id${Messages.resetColor} - удаляет элемент из коллекции по его id\n"
     }
 
     override fun execute(data: Data): String? {

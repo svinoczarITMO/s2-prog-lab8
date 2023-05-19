@@ -1,8 +1,9 @@
-package ru.itmo.se.prog.lab7.server.commands
+package ru.itmo.se.prog.lab7.server.commands.server
 
 
+import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.*
-import ru.itmo.se.prog.lab7.server.utils.validation.Data
+import ru.itmo.se.prog.lab7.server.commands.Command
 
 /**
  * Outputs the collection item with the minimum weight.
@@ -16,7 +17,7 @@ class MinByWeight: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER)
     }
 
     override fun getDescription(): String {
-        return getName() + " - выводит любой объект из коллекции, значение поля weight которого является минимальным\n"
+        return " - выводит любой объект из коллекции, значение поля weight которого является минимальным\n"
     }
 
     override fun execute(data: Data): String? {

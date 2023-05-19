@@ -1,4 +1,4 @@
-package ru.itmo.se.prog.lab7.server.utils
+package ru.itmo.se.prog.lab7.server.utils.io
 
 import java.io.File
 

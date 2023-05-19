@@ -3,6 +3,7 @@ package ru.itmo.se.prog.lab7.server.data
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import ru.itmo.se.prog.lab7.common.DateAsStringSerializer
+import ru.itmo.se.prog.lab7.common.data.Color
 import ru.itmo.se.prog.lab7.common.data.Coordinates
 import ru.itmo.se.prog.lab7.common.data.Country
 import ru.itmo.se.prog.lab7.common.data.Location

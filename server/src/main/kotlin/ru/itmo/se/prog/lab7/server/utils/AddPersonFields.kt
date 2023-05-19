@@ -5,7 +5,9 @@ import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.common.data.Country
 import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.exceptions.ElementAmountException
-import ru.itmo.se.prog.lab7.server.data.Color
+import ru.itmo.se.prog.lab7.common.data.Color
+import ru.itmo.se.prog.lab7.server.utils.io.PrinterManager
+import ru.itmo.se.prog.lab7.server.utils.io.ReaderManager
 
 /**
  * Handles inputed data for Person constructor fields.

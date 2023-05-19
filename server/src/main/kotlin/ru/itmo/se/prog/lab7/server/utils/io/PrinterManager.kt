@@ -1,6 +1,7 @@
-package ru.itmo.se.prog.lab7.server.utils
+package ru.itmo.se.prog.lab7.server.utils.io
 
 import org.jetbrains.kotlin.konan.file.File
+import ru.itmo.se.prog.lab7.server.utils.io.Printer
 
 /**
  * Manages printers.

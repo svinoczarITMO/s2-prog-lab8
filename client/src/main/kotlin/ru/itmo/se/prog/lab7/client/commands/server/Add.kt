@@ -32,55 +32,8 @@ class Add: Command(ArgType.OBJECT, StatusType.USER, LocationType.SERVER) {
 //                                         "null parameter", "null parameter", "null parameter", "null parameter", "null parameter")
         var result: String? = ""
 //
-//        if (flag != "main") {
-//            params = parametersParser(path)
-//        }
-//
-//        try {
-//        val name = set.name(params[0], flag)
-//
-//        val coordinates = Coordinates(set.coordinateX(params[1], flag), set.coordinateY(params[2], flag))
-//
-//        val creationDate = Date()
-//
-//        val height = set.height(params[3], flag)
-//
-//        val weight = set.weight(params[4], flag)
-//
-//        val hairColor = set.hairColor(params[5], flag)
-//
-//        val nationality = set.nationality(params[6], flag)
-//
-//        val location = Location(set.locationX(params[7], flag), set.locationY(params[8], flag), set.locationZ(params[9], flag))
-//
-//        val personElement =
-//            Person(id, name, coordinates, creationDate, height, weight, hairColor, nationality, location)
-//        collectionManager.collection.add(personElement)
-//        } catch (e: IndexOutOfBoundsException) {
-//            result = (message.getMessage("not_enough_args"))
-//            return result
-//        }
-//
+
         result = (message.getMessage("added"))
         return result
     }
-//
-//    /**
-//     * Parses item parameters from the script file.
-//     *
-//     * @author svinoczar
-//     * @since 1.0.0
-//     */
-//    private fun parametersParser (path: String): ArrayList<String> {
-//        val params = arrayListOf<String>()
-//        val strings = File(path).readStrings()
-//        for (id in 0 until strings.size) {
-//            if (strings[id] == "add") {
-//                for (n in 1..10) {
-//                    params.add(strings[id + n].lowercase().trim())
-//                }
-//            }
-//        }
-//        return params
-//    }
 }

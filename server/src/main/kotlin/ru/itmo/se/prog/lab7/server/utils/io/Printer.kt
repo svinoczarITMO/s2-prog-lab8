@@ -1,4 +1,4 @@
-package ru.itmo.se.prog.lab7.server.utils
+package ru.itmo.se.prog.lab7.server.utils.io
 
 /**
  * The basic interface for implementing a printer. You must implement it before applying printers in PrinterManager.

@@ -1,10 +1,10 @@
-package ru.itmo.se.prog.lab7.server.commands.dev
+package ru.itmo.se.prog.lab7.server.commands.admin
 
 
+import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.*
 import ru.itmo.se.prog.lab7.common.data.Person
 import ru.itmo.se.prog.lab7.server.commands.Command
-import ru.itmo.se.prog.lab7.server.utils.validation.Data
 
 /**
  * Gets the collection item by its identifier.
@@ -18,7 +18,7 @@ class GetElement: Command(ArgType.ONE_ARG, StatusType.ADMIN, LocationType.SERVER
     }
 
     override fun getDescription(): String {
-        return getName() + " - выводит в терминал объект коллекции с указанным id\n"
+        return " - выводит в терминал объект коллекции с указанным id\n"
     }
     /**
      *

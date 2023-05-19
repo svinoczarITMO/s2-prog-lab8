@@ -1,10 +1,12 @@
-package ru.itmo.se.prog.lab7.server.commands
+package ru.itmo.se.prog.lab7.server.commands.server
 
 import ru.itmo.se.prog.lab7.common.data.Color
+import ru.itmo.se.prog.lab7.common.data.Data
+import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
-import ru.itmo.se.prog.lab7.server.utils.validation.Data
+import ru.itmo.se.prog.lab7.server.commands.Command
 
 /**
  * Counts elements by hair color.
@@ -18,7 +20,7 @@ class CountByHairColor: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.S
     }
 
     override fun getDescription(): String {
-        return getName() + " --hairColor - выводит количество элементов, значение поля hairColor которых равно заданному\n"
+        return "${Messages.cyanText} --hairColor ${Messages.resetColor}- выводит количество элементов, значение поля hairColor которых равно заданному\n"
     }
 
     override fun execute(data: Data): String? {

@@ -1,8 +1,9 @@
-package ru.itmo.se.prog.lab7.server.commands
+package ru.itmo.se.prog.lab7.server.commands.server
 
 
+import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.*
-import ru.itmo.se.prog.lab7.server.utils.validation.Data
+import ru.itmo.se.prog.lab7.server.commands.Command
 import java.io.File
 
 /**
@@ -17,7 +18,7 @@ class History: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
     }
 
     override fun getDescription(): String {
-        return getName() + " - выводит последние 7 команд (без их аргумента)\n"
+        return " - выводит последние 7 команд (без их аргумента)\n"
     }
 
     override fun execute(data: Data): String? {

@@ -1,10 +1,10 @@
-package ru.itmo.se.prog.lab7.server.utils.validation
+package ru.itmo.se.prog.lab7.server.utils
 
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
-import ru.itmo.se.prog.lab7.server.utils.CommandManager
 import java.io.File
 
 class ServerValidator : KoinComponent {

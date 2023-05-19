@@ -1,8 +1,9 @@
-package ru.itmo.se.prog.lab7.server.commands
+package ru.itmo.se.prog.lab7.server.commands.server
 
+import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.*
+import ru.itmo.se.prog.lab7.server.commands.Command
 import ru.itmo.se.prog.lab7.server.utils.AddPersonFields
-import ru.itmo.se.prog.lab7.server.utils.validation.Data
 
 /**
  * Adds new element in the collection.
@@ -18,7 +19,7 @@ class Add: Command(ArgType.OBJECT, StatusType.USER, LocationType.SERVER) {
     }
 
     override fun getDescription(): String {
-        return getName() + " - добавляет новый элемент в коллекцию\n"
+        return " - добавляет новый элемент в коллекцию\n"
     }
 
     override fun execute(data: Data): String? {
