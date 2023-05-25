@@ -37,4 +37,8 @@ val serverKoinModule = module {
     single {
         ServerApp()
     }
+
+    single {
+        DataBaseManager()
+    }
 }

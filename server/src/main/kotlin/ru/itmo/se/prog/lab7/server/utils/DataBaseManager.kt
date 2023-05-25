@@ -12,13 +12,14 @@ import java.sql.Date
 
 
 class DataBaseManager: KoinComponent {
-    val user = "postgres"
+    private val user = "postgres"
     private val password = File(".psw").readText()
     private val url = "jdbc:postgresql://localhost:5433/studs"
-    val collectionManager: CollectionManager by inject ()
-    val serverApp: ServerApp by inject ()
+    private val collectionManager: CollectionManager by inject ()
+    private val serverApp: ServerApp by inject ()
     private val write: PrinterManager by inject()
     private val connectionBD = connect()
+    val listOfUsers = mutableListOf<User>()
 
     // person table queries
     private val insertPersonQuery = connectionBD.prepareStatement(
@@ -40,8 +41,8 @@ class DataBaseManager: KoinComponent {
     // users table queries
     private val insertUsersQuery = connectionBD.prepareStatement(buildString {
         append("insert into users ")
-        append("(id, login, password, is_admin)")
-        append("values (?, ?, ?, ?)")
+        append("(login, password, is_admin)")
+        append("values (?, ?, ?)")
     })
     private val selectUsersQuery = connectionBD.prepareStatement(buildString {
         append("select * from users")
@@ -145,12 +146,11 @@ class DataBaseManager: KoinComponent {
         }
     }
 
-    fun insertUsers (id: Int, login: String, password: String, isAdmin: Boolean) {
+    fun insertUsers (login: String, password: String, isAdmin: Boolean) {
         try {
-            insertUsersQuery.setInt(1, id)
-            insertUsersQuery.setString(2, login)
-            insertUsersQuery.setString(3, password)
-            insertUsersQuery.setBoolean(4, isAdmin)
+            insertUsersQuery.setString(1, login)
+            insertUsersQuery.setString(2, password)
+            insertUsersQuery.setBoolean(3, isAdmin)
         } catch (e: SQLException) {
             write.linesInConsole(e.message)
             write.linesInConsole("Wrong insert-users query")
@@ -163,6 +163,25 @@ class DataBaseManager: KoinComponent {
         } catch (e: SQLException) {
             write.linesInConsole(e.message)
             write.linesInConsole("Wrong clear-users query")
+        }
+    }
+
+    fun uploadAllUsers () {
+        try {
+            val users = selectPersonQuery.executeQuery()
+            while (users.next()) {
+                val userToAdd = User(
+                    users.getInt("id"),
+                    users.getString("login"),
+                    users.getString("password"),
+                    users.getBoolean("isAdmin")
+                )
+                listOfUsers.add(userToAdd)
+            }
+
+        } catch (e: SQLException) {
+            write.linesInConsole(e.message)
+            write.linesInConsole("Wrong upload-all-users query")
         }
     }
 

@@ -15,12 +15,15 @@ import java.io.File
 class Loader: KoinComponent {
     private val pathToFile = System.getenv("SERVER_COLLECTION_VAR")
     private val collectionManager: CollectionManager by inject()
+    private val dbmanager: DataBaseManager by inject()
     private val serializer = Serializer()
 
     /**
      * Loads collection from json file.
      */
     fun load () {
-        collectionManager.collection = serializer.deserializePerson(File(pathToFile).readText()) as MutableCollection<Person>
+//        collectionManager.collection = serializer.deserializePerson(File(pathToFile).readText()) as MutableCollection<Person>
+        dbmanager.connect()
+        dbmanager.uploadAllPersons()
     }
 }

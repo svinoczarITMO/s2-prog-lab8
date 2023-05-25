@@ -44,8 +44,6 @@ fun main() {
                     val dataStr = Json.encodeToString(data)
                     clientApp.request(dataStr)
                 }
-            } else {
-                write.linesInConsole(message.getMessage("weird_command"))
             }
         }
 

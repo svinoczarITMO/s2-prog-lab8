@@ -21,7 +21,7 @@ class ServerApp: KoinComponent {
     private val logger = Logger.getLogger("logger")
     private val serializer = Serializer()
     private val serverValidator = ServerValidator()
-    private val saveData = Data("save", "save", Person(0,"SAVE", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3)), "main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER)
+    private val saveData = Data("save", "save", Person(0,"SAVE", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3)), Token("login", "password"),"main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER)
     private val save = Save()
 
     fun start (){
