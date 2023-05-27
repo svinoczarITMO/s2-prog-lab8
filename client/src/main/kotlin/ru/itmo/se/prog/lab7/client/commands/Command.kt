@@ -5,7 +5,8 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.client.utils.*
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
-import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
+import ru.itmo.se.prog.lab7.client.utils.managers.CollectionManager
+import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
 import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.ArgType

@@ -6,6 +6,6 @@ package ru.itmo.se.prog.lab7.common.exceptions
  * @author svinoczar
  * @since 3.0.0
  */
-class WrongPasswordException {
+class WrongPasswordException: Exception() {
 
 }

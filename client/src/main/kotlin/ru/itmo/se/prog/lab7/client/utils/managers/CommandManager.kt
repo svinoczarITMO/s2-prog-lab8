@@ -1,4 +1,4 @@
-package ru.itmo.se.prog.lab7.client.utils
+package ru.itmo.se.prog.lab7.client.utils.managers
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

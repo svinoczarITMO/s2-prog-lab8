@@ -4,7 +4,8 @@ import org.jetbrains.kotlin.konan.file.File
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.client.utils.AddPersonFields
-import ru.itmo.se.prog.lab7.client.utils.CommandManager
+import ru.itmo.se.prog.lab7.client.utils.AddTokenFields
+import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.common.data.*
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
@@ -17,6 +18,7 @@ class ClientValidator: KoinComponent {
     private val message: Messages by inject()
     private val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
     private val addPersonFields = AddPersonFields()
+    private val addTokenFields = AddTokenFields()
     private val write: PrinterManager by inject()
     private var params = arrayListOf("null parameter", "null parameter", "null parameter", "null parameter", "null parameter",
         "null parameter", "null parameter", "null parameter", "null parameter", "null parameter")
@@ -92,7 +94,10 @@ class ClientValidator: KoinComponent {
     }
 
     private fun makeAToken(placeFlag: String): Token {
-        TODO("Not yet implemented")
+        return Token (
+            addTokenFields.login() as String,
+            addTokenFields.password() as String
+        )
     }
 
     private fun makeAnObject (placeFlag: String): Person {

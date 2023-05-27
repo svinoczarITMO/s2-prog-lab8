@@ -7,11 +7,11 @@ import ru.itmo.se.prog.lab7.client.di.notKoinModule
 import ru.itmo.se.prog.lab7.client.utils.*
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
+import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
 import ru.itmo.se.prog.lab7.client.utils.validation.ClientValidator
 import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
-import java.io.File
 
 
 fun main() {
@@ -27,7 +27,7 @@ fun main() {
     val clientApp = ClientApp()
     val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
     val kotlinIsBetterThanJava = true
-    var loginFlag = false
+    var loginFlag = true
 
 
     while (kotlinIsBetterThanJava) {
