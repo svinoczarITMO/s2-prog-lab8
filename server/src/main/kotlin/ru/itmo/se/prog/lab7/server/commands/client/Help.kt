@@ -20,7 +20,7 @@ class Help: Command(ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT) {
         return " - выводит справку по доступным командам\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         var result: String? = ""
         result = (message.getMessage("="))
         val classes = commandManager.parsePackage("ru.itmo.se.prog.lab6.commands", "Command")
@@ -34,6 +34,7 @@ class Help: Command(ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT) {
             }
         }
         result += (message.getMessage("="))
-        return result
+        data.answerStr = result
+        return data
     }
 }

@@ -24,7 +24,7 @@ class GetElement: Command(ArgType.ONE_ARG, StatusType.ADMIN, LocationType.SERVER
      *
      * @param Int id of getting element.
      */
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         var result: String? = ""
         var obj: Person? = null
         val id = data.oneArg.toInt()
@@ -51,6 +51,7 @@ class GetElement: Command(ArgType.ONE_ARG, StatusType.ADMIN, LocationType.SERVER
                         + "Местоположение: x = " + it.location.x + "; y = " + it.location.y + "; z = " + it.location.z
             )
         } ?:(message.getMessage("invalid_id"))
-        return result
+        data.answerStr = result
+        return data
     }
 }

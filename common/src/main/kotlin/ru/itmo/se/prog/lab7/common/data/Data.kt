@@ -8,9 +8,10 @@ data class Data(
     var name: String,
     var oneArg: String,
     var obj: Person,
-    var token: Token,
+    var user: User,
     var placeFlag: String,
     var argType: ArgType,
     var statusType: StatusType,
-    var locationType: LocationType
+    var locationType: LocationType,
+    var answerStr: String? = "not null"
 )

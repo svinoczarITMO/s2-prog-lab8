@@ -20,7 +20,7 @@ class Show: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
         return " - выводит в стандартный поток вывода все элементы коллекции в строковом представлении\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         var result: String? = ""
         if (collectionManager.collection.size > 1) {
             for (i in 0 until collectionManager.collection.size-1) {
@@ -34,6 +34,7 @@ class Show: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
         } else {
             result = (message.getMessage("clean_collection"))
         }
-        return result
+        data.answerStr = result
+        return data
     }
 }

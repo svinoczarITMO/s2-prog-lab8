@@ -23,7 +23,7 @@ class CountByHairColor: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.S
         return "${Messages.cyanText} --hairColor ${Messages.resetColor}- выводит количество элементов, значение поля hairColor которых равно заданному\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         println(data.oneArg)
         val color = Color.valueOf(data.oneArg.uppercase())
         val copyVector = collectionManager.collection
@@ -38,7 +38,10 @@ class CountByHairColor: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.S
             result = ("Количество людей с цветом волос \"${color.toString().capitalize()}\": $counter")
         } catch (e: IllegalArgumentException) {
             result = (message.getMessage("IllegalColor"))
+            data.answerStr = result
+            return data
         }
-        return result
+        data.answerStr = result
+        return data
     }
 }

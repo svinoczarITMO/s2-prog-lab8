@@ -16,7 +16,9 @@ class Logout: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER) {
         return " - выходит в учетную запись."
     }
 
-    override fun execute(data: Data): String? {
-        return "// will implement"
+    override fun execute(data: Data): Data {
+        val result = "// will implement"
+        data.answerStr = result
+        return data
     }
 }

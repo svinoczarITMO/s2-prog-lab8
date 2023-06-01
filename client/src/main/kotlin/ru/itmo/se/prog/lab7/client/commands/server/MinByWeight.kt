@@ -34,7 +34,7 @@ class MinByWeight: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER)
                 minWeightId = element.id.toString()
             }
         }
-        result = (message.getMessage("min_weight_id") + minWeightId) + "\n"
+//        result = (message.getMessage("min_weight_id") + minWeightId) + "\n"  <-- Что это?
         result = (message.getMessage("weight") + minWeight) + "\n"
         return result
     }

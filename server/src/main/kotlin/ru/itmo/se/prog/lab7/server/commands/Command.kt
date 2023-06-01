@@ -46,6 +46,6 @@ abstract class Command(
      *
      * @param data map of command's arguments.
      */
-    abstract fun execute(data: Data): String?
+    abstract fun execute(data: Data): Data
 }
 

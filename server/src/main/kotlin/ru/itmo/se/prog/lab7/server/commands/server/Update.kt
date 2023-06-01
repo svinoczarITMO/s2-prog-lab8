@@ -25,7 +25,8 @@ class Update: Command(ArgType.OBJECT_PLUS, StatusType.USER, LocationType.SERVER)
         return " - обновляет элемент коллекции по указанному id\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
+        var result: String? = ""
         val id = data.oneArg.toInt()
         val element = data.obj
         element.id = id
@@ -38,6 +39,8 @@ class Update: Command(ArgType.OBJECT_PLUS, StatusType.USER, LocationType.SERVER)
             }
         }
         collectionManager.collection = bufferCollection
-        return message.getMessage("updated")
+        result = message.getMessage("updated")
+        data.answerStr = result
+        return data
     }
 }

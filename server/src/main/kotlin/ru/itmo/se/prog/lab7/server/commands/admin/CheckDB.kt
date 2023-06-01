@@ -20,7 +20,7 @@ class CheckDB: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER), Ko
         return " 4ekaet\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         //TODO: Убрать upload all users, просто принтовать хуйню
         dbmanager.uploadAllUsers()
         println(dbmanager.listOfUsers)
@@ -28,6 +28,6 @@ class CheckDB: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER), Ko
         dbmanager.uploadAllPersons()
         println(collectionManager.collection)
         collectionManager.collection.clear()
-        return ""
+        return data
     }
 }

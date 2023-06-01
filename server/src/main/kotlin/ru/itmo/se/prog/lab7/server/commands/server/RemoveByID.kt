@@ -21,7 +21,7 @@ class RemoveByID: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.SERVER)
         return " ${Messages.cyanText}--id${Messages.resetColor} - удаляет элемент из коллекции по его id\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         var result: String? = ""
         var flag = false
         val id = data.oneArg.toInt()
@@ -36,7 +36,8 @@ class RemoveByID: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.SERVER)
                 }
             } catch (e: ArrayIndexOutOfBoundsException) {
                 result = e.message
-                return result
+                data.answerStr = result
+                return data
             }
 
         if (flag) {
@@ -50,8 +51,10 @@ class RemoveByID: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.SERVER)
         }
         } catch (e: ArrayIndexOutOfBoundsException) {
             result = (message.getMessage("InvalidArgument"))
-            return result
+            data.answerStr = result
+            return data
         }
-        return result
+        data.answerStr = result
+        return data
     }
 }

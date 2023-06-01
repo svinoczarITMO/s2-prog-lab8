@@ -20,17 +20,15 @@ class Registration: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER)
         return " - создает новую учетную запись."
     }
 
-    override fun execute(data: Data): String {
-//        for (i in dbmanager.listOfUsers) {
-//            println(i) }
-//        println(dbmanager.listOfUsers)
-        val id = data.token.id
-        val login = data.token.login
-        val password = data.token.password
-        val isAdmin = data.token.isAdmin
+    override fun execute(data: Data): Data {
+        var result = ""
+        val id = data.user.id
+        val login = data.user.login
+        val password = data.user.password
+        val isAdmin = data.user.isAdmin
         dbmanager.insertUsers(id, login, password, isAdmin)
-        println("login: $login \npassword: $password")
-
-        return message.getMessage("successful_registration")!!
+        result = message.getMessage("successful_registration")!!
+        data.answerStr = result
+        return data
     }
 }

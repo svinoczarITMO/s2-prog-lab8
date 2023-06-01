@@ -20,7 +20,7 @@ class MinByWeight: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER)
         return " - выводит любой объект из коллекции, значение поля weight которого является минимальным\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         var result: String? = ""
         val vector = collectionManager.collection
         var minWeight: Long = Long.MAX_VALUE
@@ -31,8 +31,9 @@ class MinByWeight: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER)
                 minWeightId = element.id.toString()
             }
         }
-        result = (message.getMessage("min_weight_id") + minWeightId) + "\n"
+        result = (message.getMessage("min_weight_id") + minWeightId) + "\n" // <--- Что это???
         result = (message.getMessage("weight") + minWeight) + "\n"
-        return result
+        data.answerStr = result
+        return data
     }
 }

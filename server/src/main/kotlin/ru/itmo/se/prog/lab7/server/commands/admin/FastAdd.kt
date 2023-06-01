@@ -22,7 +22,7 @@ class FastAdd: Command(ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER) {
         return " - добавляет новый элемент в коллекцию без указания параметров элемента\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         val id: Int = if (collectionManager.collection.isNotEmpty()) collectionManager.collection.maxOf { it.id } + 1000 else 1000
         val obj = ru.itmo.se.prog.lab7.common.data.Person(
             id,
@@ -36,7 +36,7 @@ class FastAdd: Command(ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER) {
             Location(0, 0, 0)
         )
         collectionManager.collection.add(obj)
-        val result = message.getMessage("added")
-        return result
+        data.answerStr = message.getMessage("added")
+        return data
     }
 }

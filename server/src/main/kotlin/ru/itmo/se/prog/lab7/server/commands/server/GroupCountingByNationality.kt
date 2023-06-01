@@ -24,7 +24,7 @@ class GroupCountingByNationality: Command(ArgType.NO_ARG, StatusType.USER, Locat
                 "выводит количество элементов в каждой группе\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         var result: String? = ""
         val bufferVector = Vector<Person>()
         var counter = 0
@@ -42,6 +42,7 @@ class GroupCountingByNationality: Command(ArgType.NO_ARG, StatusType.USER, Locat
             result += ("В группе $nationality $counterOfElementsInGroup человек\n")
         }
         collectionManager.collection = bufferVector
-        return result
+        data.answerStr = result
+        return data
     }
 }

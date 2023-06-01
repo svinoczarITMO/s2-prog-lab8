@@ -43,15 +43,16 @@ class Save: Command(ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER), Koin
 //        return result
 //    }
 
-        override fun execute(data: Data): String? {
+        override fun execute(data: Data): Data {
         var result: String? = ""
         collectionManager.collection.forEach {
-            println("${data.token.login} \n")
+            println("${data.user.login} \n")
             dbmanager.updatePerson(it.id, it.name, it.coordinates.x, it.coordinates.y,
                 it.creationDate as java.sql.Date, it.height, it.weight, it.hairColor,
-                it.nationality, it.location.x, it.location.y!!, it.location.z, data.token.id)
+                it.nationality, it.location.x, it.location.y!!, it.location.z, data.user.id)
         }
         result = (message.getMessage("saved"))
-        return result
+        data.answerStr = result
+        return data
     }
 }

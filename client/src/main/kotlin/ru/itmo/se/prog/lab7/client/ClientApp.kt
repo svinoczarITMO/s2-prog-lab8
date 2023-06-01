@@ -4,6 +4,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.client.utils.Serializer
+import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.Messages
 import java.io.*
 import java.net.InetSocketAddress
@@ -17,11 +18,11 @@ class ClientApp (): KoinComponent {
     var authorized = false
     val message: Messages by inject()
 
-    fun connection(): SocketChannel {
+    private fun connection(): SocketChannel {
         return try {
-            val clientSocket = SocketChannel.open()
-            clientSocket.socket().connect(InetSocketAddress(ip, port))
-            clientSocket
+            val clientSocketChannel = SocketChannel.open()
+            clientSocketChannel.socket().connect(InetSocketAddress(ip, port))
+            clientSocketChannel
         } catch (e: RuntimeException) {
             println("Ошибка подключения.")
             SocketChannel.open(InetSocketAddress(ip, port))
@@ -31,31 +32,36 @@ class ClientApp (): KoinComponent {
 
     fun request(obj: String) {
         try {
-            val clientSocket = connection()
-            if (clientSocket.isConnected) {
-                val output = PrintWriter(clientSocket.socket().getOutputStream())
+            val clientSocketChannel = connection()
+            if (clientSocketChannel.isConnected) {
+                val output = PrintWriter(clientSocketChannel.socket().getOutputStream())
                 output.write(obj)
                 output.flush()
-                clientSocket.shutdownOutput()
-                response(clientSocket)
+                clientSocketChannel.shutdownOutput()
+                response(clientSocketChannel)
             }
         } catch (e: Exception) {
             println("Ошибка запроса.")
         }
     }
 
-    fun response(clientSocket: SocketChannel) {
+    private fun response(clientSocketChannel: SocketChannel) {
         try {
-            val input: InputStream = clientSocket.socket().getInputStream()
+            val input: InputStream = clientSocketChannel.socket().getInputStream()
             val bufferedReader = BufferedReader(InputStreamReader(input))
-            val response = bufferedReader.readLines()
-            for (line in response) {
+            val dataStr = bufferedReader.readLine()?.trim()!!
+            val inputData: Data = serializer.deserializeData(dataStr)
+            val result = inputData.answerStr
+            val resultStringArr = result!!.split("\n")
+            println(result)
+            for (line in resultStringArr) {
                 if (line == message.getMessage("successful_login")) {
                     authorized = true
                 }
                 write.linesInConsole(line)
             }
-            clientSocket.socket().close()
+            write.linesInConsole(result)
+            clientSocketChannel.socket().close()
         } catch (e: Exception) {
             println("Ошибка при получении ответа от сервера.")
         }

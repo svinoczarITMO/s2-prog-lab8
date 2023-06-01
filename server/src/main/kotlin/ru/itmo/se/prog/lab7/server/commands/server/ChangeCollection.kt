@@ -21,7 +21,7 @@ class ChangeCollection: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.S
         return "${Messages.cyanText}--type_of_collection${Messages.resetColor} - изменяет тип коллекции.)\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         val type = data.oneArg
         var result: String? = ""
         try {
@@ -29,10 +29,12 @@ class ChangeCollection: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.S
         } catch (e: NullPointerException) {
             result = (message.getMessage("NoSuchType"))
             result += printSupportedTypes()
-            return result
+            data.answerStr = result
+            return data
         }
         result = message.getMessage("type_changed") + collectionManager.getType()
-        return result
+        data.answerStr = result
+        return data
     }
 
     /**

@@ -19,18 +19,23 @@ class Login: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER), KoinC
         return " - входит в учетную запись."
     }
 
-    override fun execute(data: Data): String? {
-        val id = data.token.id
-        val login = data.token.login
-        val password = data.token.password
-        val isAdmin = data.token.isAdmin
+    override fun execute(data: Data): Data {
+        var result = ""
+        val id = data.user.id
+        val login = data.user.login
+        val password = data.user.password
+        val isAdmin = data.user.isAdmin
         dbmanager.listOfUsers.forEach {
             if (login == it.login && password == it.password) {
-                return message.getMessage("successful_login")!!
+                result = message.getMessage("successful_login")!!
+                return data
             } else {
-                return "ОШИБКА"
+                result = "ОШИБКА"
+                return data
             }
         }
-        return "ОШИБКА"
+        result = "ОШИБКА"
+        data.answerStr = result
+        return data
     }
 }

@@ -23,7 +23,7 @@ class Info: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
                 "(тип, дата инициализации, количество элементов и т.д.)\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         var result: String? = ""
         val type = collectionManager.getType() //Работает некорректно с пустой коллекций (Выводит "Тип: ArrayList")
         val yellowText = "\u001B[33m"
@@ -38,6 +38,7 @@ class Info: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
                     + "Размер: " + size + "\n"
                     + "Дата инициализации: " + initDate
                 )
-        return result
+        data.answerStr = result
+        return data
     }
 }

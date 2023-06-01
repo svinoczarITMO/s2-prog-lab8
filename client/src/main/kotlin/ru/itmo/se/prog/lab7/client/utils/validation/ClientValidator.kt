@@ -22,21 +22,20 @@ class ClientValidator: KoinComponent {
     private val addTokenFields = AddTokenFields()
     private val dbmanager: DataBaseManager by inject()
     private val write: PrinterManager by inject()
-    private var token = Token(0, "LERA", "naponb")
+    private var user = User(0, "LERA", "naponb")
     private var params = arrayListOf("null parameter", "null parameter", "null parameter", "null parameter", "null parameter",
         "null parameter", "null parameter", "null parameter", "null parameter", "null parameter")
     private val dataObj = Data("command", "none",
         Person(0,"Nikita", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3)),
-        Token(0,"login", "password"),
-        "main", ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT)
+        User(0,"login", "password"),
+        "main", ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT, "")
 
-    fun validate (data: MutableList<String>): ArrayList<Data> {
+    fun validate (data: MutableList<String>): Data {
         val commandName = data[0]
         val oneArg = data[1]
         val placeFlag = data.last()
         val command = commandManager.getCommand(commandPackage, commandName, "Command")
         var isExecuteScript = false
-        val dataQueue = arrayListOf<Data>()
 
         dataObj.name = commandName
         dataObj.placeFlag = placeFlag
@@ -47,7 +46,7 @@ class ClientValidator: KoinComponent {
         if (commandName == "execute_script") {
             isExecuteScript = true
         }
-        println(dataQueue) //TODO: УБРАТЬ
+
         if (command.location == LocationType.SERVER) {
             if (!isExecuteScript) {
                 when (command.arg) {
@@ -74,46 +73,46 @@ class ClientValidator: KoinComponent {
                         dbmanager.uploadAllUsers()
                         val typeOfToken = dataObj.name
                         dbmanager.uploadAllPersons()
-                        token = makeAToken(placeFlag, typeOfToken)
-                        dataObj.token = token
+                        user = makeAToken(placeFlag, typeOfToken)
+                        dataObj.user = user
                         dbmanager.listOfUsers.clear()
                     }
                 }
-                dataQueue.add(dataObj)
-            } else {
-                //НЕ РАБОТАЕТ С ADD и UPDATE
-                val commandsQueue = preValidation(oneArg)
-                if (commandsQueue.contains(arrayOf("ERROR"))) {
-                    write.linesInConsole(message.getMessage("recursion"))
-                } else {
-                    for (element in commandsQueue) {
-                        val tmp = validate(element.toMutableList())
-                        tmp.forEach { dataQueue.add(it) }
-                    }
-                }
+
             }
-            return dataQueue
+//            else {
+//                //НЕ РАБОТАЕТ С ADD и UPDATE
+//                val commandsQueue = preValidation(oneArg)
+//                if (commandsQueue.contains(arrayOf("ERROR"))) {
+//                    write.linesInConsole(message.getMessage("recursion"))
+//                } else {
+//                    for (element in commandsQueue) {
+//                        val tmp = validate(element.toMutableList())
+//                        tmp.forEach { dataQueue.add(it) }
+//                    }
+//                }
+//            }
+            return dataObj
         } else {
             write.linesInConsole(command.execute(dataObj))
-            dataQueue.add(dataObj)
-            return dataQueue
+            return dataObj
         }
     }
 
-    private fun makeAToken(placeFlag: String, type: String): Token {
+    private fun makeAToken(placeFlag: String, type: String): User {
         if (type == "reg") {
-            token.id = addTokenFields.getID() as Int
+            user.id = addTokenFields.getID() as Int
             write.linesInConsole(message.getMessage("enter_login"))
-            token.login = addTokenFields.regLogin() as String
+            user.login = addTokenFields.regLogin() as String
             write.linesInConsole(message.getMessage("enter_password"))
-            token.password = addTokenFields.regPassword() as String
+            user.password = addTokenFields.regPassword() as String
         } else if (type == "login") {
             write.linesInConsole(message.getMessage("enter_login"))
-            token.login = addTokenFields.logLogin() as String
+            user.login = addTokenFields.logLogin() as String
             write.linesInConsole(message.getMessage("enter_password"))
-            token.password = addTokenFields.logPassword() as String
+            user.password = addTokenFields.logPassword() as String
         }
-        return token
+        return user
     }
 
     private fun makeAnObject (placeFlag: String): Person {

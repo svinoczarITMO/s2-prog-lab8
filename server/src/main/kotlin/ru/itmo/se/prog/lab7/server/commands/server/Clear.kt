@@ -20,9 +20,10 @@ class Clear: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
         return " - очищает коллекцию\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         val result = (message.getMessage("clear"))
         collectionManager.collection.clear()
-        return result
+        data.answerStr = result
+        return data
     }
 }

@@ -21,7 +21,7 @@ class Reorder: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
     override fun getDescription(): String {
         return " - сортирует коллекцию в порядке, обратном нынешнему\n"
     }
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         var result: String? = ""
         val bufferVector: Vector<Person> = Vector()
         for (element in collectionManager.collection) {
@@ -29,6 +29,7 @@ class Reorder: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
         }
         collectionManager.collection = bufferVector
         result = (message.getMessage("reordered"))
-        return result
+        data.answerStr = result
+        return data
     }
 }

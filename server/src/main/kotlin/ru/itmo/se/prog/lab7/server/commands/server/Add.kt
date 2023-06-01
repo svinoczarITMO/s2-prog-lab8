@@ -22,11 +22,12 @@ class Add: Command(ArgType.OBJECT, StatusType.USER, LocationType.SERVER) {
         return " - добавляет новый элемент в коллекцию\n"
     }
 
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         val element = data.obj
         element.id = if (collectionManager.collection.isNotEmpty()) collectionManager.collection.maxOf { it.id } + 1 else 1
         collectionManager.collection.add(element)
         val result = (message.getMessage("added"))
-        return result
+        data.answerStr = result
+        return data
     }
 }

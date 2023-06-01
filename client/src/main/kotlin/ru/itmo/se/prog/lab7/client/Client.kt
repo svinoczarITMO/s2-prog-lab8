@@ -29,7 +29,7 @@ fun main() {
     val serializer = di.serializer
     val clientApp = di.clientApp
     val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
-    val kotlinIsBetterThanJava = true
+    val kotlinIsBetterThanJava = false
 
     while (kotlinIsBetterThanJava) {
         while (!clientApp.authorized) {
@@ -40,11 +40,9 @@ fun main() {
             readFromConsole.add(flag)
             val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
             if (command != null && command.arg == ArgType.TOKEN) {
-                val queue = clientValidator.validate(readFromConsole)
-                for (data in queue) {
-                    val dataStr = Json.encodeToString(data)
-                    clientApp.request(dataStr)
-                }
+                val data = clientValidator.validate(readFromConsole)
+                val dataStr = Json.encodeToString(data)
+                clientApp.request(dataStr)
             }
         }
 
@@ -54,11 +52,9 @@ fun main() {
         readFromConsole.add(flag)
         val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
         if (command != null && command.status == StatusType.USER) {
-            val queue = clientValidator.validate(readFromConsole)
-            for (data in queue) {
-                val dataStr = Json.encodeToString(data)
-                clientApp.request(dataStr)
-            }
+            val data = clientValidator.validate(readFromConsole)
+            val dataStr = Json.encodeToString(data)
+            clientApp.request(dataStr)
         } else {
             write.linesInConsole(message.getMessage("weird_command"))
         }

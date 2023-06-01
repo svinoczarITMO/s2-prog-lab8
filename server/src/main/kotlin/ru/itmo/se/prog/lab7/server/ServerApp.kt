@@ -1,5 +1,7 @@
 package ru.itmo.se.prog.lab7.server
 
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.common.data.*
@@ -23,7 +25,10 @@ class ServerApp: KoinComponent {
     private val logger = Logger.getLogger("logger")
     private val serializer = Serializer()
     private val serverValidator = ServerValidator()
-    private val saveData = Data("save", "save", Person(0,"SAVE", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3)), Token(0,"login", "password"),"main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER)
+    private val saveData = Data("save", "save",
+        Person(0,"SAVE", Coordinates(1.4f, 8.8f), Date(),180, 68,
+            Color.YELLOW, Country.VATICAN, Location(1,2,3)),
+        User(0,"login", "password"),"main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER, "")
     private val save = Save()
     private val dbmanager: DataBaseManager by inject()
 
@@ -33,11 +38,7 @@ class ServerApp: KoinComponent {
             val serverSocket = ServerSocketChannel.open()
             serverSocket.bind((InetSocketAddress(ip, port)))
             logger.info("Ожидание подключения...")
-//            val bufferReader = BufferedReader(InputStreamReader(System.`in`))
             while (serverSocket.socket().isBound) {
-//                if (bufferReader.ready()) {
-//                    val serverCommand = bufferReader.readLine()
-//                }
                 val clientSocket = serverSocket.accept()
                 logger.info("Подключение к БД")
                 dbmanager.uploadAllUsers()
@@ -55,20 +56,19 @@ class ServerApp: KoinComponent {
             val input: InputStream = clientSocketChannel.socket().getInputStream()
             val bufferedReader = BufferedReader(InputStreamReader(input))
             val dataStr = bufferedReader.readLine()?.trim()!!
-
-            val data: Data = serializer.deserializeData(dataStr)
-            val result = serverValidator.validate(data)
-            response(clientSocketChannel, result)
+            val inputData: Data = serializer.deserializeData(dataStr)
+            val result = serverValidator.validate(inputData)
+            val outputData = Json.encodeToString(result)
+            response(clientSocketChannel, outputData)
         } catch (e: Exception) {
             logger.severe(e.message + " Ошибка обработки запроса.")
         }
     }
 
-    private fun response (clientSocketChannel: SocketChannel, res: String?) {
+    private fun response (clientSocketChannel: SocketChannel, result: String) {
         logger.info("Отправка ответа...")
         try {
             val output = PrintWriter(clientSocketChannel.socket().getOutputStream())
-            val result = res ?: "Ошибка отправки ответа."
             output.write(result)
             output.flush()
             clientSocketChannel.shutdownOutput()

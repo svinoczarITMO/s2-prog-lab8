@@ -19,12 +19,13 @@ class RemoveFirst: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER)
     override fun getDescription(): String {
         return " - удаляет первый элемент из коллекции\n"
     }
-    override fun execute(data: Data): String? {
+    override fun execute(data: Data): Data {
         var result: String? = ""
         collectionManager.collection.remove(collectionManager.collection.first())
         result = (
             message.getMessage("first_element") +
                     message.getMessage("removed"))
-        return result
+        data.answerStr = result
+        return data
     }
 }
