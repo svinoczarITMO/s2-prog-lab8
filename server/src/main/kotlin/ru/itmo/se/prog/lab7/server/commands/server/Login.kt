@@ -20,7 +20,15 @@ class Login: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER), KoinC
     }
 
     override fun execute(data: Data): String? {
-        //TODO NOT IMPLE
-        return ""
+//        println(dbmanager.listOfUsers)
+        val login = data.token.login
+        val password = data.token.password
+        dbmanager.listOfUsers.forEach {
+            if (login == it.login) {
+
+            }
+        }
+        dbmanager.insertUsers(login, password, false)
+        return message.getMessage("successful_registration")!!
     }
 }

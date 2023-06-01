@@ -39,6 +39,7 @@ class Messages {
         "reordered" to "Коллекция успешно отсортирована в обратном порядке.",
         "type_changed" to "Тип коллекции успешно сменен на ",
         "successful_registration" to "Регистрация прошла успешно! Для дальнейшей работы войдите в аккаунт. (комманда ${cyanText}login$resetColor)",
+        "successful_login" to "Авторизация прошла успешно! Добро пожаловать!",
 
         //warnings
         "recursion" to "Скрипт содержит рекурсию! Выполнение невозможно!",

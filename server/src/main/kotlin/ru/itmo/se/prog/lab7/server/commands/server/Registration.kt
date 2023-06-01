@@ -6,8 +6,6 @@ import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
-import ru.itmo.se.prog.lab7.common.exceptions.RegisterLoginException
-import ru.itmo.se.prog.lab7.common.exceptions.WrongPasswordException
 import ru.itmo.se.prog.lab7.server.commands.Command
 import ru.itmo.se.prog.lab7.server.utils.DataBaseManager
 
@@ -23,8 +21,6 @@ class Registration: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER)
     }
 
     override fun execute(data: Data): String {
-//        dbmanager.connect()
-        dbmanager.uploadAllUsers()
         for (i in dbmanager.listOfUsers) {
             println(i) }
         println(dbmanager.listOfUsers)

@@ -1,11 +1,13 @@
 package ru.itmo.se.prog.lab7.server
 
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.common.data.*
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
 import ru.itmo.se.prog.lab7.server.commands.server.Save
+import ru.itmo.se.prog.lab7.server.utils.DataBaseManager
 import ru.itmo.se.prog.lab7.server.utils.Serializer
 import ru.itmo.se.prog.lab7.server.utils.ServerValidator
 import java.io.*
@@ -23,6 +25,7 @@ class ServerApp: KoinComponent {
     private val serverValidator = ServerValidator()
     private val saveData = Data("save", "save", Person(0,"SAVE", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3)), Token(0,"login", "password"),"main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER)
     private val save = Save()
+    private val dbmanager: DataBaseManager by inject()
 
     fun start (){
         logger.info("Попытка запуска сервера...")
@@ -36,6 +39,9 @@ class ServerApp: KoinComponent {
 //                    val serverCommand = bufferReader.readLine()
 //                }
                 val clientSocket = serverSocket.accept()
+                logger.info("Подключение к БД")
+                dbmanager.uploadAllUsers()
+                dbmanager.uploadAllPersons()
                 request(clientSocket)
             }
         } catch (e: Exception) {
@@ -63,16 +69,11 @@ class ServerApp: KoinComponent {
         try {
             val output = PrintWriter(clientSocketChannel.socket().getOutputStream())
             val result = res ?: "Ошибка отправки ответа."
-            println("result - $result")
             output.write(result)
-            println("1--1")
             output.flush()
-            println("2--2")
             clientSocketChannel.shutdownOutput()
-            println("3--3")
             save.execute(saveData)
-            println("4--4")
-        } catch (e: Exception) {
+            } catch (e: Exception) {
             logger.severe("Ошибка отправки ответа.")
         }
     }
