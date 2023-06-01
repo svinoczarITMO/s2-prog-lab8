@@ -4,7 +4,6 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
-import ru.itmo.se.prog.lab7.client.utils.managers.DataBaseManager
 import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.exceptions.RegisterLoginException
 import ru.itmo.se.prog.lab7.common.exceptions.WrongPasswordException
@@ -15,9 +14,13 @@ class AddTokenFields: KoinComponent {
     private val read: ReaderManager by inject()
     private val dbmanager: DataBaseManager by inject()
 
-    fun login(): Any {
+    fun getID(): Any {
+        //TODO: NOT IMPLEMENTED YET
+        return ""
+    }
+
+    fun regLogin(): Any {
         var login = ""
-        dbmanager.connect()
         dbmanager.uploadAllUsers()
         try {
             write.linesInConsole(message.getMessage("enter_login"))
@@ -35,13 +38,13 @@ class AddTokenFields: KoinComponent {
             }
         } catch (e: RegisterLoginException) {
             write.linesInConsole(message.getMessage("invalid_login2"))
-            return login()
+            return regLogin()
         }
         return login
     }
 
-    fun password(): Any {
-        dbmanager.connect()
+    fun regPassword(): Any {
+//        dbmanager.connect()
         dbmanager.uploadAllUsers()
         var password = ""
         try {
@@ -56,8 +59,18 @@ class AddTokenFields: KoinComponent {
             }
         } catch (e: WrongPasswordException) {
             write.linesInConsole(message.getMessage("no_match_password"))
-            return password()
+            return regPassword()
         }
         return password
+    }
+
+    fun logLogin(): Any {
+        //TODO: NOT IMPLEMENTED YET
+        return ""
+    }
+
+    fun logPassword(): Any {
+        //TODO: NOT IMPLEMENTED YET
+        return ""
     }
 }

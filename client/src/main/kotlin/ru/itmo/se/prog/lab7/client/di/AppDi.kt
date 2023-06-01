@@ -1,12 +1,12 @@
 package ru.itmo.se.prog.lab7.client.di
 
 import org.koin.dsl.module
+import ru.itmo.se.prog.lab7.client.ClientApp
 import ru.itmo.se.prog.lab7.client.utils.*
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
 import ru.itmo.se.prog.lab7.client.utils.managers.CollectionManager
 import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
-import ru.itmo.se.prog.lab7.client.utils.managers.DataBaseManager
 import ru.itmo.se.prog.lab7.common.data.Messages
 
 /**
@@ -28,10 +28,6 @@ val notKoinModule = module {
         Messages()
     }
 
-//    single {
-//        Validator()
-//    }
-
     single {
         CommandManager()
     }
@@ -42,6 +38,10 @@ val notKoinModule = module {
 
     single {
         Serializer()
+    }
+
+    single {
+        ClientApp()
     }
 
     single {

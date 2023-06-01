@@ -3,8 +3,6 @@ package ru.itmo.se.prog.lab7.server.utils
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.common.Serializer
-import ru.itmo.se.prog.lab7.common.data.Person
-import java.io.File
 
 /**
  * Loads actual collection from Collection.xml.

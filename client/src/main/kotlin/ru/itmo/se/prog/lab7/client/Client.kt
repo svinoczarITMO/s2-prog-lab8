@@ -2,6 +2,8 @@ package ru.itmo.se.prog.lab7.client
 
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import org.koin.core.context.GlobalContext.startKoin
 import ru.itmo.se.prog.lab7.client.di.notKoinModule
 import ru.itmo.se.prog.lab7.client.utils.*
@@ -18,20 +20,19 @@ fun main() {
     startKoin {
         modules(notKoinModule)
     }
-    val commandManager = CommandManager()
+    val di = ConnectDi()
+    val commandManager = di.commandManager
     val clientValidator = ClientValidator()
-    val write = PrinterManager()
-    val read = ReaderManager()
-    val message = Messages()
-    val serializer = Serializer()
-    val clientApp = ClientApp()
+    val write = di.write
+    val read = di.read
+    val message = di.message
+    val serializer = di.serializer
+    val clientApp = di.clientApp
     val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
     val kotlinIsBetterThanJava = true
-    var loginFlag = true
-
 
     while (kotlinIsBetterThanJava) {
-        while (!loginFlag) {
+        while (!clientApp.authorized) {
             write.linesInConsole(message.getMessage("login_info"))
             val flag = ::main.name
             write.inConsole("> ")
@@ -62,4 +63,13 @@ fun main() {
             write.linesInConsole(message.getMessage("weird_command"))
         }
     }
+}
+
+class ConnectDi: KoinComponent {
+    val commandManager: CommandManager by inject()
+    val write: PrinterManager by inject()
+    val read: ReaderManager by inject()
+    val message: Messages by inject()
+    val serializer: Serializer by inject()
+    val clientApp: ClientApp by inject()
 }

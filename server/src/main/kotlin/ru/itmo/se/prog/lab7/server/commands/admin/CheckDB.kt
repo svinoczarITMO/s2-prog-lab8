@@ -4,7 +4,6 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.server.commands.Command
 import ru.itmo.se.prog.lab7.common.data.Data
-import ru.itmo.se.prog.lab7.common.data.*
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
@@ -22,7 +21,7 @@ class CheckDB: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER), Ko
     }
 
     override fun execute(data: Data): String? {
-
+        //TODO: Убрать upload all users, просто принтовать хуйню
         dbmanager.uploadAllUsers()
         println(dbmanager.listOfUsers)
         dbmanager.listOfUsers.clear()
