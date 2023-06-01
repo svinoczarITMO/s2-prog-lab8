@@ -10,6 +10,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
+import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.Person
 import java.text.SimpleDateFormat
 import java.util.*

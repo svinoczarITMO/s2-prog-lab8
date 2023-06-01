@@ -23,8 +23,11 @@ class Registration: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER)
     }
 
     override fun execute(data: Data): String {
-        dbmanager.connect()
+//        dbmanager.connect()
         dbmanager.uploadAllUsers()
+        for (i in dbmanager.listOfUsers) {
+            println(i) }
+        println(dbmanager.listOfUsers)
         val login = data.token.login
         val password = data.token.password
         println("login: $login \npassword: $password")

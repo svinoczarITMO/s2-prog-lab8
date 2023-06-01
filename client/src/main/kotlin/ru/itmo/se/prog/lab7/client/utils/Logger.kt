@@ -1,5 +1,6 @@
 package ru.itmo.se.prog.lab7.client.utils
 
+import ru.itmo.se.prog.lab7.client.utils.managers.CollectionManager
 import java.io.File
 import java.util.*
 

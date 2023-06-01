@@ -21,7 +21,7 @@ class ServerApp: KoinComponent {
     private val logger = Logger.getLogger("logger")
     private val serializer = Serializer()
     private val serverValidator = ServerValidator()
-    private val saveData = Data("save", "save", Person(0,"SAVE", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3)), Token("login", "password"),"main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER)
+    private val saveData = Data("save", "save", Person(0,"SAVE", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3)), Token(0,"login", "password"),"main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER)
     private val save = Save()
 
     fun start (){
@@ -63,10 +63,15 @@ class ServerApp: KoinComponent {
         try {
             val output = PrintWriter(clientSocketChannel.socket().getOutputStream())
             val result = res ?: "Ошибка отправки ответа."
+            println("result - $result")
             output.write(result)
+            println("1--1")
             output.flush()
+            println("2--2")
             clientSocketChannel.shutdownOutput()
+            println("3--3")
             save.execute(saveData)
+            println("4--4")
         } catch (e: Exception) {
             logger.severe("Ошибка отправки ответа.")
         }

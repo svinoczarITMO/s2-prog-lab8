@@ -14,6 +14,7 @@ dependencies {
     val koinVersion = "3.2.2"
     implementation(project(":common"))
     testImplementation(kotlin("test"))
+    implementation("org.postgresql:postgresql:42.5.4")
     implementation(kotlin("serialization", version = kotlinVersion))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")

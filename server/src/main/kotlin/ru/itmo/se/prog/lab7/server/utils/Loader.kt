@@ -23,7 +23,7 @@ class Loader: KoinComponent {
      */
     fun load () {
 //        collectionManager.collection = serializer.deserializePerson(File(pathToFile).readText()) as MutableCollection<Person>
-        dbmanager.connect()
+//        dbmanager.connect()
         dbmanager.uploadAllPersons()
     }
 }

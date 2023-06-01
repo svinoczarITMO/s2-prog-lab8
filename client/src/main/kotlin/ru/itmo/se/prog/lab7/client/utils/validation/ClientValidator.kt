@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.konan.file.File
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.client.utils.AddPersonFields
-import ru.itmo.se.prog.lab7.client.utils.AddTokenFields
+//import ru.itmo.se.prog.lab7.client.utils.AddTokenFields
 import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.common.data.*
@@ -18,13 +18,13 @@ class ClientValidator: KoinComponent {
     private val message: Messages by inject()
     private val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
     private val addPersonFields = AddPersonFields()
-    private val addTokenFields = AddTokenFields()
+//    private val addTokenFields = AddTokenFields()
     private val write: PrinterManager by inject()
     private var params = arrayListOf("null parameter", "null parameter", "null parameter", "null parameter", "null parameter",
         "null parameter", "null parameter", "null parameter", "null parameter", "null parameter")
     private val dataObj = Data("command", "none",
         Person(0,"Nikita", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3)),
-        Token("login", "password"),
+        Token(0,"login", "password"),
         "main", ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT)
 
     fun validate (data: MutableList<String>): ArrayList<Data> {
@@ -68,8 +68,8 @@ class ClientValidator: KoinComponent {
                     }
 
                     ArgType.TOKEN -> {
-                        val token = makeAToken(placeFlag)
-                        dataObj.token = token
+//                        val token = makeAToken(placeFlag)
+//                        dataObj.token = token
                     }
                 }
                 dataQueue.add(dataObj)
@@ -93,12 +93,12 @@ class ClientValidator: KoinComponent {
         }
     }
 
-    private fun makeAToken(placeFlag: String): Token {
-        return Token (
-            addTokenFields.login() as String,
-            addTokenFields.password() as String
-        )
-    }
+//    private fun makeAToken(placeFlag: String): Token {
+//        return Token (
+//            addTokenFields.login() as String,
+//            addTokenFields.password() as String
+//        )
+//    }
 
     private fun makeAnObject (placeFlag: String): Person {
         return Person(0,
