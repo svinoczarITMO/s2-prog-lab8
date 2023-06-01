@@ -46,9 +46,8 @@ class Save: Command(ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER), Koin
         override fun execute(data: Data): String? {
         var result: String? = ""
         collectionManager.collection.forEach {
-            println(it)
             println("${data.token.login} \n")
-            dbmanager.insertPerson(it.id, it.name, it.coordinates.x, it.coordinates.y,
+            dbmanager.updatePerson(it.id, it.name, it.coordinates.x, it.coordinates.y,
                 it.creationDate as java.sql.Date, it.height, it.weight, it.hairColor,
                 it.nationality, it.location.x, it.location.y!!, it.location.z, data.token.id)
         }

@@ -25,27 +25,18 @@ class DataBaseManager: KoinComponent {
     private val insertPersonQuery = connectionBD.prepareStatement(
         "insert into public.person " +
                 "(id, name, coordinate_x , coordinate_y, creation_date, height, weight, hair_color, nationality, location_x, location_y, location_z, owner_id)" +
-                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-    private val selectPersonQuery = connectionBD.prepareStatement(buildString {
-        append("select * from person;")
-    })
-    private val deletePersonQuery = connectionBD.prepareStatement(buildString {
-        append("delete from person where person.id = ?;")
-    })
-    private val clearPersonQuery = connectionBD.prepareStatement(buildString {
-        append("delete from person;")
-    })
+                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);")
+    private val selectPersonQuery = connectionBD.prepareStatement("select * from person;")
+    private val deletePersonQuery = connectionBD.prepareStatement("delete from person where person.id = ?;")
+    private val clearPersonQuery = connectionBD.prepareStatement("delete from person;")
 
     // users table queries
     private val insertUsersQuery = connectionBD.prepareStatement(
         "insert into public.users " +
-        "(login, password, is_admin)" +
-        "values (?, ?, ?);")
-
-    private val selectUsersQuery = connectionBD.prepareStatement("select * from public.users")
-    private val clearUsersQuery = connectionBD.prepareStatement(buildString {
-        append("delete from users")
-    })
+        "(id, login, password, is_admin)" +
+        "values (?, ?, ?, ?);")
+    private val selectUsersQuery = connectionBD.prepareStatement("select * from users")
+    private val clearUsersQuery = connectionBD.prepareStatement("delete from users")
 
     fun connect(): Connection {
         try {
@@ -80,7 +71,6 @@ class DataBaseManager: KoinComponent {
             insertPersonQuery.setInt(13, owner_id)
 
             val result = insertPersonQuery.executeUpdate()
-            write.linesInConsole(result)
             if (result == 0) {
                 throw SQLException()
             }
@@ -156,12 +146,18 @@ class DataBaseManager: KoinComponent {
         connect().close()
     }
 
-    fun insertUsers (login: String, password: String, isAdmin: Boolean) {
+    fun insertUsers (id: Int, login: String, password: String, isAdmin: Boolean) {
         connect()
         try {
-            insertUsersQuery.setString(1, login)
-            insertUsersQuery.setString(2, password)
-            insertUsersQuery.setBoolean(3, isAdmin)
+            insertUsersQuery.setInt(1, id)
+            insertUsersQuery.setString(2, login)
+            insertUsersQuery.setString(3, password)
+            insertUsersQuery.setBoolean(4, isAdmin)
+
+            val result = insertUsersQuery.executeUpdate()
+            if (result == 0) {
+                throw SQLException()
+            }
         } catch (e: SQLException) {
             write.linesInConsole(e.message)
             write.linesInConsole("Wrong insert-users query")
@@ -185,15 +181,16 @@ class DataBaseManager: KoinComponent {
     fun uploadAllUsers () {
         connect()
         try {
-            val users = selectPersonQuery.executeQuery()
+            val users = selectUsersQuery.executeQuery()
             while (users.next()) {
                 val userToAdd = User(
                     users.getInt("id"),
                     users.getString("login"),
                     users.getString("password"),
-                    users.getBoolean("isAdmin")
+                    users.getBoolean("is_admin")
                 )
                 listOfUsers.add(userToAdd)
+                println(listOfUsers)
             }
 
         } catch (e: SQLException) {

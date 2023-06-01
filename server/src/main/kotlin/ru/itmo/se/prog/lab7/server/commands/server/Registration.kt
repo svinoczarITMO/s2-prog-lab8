@@ -21,13 +21,16 @@ class Registration: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER)
     }
 
     override fun execute(data: Data): String {
-        for (i in dbmanager.listOfUsers) {
-            println(i) }
-        println(dbmanager.listOfUsers)
+//        for (i in dbmanager.listOfUsers) {
+//            println(i) }
+//        println(dbmanager.listOfUsers)
+        val id = data.token.id
         val login = data.token.login
         val password = data.token.password
+        val isAdmin = data.token.isAdmin
+        dbmanager.insertUsers(id, login, password, isAdmin)
         println("login: $login \npassword: $password")
-        dbmanager.insertUsers(login, password, false)
+
         return message.getMessage("successful_registration")!!
     }
 }

@@ -4,7 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Token (
-    val id: Int,
-    val login: String,
-    val password: String,
+    var id: Int,
+    var login: String,
+    var password: String,
+    val isAdmin: Boolean = false
 )

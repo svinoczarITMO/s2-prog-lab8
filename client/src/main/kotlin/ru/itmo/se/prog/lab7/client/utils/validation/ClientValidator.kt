@@ -5,7 +5,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.client.utils.AddPersonFields
 import ru.itmo.se.prog.lab7.client.utils.AddTokenFields
-//import ru.itmo.se.prog.lab7.client.utils.AddTokenFields
+import ru.itmo.se.prog.lab7.client.utils.DataBaseManager
 import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.common.data.*
@@ -20,7 +20,9 @@ class ClientValidator: KoinComponent {
     private val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
     private val addPersonFields = AddPersonFields()
     private val addTokenFields = AddTokenFields()
+    private val dbmanager: DataBaseManager by inject()
     private val write: PrinterManager by inject()
+    private var token = Token(0, "LERA", "naponb")
     private var params = arrayListOf("null parameter", "null parameter", "null parameter", "null parameter", "null parameter",
         "null parameter", "null parameter", "null parameter", "null parameter", "null parameter")
     private val dataObj = Data("command", "none",
@@ -45,7 +47,7 @@ class ClientValidator: KoinComponent {
         if (commandName == "execute_script") {
             isExecuteScript = true
         }
-
+        println(dataQueue) //TODO: УБРАТЬ
         if (command.location == LocationType.SERVER) {
             if (!isExecuteScript) {
                 when (command.arg) {
@@ -69,8 +71,12 @@ class ClientValidator: KoinComponent {
                     }
 
                     ArgType.TOKEN -> {
-                        val token = makeAToken(placeFlag)
+                        dbmanager.uploadAllUsers()
+                        val typeOfToken = dataObj.name
+                        dbmanager.uploadAllPersons()
+                        token = makeAToken(placeFlag, typeOfToken)
                         dataObj.token = token
+                        dbmanager.listOfUsers.clear()
                     }
                 }
                 dataQueue.add(dataObj)
@@ -94,12 +100,20 @@ class ClientValidator: KoinComponent {
         }
     }
 
-    private fun makeAToken(placeFlag: String): Token {
-        return Token (
-            addTokenFields.getID() as Int,
-            addTokenFields.regLogin() as String,
-            addTokenFields.regPassword() as String
-        )
+    private fun makeAToken(placeFlag: String, type: String): Token {
+        if (type == "reg") {
+            token.id = addTokenFields.getID() as Int
+            write.linesInConsole(message.getMessage("enter_login"))
+            token.login = addTokenFields.regLogin() as String
+            write.linesInConsole(message.getMessage("enter_password"))
+            token.password = addTokenFields.regPassword() as String
+        } else if (type == "login") {
+            write.linesInConsole(message.getMessage("enter_login"))
+            token.login = addTokenFields.logLogin() as String
+            write.linesInConsole(message.getMessage("enter_password"))
+            token.password = addTokenFields.logPassword() as String
+        }
+        return token
     }
 
     private fun makeAnObject (placeFlag: String): Person {
