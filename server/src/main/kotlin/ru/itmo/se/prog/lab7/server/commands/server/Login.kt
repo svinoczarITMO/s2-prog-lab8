@@ -28,13 +28,14 @@ class Login: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER), KoinC
         dbmanager.listOfUsers.forEach {
             if (login == it.login && password == it.password) {
                 result = message.getMessage("successful_login")!!
+                data.answerStr = result
                 return data
             } else {
                 result = "ОШИБКА"
+                data.answerStr = result
                 return data
             }
         }
-        result = "ОШИБКА"
         data.answerStr = result
         return data
     }

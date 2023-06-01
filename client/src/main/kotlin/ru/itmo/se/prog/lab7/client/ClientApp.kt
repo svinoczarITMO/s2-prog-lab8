@@ -52,15 +52,12 @@ class ClientApp (): KoinComponent {
             val dataStr = bufferedReader.readLine()?.trim()!!
             val inputData: Data = serializer.deserializeData(dataStr)
             val result = inputData.answerStr
-            val resultStringArr = result!!.split("\n")
-            println(result)
-            for (line in resultStringArr) {
-                if (line == message.getMessage("successful_login")) {
-                    authorized = true
-                }
-                write.linesInConsole(line)
+            if (result == message.getMessage("successful_login")) {
+                authorized = true
             }
-            write.linesInConsole(result)
+            if (result != null) {
+                write.linesInConsole(result)
+            }
             clientSocketChannel.socket().close()
         } catch (e: Exception) {
             println("Ошибка при получении ответа от сервера.")

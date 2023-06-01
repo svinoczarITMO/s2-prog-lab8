@@ -29,7 +29,7 @@ fun main() {
     val serializer = di.serializer
     val clientApp = di.clientApp
     val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
-    val kotlinIsBetterThanJava = false
+    val kotlinIsBetterThanJava = true
 
     while (kotlinIsBetterThanJava) {
         while (!clientApp.authorized) {
