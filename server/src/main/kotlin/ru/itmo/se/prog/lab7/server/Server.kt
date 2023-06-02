@@ -4,6 +4,8 @@ import org.koin.core.context.GlobalContext.startKoin
 import ru.itmo.se.prog.lab7.server.di.serverKoinModule
 import ru.itmo.se.prog.lab7.server.utils.Loader
 import java.io.File
+import java.util.concurrent.Executors
+import kotlin.concurrent.thread
 
 fun main(args: Array<String>) {
     startKoin {
@@ -13,8 +15,12 @@ fun main(args: Array<String>) {
     historyFile.writeText("")
     val loader = Loader()
     val server = ServerApp()
-//    println("Server started on port")
     loader.load()
+
+    Thread {
+        server.start()
+    }.start()
+
     while (true) {
         server.start()
     }

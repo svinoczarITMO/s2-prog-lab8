@@ -41,7 +41,6 @@ class DataBaseManager: KoinComponent {
     fun connect(): Connection {
         try {
             val connection = DriverManager.getConnection(url, user, password)
-            println("Successful connection")
             return connection
         } catch (e: SQLException) {
             throw e
@@ -190,7 +189,6 @@ class DataBaseManager: KoinComponent {
                     users.getBoolean("is_admin")
                 )
                 listOfUsers.add(userToAdd)
-                println(listOfUsers)
             }
 
         } catch (e: SQLException) {

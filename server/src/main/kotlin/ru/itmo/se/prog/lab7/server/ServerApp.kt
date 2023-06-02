@@ -17,6 +17,9 @@ import java.net.InetSocketAddress
 import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
 import java.util.*
+import java.util.concurrent.Executors
+import java.util.concurrent.ForkJoinPool
+import java.util.concurrent.LinkedBlockingQueue
 import java.util.logging.Logger
 
 class ServerApp: KoinComponent {
@@ -31,50 +34,82 @@ class ServerApp: KoinComponent {
         User(0,"login", "password"),"main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER, "")
     private val save = Save()
     private val dbmanager: DataBaseManager by inject()
+    private val process: Process by inject()
+    private val forkJoinPool = ForkJoinPool.commonPool()
+    private val cachedThreadPool = Executors.newCachedThreadPool()
+    private val blockingRequestQueue = LinkedBlockingQueue<Data>()
+    private val blockingResponseQueue = LinkedBlockingQueue<Data>()
+
+    init {
+        logger.info("Запуск сервера...")
+    }
 
     fun start (){
-        logger.info("Попытка запуска сервера...")
+        logger.info("Ожидание подключения...")
         try {
             val serverSocket = ServerSocketChannel.open()
             serverSocket.bind((InetSocketAddress(ip, port)))
-            logger.info("Ожидание подключения...")
-            while (serverSocket.socket().isBound) {
+            while (serverSocket != null) {
                 val clientSocket = serverSocket.accept()
                 logger.info("Подключение к БД")
                 dbmanager.uploadAllUsers()
                 dbmanager.uploadAllPersons()
-                request(clientSocket)
+                forkJoinPool.submit() { request(clientSocket) }
+                val process = Process(logger, blockingRequestQueue, blockingResponseQueue, serverValidator)
+                cachedThreadPool.submit(process)
+                forkJoinPool.submit() { response(clientSocket) }
             }
         } catch (e: Exception) {
             logger.severe("Ошибка подключения.")
         }
     }
 
-    private fun request (clientSocketChannel: SocketChannel){
-        logger.info("Обработка запроса...")
+    private fun request (clientSocketChannel: SocketChannel) {
+        logger.info("Ожидание запроса...")
         try {
-            val input: InputStream = clientSocketChannel.socket().getInputStream()
-            val bufferedReader = BufferedReader(InputStreamReader(input))
+            val inputJson: InputStream = clientSocketChannel.socket().getInputStream()
+            val bufferedReader = BufferedReader(InputStreamReader(inputJson))
             val dataStr = bufferedReader.readLine()?.trim()!!
             val inputData: Data = serializer.deserializeData(dataStr)
-            val result = serverValidator.validate(inputData)
-            val outputData = Json.encodeToString(result)
-            response(clientSocketChannel, outputData)
+            blockingRequestQueue.put(inputData)
         } catch (e: Exception) {
-            logger.severe(e.message + " Ошибка обработки запроса.")
+            logger.severe(e.message + "Ошибка получения запроса.")
         }
     }
 
-    private fun response (clientSocketChannel: SocketChannel, result: String) {
+    private fun response (clientSocketChannel: SocketChannel) {
         logger.info("Отправка ответа...")
         try {
+            val outputData = Json.encodeToString(blockingResponseQueue.take())
             val output = PrintWriter(clientSocketChannel.socket().getOutputStream())
-            output.write(result)
+            output.write(outputData)
             output.flush()
             clientSocketChannel.shutdownOutput()
             save.execute(saveData)
             } catch (e: Exception) {
             logger.severe("Ошибка отправки ответа.")
+        }
+    }
+
+    companion object class Process (private var logger: Logger,
+                   private var blockingRequestQueue: LinkedBlockingQueue<Data>,
+                   private var blockingResponseQueue: LinkedBlockingQueue<Data>,
+                   private var serverValidator: ServerValidator) : Runnable {
+
+        override fun run () {
+            process()
+        }
+
+        private fun process () {
+            logger.info("Обработка запроса...")
+            try {
+                val inputData = blockingRequestQueue.take()
+                blockingResponseQueue.put(
+                    serverValidator.validate(inputData)!!
+                )
+            } catch (e: Exception) {
+                logger.severe(e.message + "Ошибка обработки запроса.")
+            }
         }
     }
 }

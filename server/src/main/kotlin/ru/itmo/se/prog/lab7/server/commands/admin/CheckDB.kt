@@ -21,13 +21,8 @@ class CheckDB: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER), Ko
     }
 
     override fun execute(data: Data): Data {
-        //TODO: Убрать upload all users, просто принтовать хуйню
-        dbmanager.uploadAllUsers()
         println(dbmanager.listOfUsers)
-        dbmanager.listOfUsers.clear()
-        dbmanager.uploadAllPersons()
         println(collectionManager.collection)
-        collectionManager.collection.clear()
         return data
     }
 }
