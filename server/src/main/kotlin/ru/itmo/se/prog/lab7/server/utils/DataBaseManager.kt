@@ -8,7 +8,8 @@ import ru.itmo.se.prog.lab7.common.data.Person
 import ru.itmo.se.prog.lab7.server.utils.io.PrinterManager
 import java.io.File
 import java.sql.*
-import java.sql.Date
+import java.util.Date
+import java.sql.Date as sqlDate
 
 
 class DataBaseManager: KoinComponent {
@@ -47,12 +48,17 @@ class DataBaseManager: KoinComponent {
         }
     }
 
+    fun insertPerson(person: Person, ownerId: Int) {
+        insertPerson(person.id, person.name, person.coordinates.x, person.coordinates.y, person.creationDate, person.height, person.weight, person.hairColor,
+            person.nationality, person.location.x, person.location.y!!, person.location.z, ownerId)
+    }
+
     fun insertPerson (id: Int, name: String, coordinateX: Float, coordinateY: Float, creationDate: Date,
                       height: Int, weight: Long, hairColor: Color, nationality: Country, locationX: Int,
-                      locationY: Long, locationZ: Int, owner_id: Int) {
+                      locationY: Long, locationZ: Int, ownerId: Int) {
         connect()
         try {
-            val sqlDate = Date(creationDate.time)
+            val sqlDate = sqlDate(creationDate.time)
             val sqlHairColor = hairColor.toString().lowercase()
             val sqlNationality = nationality.toString().lowercase()
             insertPersonQuery.setInt(1, id)
@@ -67,7 +73,7 @@ class DataBaseManager: KoinComponent {
             insertPersonQuery.setInt(10, locationX)
             insertPersonQuery.setLong(11, locationY)
             insertPersonQuery.setInt(12, locationZ)
-            insertPersonQuery.setInt(13, owner_id)
+            insertPersonQuery.setInt(13, ownerId)
 
             val result = insertPersonQuery.executeUpdate()
             if (result == 0) {
@@ -81,7 +87,7 @@ class DataBaseManager: KoinComponent {
         connect().close()
     }
 
-    fun deletePerson (id: Int) {
+    private fun deletePerson (id: Int) {
         connect()
         try {
             deletePersonQuery.setInt(1, id)

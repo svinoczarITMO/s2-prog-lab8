@@ -69,7 +69,6 @@ class AddTokenFields: KoinComponent {
         var login = ""
         try {
             val checkLogin = read.fromConsole()
-            println(dbmanager.listOfUsers)
             if (dbmanager.listOfUsers.isEmpty()) {
                 throw SignInLoginException()
             }

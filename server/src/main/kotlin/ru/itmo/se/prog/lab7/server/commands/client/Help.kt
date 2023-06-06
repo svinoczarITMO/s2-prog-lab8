@@ -22,7 +22,7 @@ class Help: Command(ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT) {
 
     override fun execute(data: Data): Data {
         var result: String? = ""
-        result = (message.getMessage("="))
+        result = (message.getMessage("u="))
         val classes = commandManager.parsePackage("ru.itmo.se.prog.lab6.commands", "Command")
             .filter { klass -> !klass.simpleName.equals("FastAdd") && !klass.simpleName.equals("PrintCollection") && !klass.simpleName.equals("GetElement") }
         for (klass in classes) {
@@ -33,7 +33,7 @@ class Help: Command(ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT) {
                 result = e.message
             }
         }
-        result += (message.getMessage("="))
+        result += (message.getMessage("d="))
         data.answerStr = result
         return data
     }
