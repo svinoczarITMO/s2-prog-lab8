@@ -17,7 +17,6 @@ class DataBaseManager: KoinComponent {
     private val password = File("D:\\ITMO\\2nd-semester\\prog-labs\\s2-prog-lab7\\server\\src\\main\\kotlin\\ru\\itmo\\se\\prog\\lab7\\server\\utils\\.psw").readText()
     private val url = "jdbc:postgresql://localhost:5433/prog-lab-7"
     private val collectionManager: CollectionManager by inject ()
-    private val serverApp: ServerApp by inject ()
     private val write: PrinterManager by inject()
     private val connectionBD = connect()
     val listOfUsers = mutableListOf<User>()
@@ -37,6 +36,7 @@ class DataBaseManager: KoinComponent {
         "(id, login, password, is_admin)" +
         "values (?, ?, ?, ?);")
     private val selectUsersQuery = connectionBD.prepareStatement("select * from users")
+
     private val clearUsersQuery = connectionBD.prepareStatement("delete from users")
 
     fun connect(): Connection {

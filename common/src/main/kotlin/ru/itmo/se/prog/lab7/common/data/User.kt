@@ -7,5 +7,5 @@ data class User (
     var id: Int,
     var login: String,
     var password: String,
-    val isAdmin: Boolean = false
+    var isAdmin: Boolean = false
 )

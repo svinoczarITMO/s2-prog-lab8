@@ -49,10 +49,12 @@ class Messages {
         "blank_string" to "Строка не может быть пустой! Введите имя ещё раз.",
         "invalid_login1" to "Такого логина не существует.",
         "invalid_login2" to "Введенное имя пользователя уже существует.\nПридумайте другое: ",
-        "invalid_password" to "Пароль неверный.\nПопробуйте ещё раз: ",
+        "invalid_password" to "Пароль неверный.",
         "no_match_passwords" to "Пароли не совпадают.",
         "access_denied" to "Недостаточно прав для выполнения данной команды.",
         "attempts_are_over" to "Вы трижды ввели неверный пароль. Попробуйте войти еще раз (комманда ${cyanText}login$resetColor).",
+        "wrong_login" to "Ошибка входа. Попробуйте ещё раз.",
+        "wrong_registration" to "Ошибка регистрации. Попробуйте ещё раз.",
 
         //info
         "script_start" to "Скрипт выполняется...",

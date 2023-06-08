@@ -43,8 +43,4 @@ val notKoinModule = module {
     single {
         ClientApp()
     }
-
-    single {
-        DataBaseManager()
-    }
 }

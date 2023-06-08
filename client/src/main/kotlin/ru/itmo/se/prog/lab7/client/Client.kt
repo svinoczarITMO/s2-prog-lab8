@@ -32,9 +32,9 @@ fun main() {
     val kotlinIsBetterThanJava = true
 
     while (kotlinIsBetterThanJava) {
+        val flag = ::main.name
         while (!clientApp.authorized) {
             write.linesInConsole(message.getMessage("login_info"))
-            val flag = ::main.name
             write.inConsole("> ")
             val readFromConsole = (readln().lowercase()).split(" ").toMutableList()
             readFromConsole.add(flag)
@@ -46,12 +46,11 @@ fun main() {
             }
         }
 
-        val flag = ::main.name
         write.inConsole("> ")
         val readFromConsole = (readln().lowercase()).split(" ").toMutableList()
         readFromConsole.add(flag)
         val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
-        if (command != null && command.status == StatusType.USER) {
+        if (command != null && command.status == StatusType.USER && command.arg != ArgType.TOKEN) {
             val data = clientValidator.validate(readFromConsole)
             val dataStr = Json.encodeToString(data)
             clientApp.request(dataStr)

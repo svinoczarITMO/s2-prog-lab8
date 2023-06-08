@@ -4,14 +4,14 @@ import org.jetbrains.kotlin.konan.file.File
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.client.utils.AddPersonFields
-import ru.itmo.se.prog.lab7.client.utils.AddTokenFields
-import ru.itmo.se.prog.lab7.client.utils.DataBaseManager
 import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
+import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
 import ru.itmo.se.prog.lab7.common.data.*
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
+import ru.itmo.se.prog.lab7.common.exceptions.WrongPasswordException
 import java.util.*
 
 class ClientValidator: KoinComponent {
@@ -19,9 +19,8 @@ class ClientValidator: KoinComponent {
     private val message: Messages by inject()
     private val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
     private val addPersonFields = AddPersonFields()
-    private val addTokenFields = AddTokenFields()
-    private val dbmanager: DataBaseManager by inject()
     private val write: PrinterManager by inject()
+    private val read: ReaderManager by inject()
     private var user = User(0, "LERA", "naponb")
     private var params = arrayListOf("null parameter", "null parameter", "null parameter", "null parameter", "null parameter",
         "null parameter", "null parameter", "null parameter", "null parameter", "null parameter")
@@ -70,12 +69,9 @@ class ClientValidator: KoinComponent {
                     }
 
                     ArgType.TOKEN -> {
-                        dbmanager.uploadAllUsers()
                         val typeOfToken = dataObj.name
-                        dbmanager.uploadAllPersons()
                         user = makeAToken(placeFlag, typeOfToken)
                         dataObj.user = user
-                        dbmanager.listOfUsers.clear()
                     }
                 }
 
@@ -101,16 +97,14 @@ class ClientValidator: KoinComponent {
 
     private fun makeAToken(placeFlag: String, type: String): User {
         if (type == "reg") {
-            user.id = addTokenFields.getID() as Int
-            write.linesInConsole(message.getMessage("enter_login"))
-            user.login = addTokenFields.regLogin() as String
-            write.linesInConsole(message.getMessage("enter_password"))
-            user.password = addTokenFields.regPassword() as String
+            write.inConsole(message.getMessage("enter_login"))
+            user.login = read.fromConsole()
+            user.password = regPassword() as String
         } else if (type == "login") {
-            write.linesInConsole(message.getMessage("enter_login"))
-            user.login = addTokenFields.logLogin() as String
-            write.linesInConsole(message.getMessage("enter_password"))
-            user.password = addTokenFields.logPassword() as String
+            write.inConsole(message.getMessage("enter_login"))
+            user.login = read.fromConsole()
+            write.inConsole(message.getMessage("enter_password"))
+            user.password = read.fromConsole()
         }
         return user
     }
@@ -132,6 +126,25 @@ class ClientValidator: KoinComponent {
                 addPersonFields.locationZ(params[9], placeFlag)
             )
         )
+    }
+
+    private fun regPassword(): Any {
+        var password = ""
+        try {
+            write.inConsole(message.getMessage("enter_password"))
+            val checkPassword = read.fromConsole()
+            write.inConsole(message.getMessage("repeat_password"))
+            val repeatPassword = read.fromConsole()
+            if (checkPassword != repeatPassword) {
+                throw WrongPasswordException()
+            } else {
+                password = checkPassword
+            }
+        } catch (e: WrongPasswordException) {
+            write.linesInConsole(message.getMessage("no_match_password"))
+            return regPassword()
+        }
+        return password
     }
 
     private fun preValidation (path: String): ArrayList<Array<String>> {
