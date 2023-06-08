@@ -1,9 +1,9 @@
 package ru.itmo.se.prog.lab7.client.utils.validation
 
-import org.jetbrains.kotlin.konan.file.File
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.client.utils.AddPersonFields
+import ru.itmo.se.prog.lab7.client.utils.Hash
 import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
@@ -21,6 +21,7 @@ class ClientValidator: KoinComponent {
     private val addPersonFields = AddPersonFields()
     private val write: PrinterManager by inject()
     private val read: ReaderManager by inject()
+    private val hash = Hash()
     private var user = User(0, "LERA", "naponb")
     private var params = arrayListOf("null parameter", "null parameter", "null parameter", "null parameter", "null parameter",
         "null parameter", "null parameter", "null parameter", "null parameter", "null parameter")
@@ -98,13 +99,13 @@ class ClientValidator: KoinComponent {
     private fun makeAToken(placeFlag: String, type: String): User {
         if (type == "reg") {
             write.inConsole(message.getMessage("enter_login"))
-            user.login = read.fromConsole()
-            user.password = regPassword() as String
+            user.login = hash.encrypt(read.fromConsole())
+            user.password = hash.encrypt(regPassword() as String)
         } else if (type == "login") {
             write.inConsole(message.getMessage("enter_login"))
-            user.login = read.fromConsole()
+            user.login = hash.encrypt(read.fromConsole())
             write.inConsole(message.getMessage("enter_password"))
-            user.password = read.fromConsole()
+            user.password = hash.encrypt(read.fromConsole())
         }
         return user
     }
