@@ -147,40 +147,40 @@ class ClientValidator: KoinComponent {
         return password
     }
 
-    private fun preValidation (path: String): ArrayList<Array<String>> {
-        val commands = arrayListOf<Array<String>>()
-        val errorArray = arrayListOf<Array<String>>(arrayOf("ERROR"))
-        val strings = File(path).readStrings()
-        val params = arrayListOf<String>()
-
-        if (strings.isNotEmpty()) {
-            for (index in 0 until strings.size) {
-                val arr = arrayListOf<String>()
-                val currentLine = strings[index].split(" ")
-                val currentCommand = commandManager.getCommand(commandPackage, currentLine[0], "Command")
-                if (currentCommand != null) {
-                    if (currentLine[0] == "execute_script" && currentLine.last() == path) {
-                        return errorArray
-                    }
-                    if (currentCommand.arg == ArgType.OBJECT || currentCommand.arg == ArgType.OBJECT_PLUS) {
-                        for (n in 1..10) {
-                            val param = strings.getOrElse(index + n) { "" }.trim().lowercase()
-                            if (param.isNotEmpty()) {
-                                params[n - 1] = param
-                            }
-                        }
-                        //команда, список полей
-                        currentLine.forEach { arr.add(it) }
-                        params.forEach { arr.add(it) }
-                        commands.add(arr.toTypedArray())
-                    } else {
-                        //команда, список аргументов
-                        currentLine.forEach { arr.add(it) }
-                        commands.add(arr.toTypedArray())
-                    }
-                }
-            }
-        }
-        return commands
-    }
+//    private fun preValidation (path: String): ArrayList<Array<String>> {
+//        val commands = arrayListOf<Array<String>>()
+//        val errorArray = arrayListOf<Array<String>>(arrayOf("ERROR"))
+//        val strings = File(path).readStrings()
+//        val params = arrayListOf<String>()
+//
+//        if (strings.isNotEmpty()) {
+//            for (index in 0 until strings.size) {
+//                val arr = arrayListOf<String>()
+//                val currentLine = strings[index].split(" ")
+//                val currentCommand = commandManager.getCommand(commandPackage, currentLine[0], "Command")
+//                if (currentCommand != null) {
+//                    if (currentLine[0] == "execute_script" && currentLine.last() == path) {
+//                        return errorArray
+//                    }
+//                    if (currentCommand.arg == ArgType.OBJECT || currentCommand.arg == ArgType.OBJECT_PLUS) {
+//                        for (n in 1..10) {
+//                            val param = strings.getOrElse(index + n) { "" }.trim().lowercase()
+//                            if (param.isNotEmpty()) {
+//                                params[n - 1] = param
+//                            }
+//                        }
+//                        //команда, список полей
+//                        currentLine.forEach { arr.add(it) }
+//                        params.forEach { arr.add(it) }
+//                        commands.add(arr.toTypedArray())
+//                    } else {
+//                        //команда, список аргументов
+//                        currentLine.forEach { arr.add(it) }
+//                        commands.add(arr.toTypedArray())
+//                    }
+//                }
+//            }
+//        }
+//        return commands
+//    }
 }
