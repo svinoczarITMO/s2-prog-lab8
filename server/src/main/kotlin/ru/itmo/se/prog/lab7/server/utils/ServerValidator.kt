@@ -17,8 +17,8 @@ class ServerValidator : KoinComponent {
     private val commandBuffer = historyFile.readLines().toMutableList()
     private val nullData = Data("null", "null", Person(
         0, "whoami", Coordinates(1f,1f), Date(),
-        999, 999, Color.BROWN, Country.CHINA, Location(1,2,3)),
-        User(0, "login", "psw", false), "main", ArgType.NO_ARG, StatusType.USER, LocationType.SERVER, null )
+        999, 999, Color.BROWN, Country.CHINA, Location(1,2,3)), "",
+        User(0, "login", "psw", false), "main", ArgType.NO_ARG, StatusType.USER, LocationType.SERVER, "")
 
     fun validate (data: Data): Data? {
         val commandName = data.name

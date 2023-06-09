@@ -7,9 +7,8 @@ import ru.itmo.se.prog.lab7.common.exceptions.RegisterLoginException
 import ru.itmo.se.prog.lab7.common.exceptions.SignInLoginException
 import ru.itmo.se.prog.lab7.common.exceptions.WrongPasswordException
 import ru.itmo.se.prog.lab7.server.utils.io.PrinterManager
-import ru.itmo.se.prog.lab7.server.utils.io.ReaderManager
 
-class AddTokenFields: KoinComponent {
+class SignManager: KoinComponent {
     private val message: Messages by inject()
     private val write: PrinterManager by inject()
     private val dbmanager: DataBaseManager by inject()

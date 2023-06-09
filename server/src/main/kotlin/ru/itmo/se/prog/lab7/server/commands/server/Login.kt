@@ -5,13 +5,15 @@ import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.*
 import ru.itmo.se.prog.lab7.server.commands.Command
-import ru.itmo.se.prog.lab7.server.utils.AddTokenFields
+import ru.itmo.se.prog.lab7.server.utils.SignManager
 import ru.itmo.se.prog.lab7.server.utils.DataBaseManager
+import ru.itmo.se.prog.lab7.server.utils.Hash
 
 
 class Login: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER), KoinComponent {
-    val dbmanager: DataBaseManager by inject()
-    private val addTokenFields = AddTokenFields()
+    private val signManager = SignManager()
+    private val hash = Hash()
+    private val dbmanager: DataBaseManager by inject()
 
     override fun getName(): String {
         return "login"
@@ -23,7 +25,7 @@ class Login: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER), KoinC
 
     override fun execute(data: Data): Data {
         var result = ""
-        val login = addTokenFields.logLogin(data.user.login) as String
+        val login = signManager.logLogin(data.user.login) as String
         if (login == message.getMessage("invalid_login1")) {
             data.answerStr = login
             return data
@@ -34,7 +36,7 @@ class Login: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER), KoinC
         while (id.next()) {
             data.user.id = id.getInt("id")
         }
-        val password = addTokenFields.logPassword(data.user.password) as String
+        val password = signManager.logPassword(data.user.password) as String
         if (password == message.getMessage("invalid_password")) {
             data.answerStr = password
             return data
@@ -50,7 +52,7 @@ class Login: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER), KoinC
             println("it.login: ${it.login}")
             println("password: $password")
             println("it.password: ${it.password}")
-            if (login == it.login && password == it.password) {
+            if (hash.checkEncryption(login) == it.login && hash.checkEncryption(password) == it.password) {
                 result = message.getMessage("successful_login")!!
                 data.answerStr = result
                 return data

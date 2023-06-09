@@ -4,12 +4,9 @@ import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.time.LocalTime
-import java.util.Date
-import kotlin.math.pow
-import kotlin.time.Duration.Companion.minutes
 
 class Hash {
-    fun encryptPassword(input: String): String {
+    fun encryptPassword(input: String) : String {
         return try {
             val md = MessageDigest.getInstance("SHA-384")
             val messageDigest = md.digest(input.toByteArray())
@@ -24,7 +21,7 @@ class Hash {
         }
     }
 
-    fun encryptLogin(input: String): String {
+    fun encryptLogin (input: String): String {
         return try {
             val md = MessageDigest.getInstance("SHA-384")
             val messageDigest = md.digest(input.toByteArray())
@@ -36,12 +33,19 @@ class Hash {
         }
     }
 
+    fun checkEncryption (input: String): String {
+        return try {
+            val md = MessageDigest.getInstance("SHA-256")
+            val messageDigest = md.digest((input + input.length.toString()).toByteArray())
+            val no = BigInteger(1, messageDigest)
+            val hashText = no.toString(16)
+            hashText
+        } catch (e: NoSuchAlgorithmException) {
+            throw RuntimeException(e)
+        }
+    }
+
     fun generateSalt(login: String): String {
         return "${LocalTime.now()}" + "${login.length/(1_000_000)}"
     }
-}
-
-fun main() {
-    val h = Hash()
-    println(h.generateSalt("K1L2F9FDS9CHN83Z"))
 }

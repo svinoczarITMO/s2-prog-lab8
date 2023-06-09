@@ -8,6 +8,7 @@ data class Data(
     var name: String,
     var oneArg: String,
     var obj: Person,
+    var token: String,
     var user: User,
     var placeFlag: String,
     var argType: ArgType,
