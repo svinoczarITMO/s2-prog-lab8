@@ -25,11 +25,17 @@ class ServerValidator : KoinComponent {
         if (commandBuffer.size == 7) {
             commandBuffer.removeAt(0)
             commandBuffer.add(commandName)
+        } else if (commandBuffer.size > 7) {
+            while (commandBuffer.size >= 7) {
+                commandBuffer.removeAt(0)
+            }
+            commandBuffer.add(commandName)
         } else {
             commandBuffer.add(commandName)
         }
         println(commandBuffer)
 
+        historyFile.delete()
         historyFile.writeText(commandBuffer.joinToString())
 
         val result = commandManager.getCommand(commandPackage, data.name, "Command")?.execute(data)

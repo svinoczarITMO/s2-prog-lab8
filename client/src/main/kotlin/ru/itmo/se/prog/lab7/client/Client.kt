@@ -49,6 +49,7 @@ fun main() {
         write.inConsole("> ")
         val readFromConsole = (readln().lowercase()).split(" ").toMutableList()
         readFromConsole.add(flag)
+        println(readFromConsole)
         val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
         if (command != null && command.status == StatusType.USER && command.arg != ArgType.TOKEN) {
             val data = clientValidator.validate(readFromConsole)
@@ -74,8 +75,9 @@ class ConnectDi: KoinComponent {
 //DONE: 1) Хэширование на клиенте (для защиты от ~воровства~ пакетов)
 //DONE: 2) Хэширование на сервере (для безопасного хранения в бд)
 //DONE: 3) Создание токена на сервере (хэш + соль), отправка токена клиенту
+//DONE: 4) Сделать команду logout
 
-//TODO: 4) Починить запись id в таблице users
 //TODO: 5) Редактирование команд типа add / update / remove_by_id с учетом owner_id
+//TODO: 6) Пофиксить команду info (она увеличивает person collection в N раз)
 //TODO: 6) Настроить хранение - работу токена / с токеном
 //TODO: 7) МногопотОЧКА (понять... (простить(?)...))

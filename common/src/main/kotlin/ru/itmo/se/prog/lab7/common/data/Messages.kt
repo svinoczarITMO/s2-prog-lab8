@@ -69,6 +69,8 @@ class Messages {
         "login_info" to "Для дальнейшей работы вам необходимо войти в свой аккаунт (комманда ${cyanText}login$resetColor)\n" +
                 "или зарегистрироваться (команда ${cyanText}reg$resetColor)",
         "permission_upgrade" to "Для повышения прав данного аккаунта введите команду ${cyanText}uta --key$resetColor (где \"key\" - ключ, выдаваемый администратором).",
+        "log_out" to "Выход из аккаунта...\n",
+        "goodbye" to "До свидания!",
 
 
         //extra
