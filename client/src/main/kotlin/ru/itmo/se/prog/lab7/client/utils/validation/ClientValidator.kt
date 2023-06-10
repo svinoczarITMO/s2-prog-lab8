@@ -2,6 +2,7 @@ package ru.itmo.se.prog.lab7.client.utils.validation
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import ru.itmo.se.prog.lab7.client.ClientApp
 import ru.itmo.se.prog.lab7.client.utils.AddPersonFields
 import ru.itmo.se.prog.lab7.client.utils.Hash
 import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
@@ -17,10 +18,11 @@ import java.util.*
 class ClientValidator: KoinComponent {
     private val commandManager: CommandManager by inject()
     private val message: Messages by inject()
-    private val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
-    private val addPersonFields = AddPersonFields()
     private val write: PrinterManager by inject()
     private val read: ReaderManager by inject()
+    private val clientApp: ClientApp by inject()
+    private val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
+    private val addPersonFields = AddPersonFields()
     private val hash = Hash()
     private var user = User(0, "LERA", "naponb")
     private var params = arrayListOf("null parameter", "null parameter", "null parameter", "null parameter", "null parameter",
@@ -42,6 +44,8 @@ class ClientValidator: KoinComponent {
         dataObj.argType = command?.arg!!
         dataObj.statusType = command.status
         dataObj.locationType = command.location
+        dataObj.token = clientApp.token
+        dataObj.user = clientApp.user
 
         if (commandName == "execute_script") {
             isExecuteScript = true
@@ -71,24 +75,12 @@ class ClientValidator: KoinComponent {
 
                     ArgType.TOKEN -> {
                         val typeOfToken = dataObj.name
-                        user = makeAToken(placeFlag, typeOfToken)
+                        user = signing(placeFlag, typeOfToken)
                         dataObj.user = user
                     }
                 }
 
             }
-//            else {
-//                //НЕ РАБОТАЕТ С ADD и UPDATE
-//                val commandsQueue = preValidation(oneArg)
-//                if (commandsQueue.contains(arrayOf("ERROR"))) {
-//                    write.linesInConsole(message.getMessage("recursion"))
-//                } else {
-//                    for (element in commandsQueue) {
-//                        val tmp = validate(element.toMutableList())
-//                        tmp.forEach { dataQueue.add(it) }
-//                    }
-//                }
-//            }
             return dataObj
         } else {
             write.linesInConsole(command.execute(dataObj))
@@ -96,7 +88,7 @@ class ClientValidator: KoinComponent {
         }
     }
 
-    private fun makeAToken(placeFlag: String, type: String): User {
+    private fun signing (placeFlag: String, type: String): User {
         if (type == "reg") {
             write.inConsole(message.getMessage("enter_login"))
             user.login = hash.encrypt(read.fromConsole())

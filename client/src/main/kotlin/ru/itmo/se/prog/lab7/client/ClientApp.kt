@@ -6,6 +6,7 @@ import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.client.utils.Serializer
 import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.Messages
+import ru.itmo.se.prog.lab7.common.data.User
 import java.io.*
 import java.net.InetSocketAddress
 import java.nio.channels.SocketChannel
@@ -16,6 +17,8 @@ class ClientApp (): KoinComponent {
     val serializer = Serializer()
     val write = PrinterManager()
     var authorized = false
+    var token = ""
+    var user = User(-999, "", "", false)
     val message: Messages by inject()
 
     private fun connection(): SocketChannel {
@@ -54,6 +57,8 @@ class ClientApp (): KoinComponent {
             val result = inputData.answerStr
             if (result == message.getMessage("successful_login")) {
                 authorized = true
+                token = inputData.token
+                user = inputData.user
             }
             if (result != null) {
                 write.linesInConsole(result)

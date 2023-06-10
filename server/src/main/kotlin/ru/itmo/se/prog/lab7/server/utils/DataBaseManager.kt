@@ -36,8 +36,8 @@ class DataBaseManager: KoinComponent {
         "(id, login, password, is_admin)" +
         "values (?, ?, ?, ?);")
     private val selectUsersQuery = connectionBD.prepareStatement("select * from users")
-
     private val clearUsersQuery = connectionBD.prepareStatement("delete from users")
+    private val updateTokenQuery = connectionBD.prepareStatement("UPDATE users SET token = ? WHERE id = ?;")
 
     fun connect(): Connection {
         try {
@@ -200,6 +200,24 @@ class DataBaseManager: KoinComponent {
         } catch (e: SQLException) {
             write.linesInConsole(e.message)
             write.linesInConsole("Wrong upload-all-users query")
+            connect().close()
+        }
+        connect().close()
+    }
+
+    fun updateToken (id: Int, token: String) {
+        connect()
+        try {
+            updateTokenQuery.setString(1, token)
+            updateTokenQuery.setInt(2, id)
+
+            val result = updateTokenQuery.executeUpdate()
+            if (result == 0) {
+                throw SQLException()
+            }
+        } catch (e: SQLException) {
+            write.linesInConsole(e.message)
+            write.linesInConsole("Wrong update-token query")
             connect().close()
         }
         connect().close()
