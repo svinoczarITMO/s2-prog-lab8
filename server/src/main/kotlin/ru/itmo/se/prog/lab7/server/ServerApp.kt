@@ -9,9 +9,10 @@ import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
 import ru.itmo.se.prog.lab7.server.commands.server.Save
-import ru.itmo.se.prog.lab7.server.utils.DataBaseManager
+import ru.itmo.se.prog.lab7.server.utils.managers.DataBaseManager
 import ru.itmo.se.prog.lab7.server.utils.Serializer
 import ru.itmo.se.prog.lab7.server.utils.ServerValidator
+import ru.itmo.se.prog.lab7.server.utils.managers.CollectionManager
 import java.io.*
 import java.net.InetSocketAddress
 import java.nio.channels.ServerSocketChannel
@@ -30,11 +31,12 @@ class ServerApp: KoinComponent {
     private val serverValidator = ServerValidator()
     private val saveData = Data("save", "save",
         Person(0,"SAVE", Coordinates(1.4f, 8.8f), Date(),180, 68,
-            Color.YELLOW, Country.VATICAN, Location(1,2,3)), "",
+            Color.YELLOW, Country.VATICAN, Location(1,2,3), -1), "",
         User(0,"login", "password"),"main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER, "")
     private val save = Save()
     private val dbmanager: DataBaseManager by inject()
     private val process: Process by inject()
+    private val collectionManager: CollectionManager by inject()
     private val forkJoinPool = ForkJoinPool.commonPool()
     private val cachedThreadPool = Executors.newCachedThreadPool()
     private val blockingRequestQueue = LinkedBlockingQueue<Data>()
@@ -52,8 +54,6 @@ class ServerApp: KoinComponent {
             while (serverSocket != null) {
                 val clientSocket = serverSocket.accept()
                 logger.info("Подключение к БД")
-                dbmanager.uploadAllUsers()
-                dbmanager.uploadAllPersons()
                 forkJoinPool.submit() { request(clientSocket) }
                 val process = Process(logger, blockingRequestQueue, blockingResponseQueue, serverValidator)
                 cachedThreadPool.submit(process)

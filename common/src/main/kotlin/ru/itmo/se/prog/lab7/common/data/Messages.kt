@@ -55,6 +55,7 @@ class Messages {
         "attempts_are_over" to "Вы трижды ввели неверный пароль. Попробуйте войти еще раз (комманда ${cyanText}login$resetColor).",
         "wrong_login" to "Ошибка входа. Попробуйте ещё раз.",
         "wrong_registration" to "Ошибка регистрации. Попробуйте ещё раз.",
+        "not_owner" to "Вы можете изменять только элементы коллекции, добавленные вами.",
 
         //info
         "script_start" to "Скрипт выполняется...",

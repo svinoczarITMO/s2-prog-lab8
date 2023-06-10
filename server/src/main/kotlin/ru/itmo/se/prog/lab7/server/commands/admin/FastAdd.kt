@@ -33,7 +33,8 @@ class FastAdd: Command(ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER) {
             0,
             Color.RED,
             Country.USA,
-            Location(0, 0, 0)
+            Location(0, 0, 0),
+            -1
         )
         collectionManager.collection.add(obj)
         data.answerStr = message.getMessage("added")

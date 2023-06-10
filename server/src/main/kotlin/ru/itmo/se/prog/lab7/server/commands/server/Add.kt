@@ -5,7 +5,7 @@ import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.*
 import ru.itmo.se.prog.lab7.server.commands.Command
 import ru.itmo.se.prog.lab7.server.utils.AddPersonFields
-import ru.itmo.se.prog.lab7.server.utils.DataBaseManager
+import ru.itmo.se.prog.lab7.server.utils.managers.DataBaseManager
 
 /**
  * Adds new element in the collection.

@@ -1,9 +1,12 @@
 package ru.itmo.se.prog.lab7.server.commands.server
 
 
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.*
 import ru.itmo.se.prog.lab7.server.commands.Command
+import ru.itmo.se.prog.lab7.server.utils.managers.DataBaseManager
 import ru.itmo.se.prog.lab7.server.utils.Logger
 
 /**
@@ -12,8 +15,9 @@ import ru.itmo.se.prog.lab7.server.utils.Logger
  * @author svinoczar
  * @since 1.0.0
  */
-class Info: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
+class Info: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER), KoinComponent {
     private val logger = Logger()
+    private val dbmanager: DataBaseManager by inject()
     override fun getName(): String {
         return "info"
     }

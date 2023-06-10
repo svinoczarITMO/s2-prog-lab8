@@ -1,9 +1,12 @@
 package ru.itmo.se.prog.lab7.server.commands.server
 
 
-import ru.itmo.se.prog.lab7.common.data.Data
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import ru.itmo.se.prog.lab7.common.data.*
 import ru.itmo.se.prog.lab7.common.data.types.*
 import ru.itmo.se.prog.lab7.server.commands.Command
+import ru.itmo.se.prog.lab7.server.utils.managers.DataBaseManager
 
 /**
  * Outputs "id-name" pairs of items in the collection.
@@ -11,7 +14,8 @@ import ru.itmo.se.prog.lab7.server.commands.Command
  * @author svinoczar
  * @since 1.0.0
  */
-class Show: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
+class Show: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER), KoinComponent {
+    private val dbmanager: DataBaseManager by inject()
     override fun getName(): String {
         return "show"
     }
@@ -22,19 +26,36 @@ class Show: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
 
     override fun execute(data: Data): Data {
         var result: String? = ""
+        val id = data.user.id
+        println("id: $id")
+
         if (collectionManager.collection.size > 1) {
-            for (i in 0 until collectionManager.collection.size-1) {
-                result += ("Id: ${collectionManager.collection.elementAt(i).id}, Name: ${collectionManager.collection.elementAt(i).name}\n")
+            val persons = dbmanager.selectPersonQuery.executeQuery()
+            while (persons.next()) {
+                val personId = persons.getInt("id")
+                println("pID: $personId")
+                val personName = persons.getString("name")
+                println("pName: $personName")
+                val ownerId = persons.getInt("owner_id")
+                println("oId: $ownerId")
+                result += ("Id: $personId, Name: $personName, Owner: ${checkOwner(id, ownerId)}")
+                if (personId != collectionManager.collection.last().id) {
+                    result += "\n"
+                }
             }
-            result += ("Id: ${collectionManager.collection.elementAt(collectionManager.collection.size-1).id}, " +
-                    "Name: ${collectionManager.collection.elementAt(collectionManager.collection.size-1).name}")
-        } else if (collectionManager.collection.size == 1) {
-            result = ("Id: ${collectionManager.collection.elementAt(collectionManager.collection.size-1).id}, " +
-                    "Name: ${collectionManager.collection.elementAt(collectionManager.collection.size-1).name}")
         } else {
             result = (message.getMessage("clean_collection"))
         }
         data.answerStr = result
         return data
+    }
+
+    private fun checkOwner (yourId: Int, ownerId: Int): String {
+        println("yourId: $yourId \nownerId: $ownerId")
+        return if (yourId == ownerId) {
+            "You"
+        } else {
+            "Not you"
+        }
     }
 }

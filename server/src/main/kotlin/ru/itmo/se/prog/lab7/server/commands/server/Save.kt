@@ -5,7 +5,7 @@ import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.*
 import ru.itmo.se.prog.lab7.server.commands.Command
-import ru.itmo.se.prog.lab7.server.utils.DataBaseManager
+import ru.itmo.se.prog.lab7.server.utils.managers.DataBaseManager
 
 /**
  * Saves the collection in the file Collection.json.
@@ -27,21 +27,7 @@ class Save: Command(ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER), Koin
 
     /**
      * execute method. Save collection to file
-     */
-//    override fun execute(data: Data): String? {
-//        var result: String? = ""
-//        val collection = Vector<Person>()
-//        collection.addAll(collectionManager.collection)
-////        for (i in collectionManager.collection) { println(i) }
-//        val list = collectionManager.collectionToList()
-//        println("list = $list")
-//        val jsonString = serializer.serializePerson(list)
-//        println("jsonString - $jsonString")
-//        write.toFile(jsonString, pathToFile)
-//        write.toFile("asdads", pathToFile)
-//        result = (message.getMessage("saved"))
-//        return result
-//    }
+    **/
 
         override fun execute(data: Data): Data {
         var result: String? = ""
@@ -49,7 +35,7 @@ class Save: Command(ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER), Koin
             println("${data.user.login} \n")
             dbmanager.updatePerson(it.id, it.name, it.coordinates.x, it.coordinates.y,
                 it.creationDate as java.sql.Date, it.height, it.weight, it.hairColor,
-                it.nationality, it.location.x, it.location.y!!, it.location.z, data.user.id)
+                it.nationality, it.location.x, it.location.y!!, it.location.z, it.ownerId)
         }
         result = (message.getMessage("saved"))
         data.answerStr = result

@@ -27,5 +27,6 @@ data class Person(
     var weight: Long,
     var hairColor: Color,
     var nationality: Country,
-    var location: Location
+    var location: Location,
+    var ownerId: Int,
 )

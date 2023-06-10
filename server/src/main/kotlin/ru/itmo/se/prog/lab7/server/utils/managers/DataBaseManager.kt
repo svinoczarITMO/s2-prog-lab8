@@ -1,9 +1,8 @@
-package ru.itmo.se.prog.lab7.server.utils
+package ru.itmo.se.prog.lab7.server.utils.managers
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.common.data.*
-import ru.itmo.se.prog.lab7.server.ServerApp
 import ru.itmo.se.prog.lab7.common.data.Person
 import ru.itmo.se.prog.lab7.server.utils.io.PrinterManager
 import java.io.File
@@ -26,7 +25,7 @@ class DataBaseManager: KoinComponent {
         "insert into public.person " +
                 "(id, name, coordinate_x , coordinate_y, creation_date, height, weight, hair_color, nationality, location_x, location_y, location_z, owner_id)" +
                 "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);")
-    private val selectPersonQuery = connectionBD.prepareStatement("select * from person;")
+    val selectPersonQuery = connectionBD.prepareStatement("select * from person order by id;")
     private val deletePersonQuery = connectionBD.prepareStatement("delete from person where person.id = ?;")
     private val clearPersonQuery = connectionBD.prepareStatement("delete from person;")
 
@@ -35,7 +34,7 @@ class DataBaseManager: KoinComponent {
         "insert into public.users " +
         "(id, login, password, is_admin)" +
         "values (?, ?, ?, ?);")
-    private val selectUsersQuery = connectionBD.prepareStatement("select * from users")
+    private val selectUsersQuery = connectionBD.prepareStatement("select * from users order by id")
     private val clearUsersQuery = connectionBD.prepareStatement("delete from users")
     private val updateTokenQuery = connectionBD.prepareStatement("UPDATE users SET token = ? WHERE id = ?;")
 
@@ -53,9 +52,9 @@ class DataBaseManager: KoinComponent {
             person.nationality, person.location.x, person.location.y!!, person.location.z, ownerId)
     }
 
-    fun insertPerson (id: Int, name: String, coordinateX: Float, coordinateY: Float, creationDate: Date,
-                      height: Int, weight: Long, hairColor: Color, nationality: Country, locationX: Int,
-                      locationY: Long, locationZ: Int, ownerId: Int) {
+    private fun insertPerson (id: Int, name: String, coordinateX: Float, coordinateY: Float, creationDate: Date,
+                              height: Int, weight: Long, hairColor: Color, nationality: Country, locationX: Int,
+                              locationY: Long, locationZ: Int, ownerId: Int) {
         connect()
         try {
             val sqlDate = sqlDate(creationDate.time)
@@ -87,7 +86,7 @@ class DataBaseManager: KoinComponent {
         connect().close()
     }
 
-    private fun deletePerson (id: Int) {
+    fun deletePerson (id: Int) {
         connect()
         try {
             deletePersonQuery.setInt(1, id)
@@ -114,10 +113,10 @@ class DataBaseManager: KoinComponent {
 
     fun updatePerson (id: Int, name: String, coordinateX: Float, coordinateY: Float, creationDate: Date,
                       height: Int, weight: Long, hairColor: Color, nationality: Country, locationX: Int,
-                      locationY: Long, locationZ: Int, owner_id: Int) {
+                      locationY: Long, locationZ: Int, ownerId: Int) {
         connect()
         deletePerson(id)
-        insertPerson(id, name, coordinateX, coordinateY, creationDate, height, weight, hairColor, nationality, locationX, locationY, locationZ, owner_id)
+        insertPerson(id, name, coordinateX, coordinateY, creationDate, height, weight, hairColor, nationality, locationX, locationY, locationZ, ownerId)
         connect().close()
     }
 
@@ -138,7 +137,8 @@ class DataBaseManager: KoinComponent {
                     persons.getLong("weight"),
                     Color.valueOf(persons.getString("hair_color").uppercase()),
                     Country.valueOf(persons.getString("nationality").uppercase()),
-                    location
+                    location,
+                    persons.getInt("owner_id")
                 )
                 collectionManager.collection.add(personToAdd)
             }

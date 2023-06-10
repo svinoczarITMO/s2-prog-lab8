@@ -1,4 +1,4 @@
-package ru.itmo.se.prog.lab7.server.utils
+package ru.itmo.se.prog.lab7.server.utils.managers
 
 import kotlinx.serialization.Serializable
 import ru.itmo.se.prog.lab7.common.data.Person

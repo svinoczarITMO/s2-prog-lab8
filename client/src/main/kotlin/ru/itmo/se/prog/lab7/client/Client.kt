@@ -13,6 +13,7 @@ import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
 import ru.itmo.se.prog.lab7.client.utils.validation.ClientValidator
 import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
+import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
 
 
@@ -39,7 +40,7 @@ fun main() {
             val readFromConsole = (readln().lowercase()).split(" ").toMutableList()
             readFromConsole.add(flag)
             val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
-            if (command != null && command.arg == ArgType.TOKEN) {
+            if (command != null && command.arg == ArgType.TOKEN || command?.location == LocationType.CLIENT) {
                 val data = clientValidator.validate(readFromConsole)
                 val dataStr = Json.encodeToString(data)
                 clientApp.request(dataStr)
@@ -76,8 +77,8 @@ class ConnectDi: KoinComponent {
 //DONE: 2) Хэширование на сервере (для безопасного хранения в бд)
 //DONE: 3) Создание токена на сервере (хэш + соль), отправка токена клиенту
 //DONE: 4) Сделать команду logout
+//DONE: 5) Пофиксить команду info (она увеличивает person collection в N раз) UPD: Пофикшен ServerApp и загрузка `Person` и `Users`, а не info
 
-//TODO: 5) Редактирование команд типа add / update / remove_by_id с учетом owner_id
-//TODO: 6) Пофиксить команду info (она увеличивает person collection в N раз)
-//TODO: 6) Настроить хранение - работу токена / с токеном
-//TODO: 7) МногопотОЧКА (понять... (простить(?)...))
+//TODO: 6) Редактирование команд типа add / update / remove_by_id с учетом owner_id
+//TODO: 7) Настроить хранение - работу токена / с токеном
+//TODO: 8) МногопотОЧКА (понять... (простить(?)...))

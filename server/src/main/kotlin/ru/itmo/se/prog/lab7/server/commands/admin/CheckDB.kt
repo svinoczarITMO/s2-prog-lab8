@@ -7,7 +7,7 @@ import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
-import ru.itmo.se.prog.lab7.server.utils.DataBaseManager
+import ru.itmo.se.prog.lab7.server.utils.managers.DataBaseManager
 
 
 class CheckDB: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER), KoinComponent {

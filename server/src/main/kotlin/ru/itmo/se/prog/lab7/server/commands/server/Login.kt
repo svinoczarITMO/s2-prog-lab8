@@ -6,7 +6,7 @@ import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.*
 import ru.itmo.se.prog.lab7.server.commands.Command
 import ru.itmo.se.prog.lab7.server.utils.SignManager
-import ru.itmo.se.prog.lab7.server.utils.DataBaseManager
+import ru.itmo.se.prog.lab7.server.utils.managers.DataBaseManager
 import ru.itmo.se.prog.lab7.server.utils.Hash
 
 

@@ -11,6 +11,8 @@ import ru.itmo.se.prog.lab7.common.data.types.StatusType
 import ru.itmo.se.prog.lab7.server.utils.*
 import ru.itmo.se.prog.lab7.server.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.server.utils.io.ReaderManager
+import ru.itmo.se.prog.lab7.server.utils.managers.CollectionManager
+import ru.itmo.se.prog.lab7.server.utils.managers.CommandManager
 
 /**
  * A basic interface for implementing commands. You must implement it before applying a command in the CommandManager.
