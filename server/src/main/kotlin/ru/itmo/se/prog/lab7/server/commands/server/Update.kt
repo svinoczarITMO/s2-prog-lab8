@@ -33,14 +33,7 @@ class Update: Command(ArgType.OBJECT_PLUS, StatusType.USER, LocationType.SERVER)
     override fun execute(data: Data): Data {
         var result: String? = ""
         val id = data.oneArg.toInt()
-        var ownerId = 0
-        val person = dbmanager.selectPersonQuery.executeQuery()
-        while (person.next()) {
-            if (id == person.getInt("id")) {
-                ownerId = person.getInt("owner_id")
-                break
-            }
-        }
+        val ownerId = dbmanager.selectOwnerId(id)
         if (data.user.id == ownerId) {
             val element = data.obj
             element.id = id

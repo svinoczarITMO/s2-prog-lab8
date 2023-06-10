@@ -25,7 +25,7 @@ class DataBaseManager: KoinComponent {
         "insert into public.person " +
                 "(id, name, coordinate_x , coordinate_y, creation_date, height, weight, hair_color, nationality, location_x, location_y, location_z, owner_id)" +
                 "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);")
-    val selectPersonQuery = connectionBD.prepareStatement("select * from person order by id;")
+    var selectPersonQuery = connectionBD.prepareStatement("select * from person order by id;")
     private val deletePersonQuery = connectionBD.prepareStatement("delete from person where person.id = ?;")
     private val clearPersonQuery = connectionBD.prepareStatement("delete from person;")
 
@@ -149,6 +149,16 @@ class DataBaseManager: KoinComponent {
             connect().close()
         }
         connect().close()
+    }
+
+    fun selectOwnerId (id: Int): Int {
+        val person = selectPersonQuery.executeQuery()
+        while (person.next()) {
+            if (id == person.getInt("id")) {
+                return person.getInt("owner_id")
+            }
+        }
+        return person.getInt("owner_id")
     }
 
     fun insertUsers (id: Int, login: String, password: String, isAdmin: Boolean) {

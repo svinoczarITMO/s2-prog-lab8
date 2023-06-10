@@ -29,14 +29,7 @@ class RemoveByID: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.SERVER)
         var result: String? = ""
         var flag = false
         val id = data.oneArg.toInt()
-        var ownerId = 0
-        val person = dbmanager.selectPersonQuery.executeQuery()
-        while (person.next()) {
-            if (id == person.getInt("id")) {
-                ownerId = person.getInt("owner_id")
-                break
-            }
-        }
+        val ownerId = dbmanager.selectOwnerId(id)
         if (data.user.id == ownerId) {
             try {
                 try {

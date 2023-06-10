@@ -11,7 +11,7 @@ import ru.itmo.se.prog.lab7.server.commands.Command
  * @author svinoczar
  * @since 1.0.0
  */
-class RemoveFirst: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
+class RemoveFirst: Command(ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER) {
     override fun getName(): String {
         return "remove_first"
     }
