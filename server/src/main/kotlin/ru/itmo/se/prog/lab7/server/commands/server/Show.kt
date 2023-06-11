@@ -29,7 +29,7 @@ class Show: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER), KoinC
         val id = data.user.id
         println("id: $id")
 
-        if (collectionManager.collection.size > 1) {
+        if (collectionManager.collection.isNotEmpty()) {
             val persons = dbmanager.selectPersonQuery.executeQuery()
             while (persons.next()) {
                 val personId = persons.getInt("id")

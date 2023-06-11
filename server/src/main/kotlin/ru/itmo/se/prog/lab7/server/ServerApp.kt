@@ -35,7 +35,6 @@ class ServerApp: KoinComponent {
         User(0,"login", "password"),"main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER, "")
     private val save = Save()
     private val dbmanager: DataBaseManager by inject()
-    private val process: Process by inject()
     private val collectionManager: CollectionManager by inject()
     private val forkJoinPool = ForkJoinPool.commonPool()
     private val cachedThreadPool = Executors.newCachedThreadPool()
@@ -64,7 +63,7 @@ class ServerApp: KoinComponent {
         }
     }
 
-    private fun request (clientSocketChannel: SocketChannel) {
+    fun request (clientSocketChannel: SocketChannel) {
         logger.info("Ожидание запроса...")
         try {
             val inputJson: InputStream = clientSocketChannel.socket().getInputStream()
@@ -77,7 +76,7 @@ class ServerApp: KoinComponent {
         }
     }
 
-    private fun response (clientSocketChannel: SocketChannel) {
+    fun response (clientSocketChannel: SocketChannel) {
         logger.info("Отправка ответа...")
         try {
             val outputData = Json.encodeToString(blockingResponseQueue.take())

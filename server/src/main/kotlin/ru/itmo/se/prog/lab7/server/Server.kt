@@ -30,10 +30,6 @@ fun main(args: Array<String>) {
     Thread {
         server.start()
     }.start()
-
-    while (true) {
-        server.start()
-    }
 }
 
 class ConnectDi: KoinComponent {
