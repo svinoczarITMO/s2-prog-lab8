@@ -36,7 +36,8 @@ class DataBaseManager: KoinComponent {
         "values (?, ?, ?, ?);")
     private val selectUsersQuery = connectionBD.prepareStatement("select * from users order by id")
     private val clearUsersQuery = connectionBD.prepareStatement("delete from users")
-    private val updateTokenQuery = connectionBD.prepareStatement("UPDATE users SET token = ? WHERE id = ?;")
+    private val updateTokenQuery = connectionBD.prepareStatement("update users set token = ? where id = ?;")
+    val updateIsAdminQuery = connectionBD.prepareStatement("update users set is_admin = true where id = ?;")
 
     fun connect(): Connection {
         try {
