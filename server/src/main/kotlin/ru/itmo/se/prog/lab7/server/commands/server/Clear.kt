@@ -26,13 +26,19 @@ class Clear: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER), Koin
     }
 
     override fun execute(data: Data): Data {
-        val result = (message.getMessage("clear"))
+        var result = (message.getMessage("clear"))
         val id = data.user.id
-        collectionManager.collection.forEach{
-            if (id == it.ownerId) {
-                dbmanager.deletePerson(it.id)
-                collectionManager.collection.remove(it)
+        if (!data.user.isAdmin) {
+            collectionManager.collection.forEach {
+                if (id == it.ownerId) {
+                    dbmanager.deletePerson(it.id)
+                    collectionManager.collection.remove(it)
+                }
             }
+        } else {
+            collectionManager.collection.clear()
+            dbmanager.clearPerson()
+            result = (message.getMessage("clear_all"))
         }
         data.answerStr = result
         return data

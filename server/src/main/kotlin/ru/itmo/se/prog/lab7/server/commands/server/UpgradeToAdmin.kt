@@ -25,6 +25,7 @@ class UpgradeToAdmin: Command(ArgType.ONE_ARG, StatusType.USER, LocationType.SER
 
     override fun execute(data: Data): Data {
         if (data.oneArg == secretKey) {
+            dbmanager.updateIsAdminQuery.setInt(1, data.user.id)
             dbmanager.updateIsAdminQuery.executeUpdate()
             data.answerStr = message.getMessage("correct_key")
         } else {

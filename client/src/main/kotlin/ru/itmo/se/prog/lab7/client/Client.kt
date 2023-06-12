@@ -37,7 +37,7 @@ fun main() {
         while (!clientApp.authorized) {
             write.linesInConsole(message.getMessage("login_info"))
             write.inConsole("> ")
-            val readFromConsole = (readln().lowercase()).split(" ").toMutableList()
+            val readFromConsole = (read.fromConsole().lowercase()).split(" ").toMutableList()
             readFromConsole.add(flag)
             val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
             if (command != null && command.arg == ArgType.TOKEN || command?.location == LocationType.CLIENT) {
@@ -52,10 +52,19 @@ fun main() {
         readFromConsole.add(flag)
         println(readFromConsole)
         val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
-        if (command != null && command.status == StatusType.USER && command.arg != ArgType.TOKEN) {
-            val data = clientValidator.validate(readFromConsole)
-            val dataStr = Json.encodeToString(data)
-            clientApp.request(dataStr)
+        if (command != null && command.arg != ArgType.TOKEN) {
+            if (command.status == StatusType.USER || (command.status == StatusType.ADMIN && !clientApp.user.isAdmin)) {
+                val data = clientValidator.validate(readFromConsole)
+                val dataStr = Json.encodeToString(data)
+                clientApp.request(dataStr)
+            } else if (command.status == StatusType.ADMIN && clientApp.user.isAdmin) {
+                val data = clientValidator.validate(readFromConsole)
+                val dataStr = Json.encodeToString(data)
+                clientApp.request(dataStr)
+            }
+            else {
+                write.linesInConsole(message.getMessage("permission_upgrade"))
+            }
         } else {
             write.linesInConsole(message.getMessage("weird_command"))
         }

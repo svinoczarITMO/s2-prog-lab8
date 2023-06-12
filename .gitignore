@@ -7,3 +7,5 @@ build
 example.json
 .psw
 .admin-key
+logback.xml
+log4j.properties

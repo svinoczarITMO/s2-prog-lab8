@@ -3,9 +3,6 @@ package ru.itmo.se.prog.lab7.server
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.context.GlobalContext.startKoin
-import org.koin.java.KoinJavaComponent.inject
-import ru.itmo.se.prog.lab7.common.data.Data
-import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.server.di.serverKoinModule
 import ru.itmo.se.prog.lab7.server.utils.Loader
 import ru.itmo.se.prog.lab7.server.utils.managers.CommandManager

@@ -9,10 +9,10 @@ import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
 import ru.itmo.se.prog.lab7.server.commands.server.Save
-import ru.itmo.se.prog.lab7.server.utils.managers.DataBaseManager
 import ru.itmo.se.prog.lab7.server.utils.Serializer
 import ru.itmo.se.prog.lab7.server.utils.ServerValidator
 import ru.itmo.se.prog.lab7.server.utils.managers.CollectionManager
+import ru.itmo.se.prog.lab7.server.utils.managers.DataBaseManager
 import java.io.*
 import java.net.InetSocketAddress
 import java.nio.channels.ServerSocketChannel
@@ -21,11 +21,14 @@ import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.LinkedBlockingQueue
+import java.util.logging.FileHandler
 import java.util.logging.Logger
+
 
 class ServerApp: KoinComponent {
     private val ip = "localhost"
     private val port = 8844
+    var fileHandler = FileHandler("logfile.log")
     private val logger = Logger.getLogger("logger")
     private val serializer = Serializer()
     private val serverValidator = ServerValidator()

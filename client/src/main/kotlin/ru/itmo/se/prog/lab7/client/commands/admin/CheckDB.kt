@@ -8,7 +8,7 @@ import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
 
 
-class CheckDB: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER) {
+class CheckDB: Command(ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER) {
     override fun getName(): String {
         return "check_db"
     }
