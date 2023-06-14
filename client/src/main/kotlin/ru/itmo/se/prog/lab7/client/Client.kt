@@ -27,7 +27,6 @@ fun main() {
     val write = di.write
     val read = di.read
     val message = di.message
-    val serializer = di.serializer
     val clientApp = di.clientApp
     val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
     val kotlinIsBetterThanJava = true
@@ -88,8 +87,8 @@ class ConnectDi: KoinComponent {
 //DONE: 4) Сделать команду logout
 //DONE: 5) Пофиксить команду info (она увеличивает person collection в N раз) UPD: Пофикшен ServerApp и загрузка `Person` и `Users`, а не info
 //DONE: 7) Редактирование команд типа add / update / remove_by_id с учетом owner_id
-//DONE????????: 7) Настроить хранение - работу токена / с токеном
 //DONE????????????????????????: 8) МногопотОЧКА (понять... (простить(?)...))
-
-//TODO: Проверить команду Upgrade To Admin
-//TODO: Сделать админские команды активными для админа
+//DONE: Проверить команду Upgrade To Admin
+//DONE: Сделать админские команды активными для админа
+//DONE: Сделать невозможную регистрацию для двух одинаковых логинов
+//DONE??: Настроить хранение - работу токена / с токеном

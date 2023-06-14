@@ -34,6 +34,15 @@ class SignManager: KoinComponent {
                         login = checkLogin
                     }
                 }
+
+//                val dbLogin = dbmanager.connect().prepareStatement("select * from users where users.login = '$hashText'").executeQuery()
+//                while (dbLogin.next()) {
+//                    hashLogin = dbLogin.getString("login")
+//                }
+//                return if (hashLogin == hashText) {
+//                    message.getMessage("invalid_login2").toString()
+//                } else {
+
             } else {
                 login = checkLogin
             }
@@ -68,6 +77,7 @@ class SignManager: KoinComponent {
     fun logLogin(checkLogin: String): Any {
         var login = ""
         try {
+            println(dbmanager.listOfUsers)
             if (dbmanager.listOfUsers.isEmpty()) {
                 throw SignInLoginException()
             }

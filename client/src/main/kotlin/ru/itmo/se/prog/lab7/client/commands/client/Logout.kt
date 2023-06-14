@@ -12,7 +12,7 @@ import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
 import kotlin.system.exitProcess
 
-class Logout: Command(ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT), KoinComponent {
+class Logout: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER), KoinComponent {
     private val clientApp: ClientApp by inject()
 
     override fun getName(): String {
@@ -28,7 +28,7 @@ class Logout: Command(ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT), Koi
         clientApp.token = ""
         clientApp.user = User(-999, "", "", false)
         clientApp.authorized = false
-        result += message.getMessage("log_out") + message.getMessage("goodbye")
+        result += message.getMessage("log_out")
         return result
     }
 }

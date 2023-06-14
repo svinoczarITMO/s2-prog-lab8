@@ -11,8 +11,6 @@ import ru.itmo.se.prog.lab7.common.data.types.StatusType
 import ru.itmo.se.prog.lab7.server.commands.server.Save
 import ru.itmo.se.prog.lab7.server.utils.Serializer
 import ru.itmo.se.prog.lab7.server.utils.ServerValidator
-import ru.itmo.se.prog.lab7.server.utils.managers.CollectionManager
-import ru.itmo.se.prog.lab7.server.utils.managers.DataBaseManager
 import java.io.*
 import java.net.InetSocketAddress
 import java.nio.channels.ServerSocketChannel
@@ -21,28 +19,26 @@ import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.LinkedBlockingQueue
-import java.util.logging.FileHandler
 import java.util.logging.Logger
 
 
 class ServerApp: KoinComponent {
     private val ip = "localhost"
     private val port = 8844
-    var fileHandler = FileHandler("logfile.log")
     private val logger = Logger.getLogger("logger")
     private val serializer = Serializer()
     private val serverValidator = ServerValidator()
     private val saveData = Data("save", "save",
         Person(0,"SAVE", Coordinates(1.4f, 8.8f), Date(),180, 68,
             Color.YELLOW, Country.VATICAN, Location(1,2,3), -1), "",
-        User(0,"login", "password"),"main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER, "")
+        User(0,"login", "password"),"main", ArgType.NO_ARG, StatusType.ADMIN, LocationType.SERVER, "SESSION ERROR")
     private val save = Save()
-    private val dbmanager: DataBaseManager by inject()
-    private val collectionManager: CollectionManager by inject()
     private val forkJoinPool = ForkJoinPool.commonPool()
     private val cachedThreadPool = Executors.newCachedThreadPool()
     private val blockingRequestQueue = LinkedBlockingQueue<Data>()
     private val blockingResponseQueue = LinkedBlockingQueue<Data>()
+    var tokens = mutableSetOf<String>()
+    var serverSessionUsers = mutableSetOf<User>()
 
     init {
         logger.info("Запуск сервера...")
@@ -94,9 +90,10 @@ class ServerApp: KoinComponent {
     }
 
     companion object class Process (private var logger: Logger,
-                   private var blockingRequestQueue: LinkedBlockingQueue<Data>,
-                   private var blockingResponseQueue: LinkedBlockingQueue<Data>,
-                   private var serverValidator: ServerValidator) : Runnable {
+                                    private var blockingRequestQueue: LinkedBlockingQueue<Data>,
+                                    private var blockingResponseQueue: LinkedBlockingQueue<Data>,
+                                    private var serverValidator: ServerValidator) : Runnable, KoinComponent {
+        private val serverApp: ServerApp by inject()
 
         override fun run () {
             process()
@@ -106,9 +103,15 @@ class ServerApp: KoinComponent {
             logger.info("Обработка запроса...")
             try {
                 val inputData = blockingRequestQueue.take()
-                blockingResponseQueue.put(
-                    serverValidator.validate(inputData)!!
-                )
+                println("\n\ntokens: $serverApp.tokens\n\n")
+                if (serverApp.tokens.contains(inputData.token) || !serverApp.serverSessionUsers.contains(inputData.user)) {
+                    blockingResponseQueue.put(
+                        serverValidator.validate(inputData)!!
+                    )
+                } else {
+                    inputData.answerStr = "SESSION ERROR"
+                    blockingResponseQueue.put(inputData)
+                }
             } catch (e: Exception) {
                 logger.severe(e.message + "Ошибка обработки запроса.")
             }

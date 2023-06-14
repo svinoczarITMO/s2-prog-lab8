@@ -4,6 +4,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.common.data.Data
 import ru.itmo.se.prog.lab7.common.data.types.*
+import ru.itmo.se.prog.lab7.server.ServerApp
 import ru.itmo.se.prog.lab7.server.commands.Command
 import ru.itmo.se.prog.lab7.server.utils.SignManager
 import ru.itmo.se.prog.lab7.server.utils.managers.DataBaseManager
@@ -14,6 +15,7 @@ class Login: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER), KoinC
     private val signManager = SignManager()
     private val hash = Hash()
     private val dbmanager: DataBaseManager by inject()
+    private val serverApp: ServerApp by inject()
 
     override fun getName(): String {
         return "login"
@@ -27,6 +29,7 @@ class Login: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER), KoinC
         var result = ""
 
         val login = signManager.logLogin(hash.encryptLogin(data.user.login)) as String
+        println("login: $login")
         if (login == message.getMessage("invalid_login1")) {
             data.answerStr = login
             return data
@@ -38,6 +41,7 @@ class Login: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER), KoinC
             data.user.id = id.getInt("id")
         }
         val password = signManager.logPassword(hash.encryptPassword(data.user.password)) as String
+        println("password: $password")
         if (password == message.getMessage("invalid_password")) {
             data.answerStr = password
             return data
@@ -49,15 +53,20 @@ class Login: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER), KoinC
             data.user.isAdmin = isAdmin.getBoolean("is_admin")
         }
         dbmanager.listOfUsers.forEach {
+
             println("login: $login")
             println("it.login: ${it.login}")
             println("password: $password")
             println("it.password: ${it.password}")
+
             if (login == it.login && password == it.password) {
                 result = message.getMessage("successful_login")!!
-                data.token = (hash.encryptLogin(login) + hash.encryptPassword(password) + hash.generateSalt(login)).drop(92)
+                val token = (hash.encryptLogin(login) + hash.encryptPassword(password) + hash.generateSalt(login)).drop(92)
+                data.token = token
                 data.answerStr = result
                 dbmanager.updateToken(data.user.id, data.token)
+                serverApp.tokens.add(token)
+                serverApp.serverSessionUsers.add(data.user)
 
                 println("token: ${data.token}")
                 return data

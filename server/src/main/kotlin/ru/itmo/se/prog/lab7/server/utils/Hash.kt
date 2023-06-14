@@ -1,11 +1,18 @@
 package ru.itmo.se.prog.lab7.server.utils
 
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import ru.itmo.se.prog.lab7.common.data.Messages
+import ru.itmo.se.prog.lab7.server.utils.managers.DataBaseManager
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.time.LocalTime
 
-class Hash {
+class Hash: KoinComponent {
+    private val dbmanager: DataBaseManager by inject ()
+    private val message: Messages by inject ()
+
     fun encryptPassword(input: String) : String {
         return try {
             val md = MessageDigest.getInstance("SHA-384")
