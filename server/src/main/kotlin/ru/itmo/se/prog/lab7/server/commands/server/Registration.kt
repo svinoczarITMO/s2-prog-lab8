@@ -26,13 +26,15 @@ class Registration: Command(ArgType.TOKEN, StatusType.USER, LocationType.SERVER)
 
     override fun execute(data: Data): Data {
         var result = ""
+        var hashLogin = ""
         val id = signManager.getID()
-        val login = hash.encryptLogin((signManager.regLogin(data.user.login) as String))
+        val login = signManager.regLogin(hash.encryptLogin((data.user.login))) as String
+
         if (login == message.getMessage("invalid_login2")) {
             data.answerStr = login
             return data
         }
-        val password = hash.encryptPassword(data.user.password)
+        val password = this.hash.encryptPassword(data.user.password)
         val isAdmin = data.user.isAdmin
         dbmanager.insertUsers(id, login, password, isAdmin)
         dbmanager.listOfUsers.clear()

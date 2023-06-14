@@ -9,9 +9,9 @@ package ru.itmo.se.prog.lab7.common.data
 class Messages {
 
     companion object {
-        val redText = "\u001B[31m"
-        val cyanText = "\u001B[1;36m"
-        val resetColor = "\u001B[0m"
+        const val redText = "\u001B[31m"
+        const val cyanText = "\u001B[1;36m"
+        const val resetColor = "\u001B[0m"
     }
 
     private val messages = mapOf(
