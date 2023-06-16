@@ -1,10 +1,12 @@
 package ru.itmo.se.prog.lab7.client
 
+import javafx.application.Application.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.context.GlobalContext.startKoin
+import ru.itmo.se.prog.lab7.client.app.MyApp
 import ru.itmo.se.prog.lab7.client.di.notKoinModule
 import ru.itmo.se.prog.lab7.client.utils.*
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
@@ -15,6 +17,7 @@ import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
+import tornadofx.launch
 
 
 fun main() {
@@ -30,6 +33,8 @@ fun main() {
     val clientApp = di.clientApp
     val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
     val kotlinIsBetterThanJava = true
+
+    launch<MyApp>()
 
     while (kotlinIsBetterThanJava) {
         val flag = ::main.name
