@@ -3,11 +3,12 @@ package ru.itmo.se.prog.lab7.client.utils.validation
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.itmo.se.prog.lab7.client.ClientApp
+import ru.itmo.se.prog.lab7.client.commands.Command
 import ru.itmo.se.prog.lab7.client.utils.AddPersonFields
 import ru.itmo.se.prog.lab7.client.utils.Hash
-import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
+import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
 import ru.itmo.se.prog.lab7.common.data.*
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
@@ -15,7 +16,7 @@ import ru.itmo.se.prog.lab7.common.data.types.StatusType
 import ru.itmo.se.prog.lab7.common.exceptions.WrongPasswordException
 import java.util.*
 
-class ClientValidator: KoinComponent {
+class GuiClientValidator: KoinComponent {
     private val commandManager: CommandManager by inject()
     private val message: Messages by inject()
     private val write: PrinterManager by inject()
@@ -32,10 +33,11 @@ class ClientValidator: KoinComponent {
         User(0,"login", "password"),
         "main", ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT, "")
 
-    fun validate (data: MutableList<String>): Data {
-        val commandName = data[0]
-        val oneArg = data[1]
-        val placeFlag = data.last()
+    fun validate (data: MutableList<*>): Data {
+        val commandName = data[0] as String
+        val placeFlag = data.last() as String
+        val args = data[1] as MutableMap<String, String>
+        var oneArg = ""
         val command = commandManager.getCommand(commandPackage, commandName, "Command")
         var isExecuteScript = false
 
@@ -47,6 +49,10 @@ class ClientValidator: KoinComponent {
         dataObj.token = clientApp.token
         dataObj.user = clientApp.user
 
+        if (dataObj.argType == ArgType.ONE_ARG) {
+            oneArg = args.get("oneArg") as String
+        }
+
         if (commandName == "execute_script") {
             isExecuteScript = true
         }
@@ -54,9 +60,9 @@ class ClientValidator: KoinComponent {
         if (command.location == LocationType.SERVER) {
             if (!isExecuteScript) {
                 when (command.arg) {
-                     ArgType.NO_ARG -> {
-                         dataObj.oneArg = ""
-                     }
+                    ArgType.NO_ARG -> {
+                        dataObj.oneArg = ""
+                    }
 
                     ArgType.ONE_ARG -> {
                         dataObj.oneArg = oneArg
@@ -75,8 +81,13 @@ class ClientValidator: KoinComponent {
 
                     ArgType.TOKEN -> {
                         val typeOfToken = dataObj.name
-                        user = signing(placeFlag, typeOfToken)
-                        dataObj.user = user
+                        user = signing(placeFlag, typeOfToken, args)
+                        if (user.login != message.getMessage("no_match_passwords")) {
+                            dataObj.answerStr = ""
+                            dataObj.user = user
+                        } else {
+                            dataObj.answerStr = message.getMessage("no_match_passwords")
+                        }
                     }
                 }
 
@@ -88,16 +99,23 @@ class ClientValidator: KoinComponent {
         }
     }
 
-    private fun signing (placeFlag: String, type: String): User {
+    private fun signing (placeFlag: String, type: String, params: MutableMap<String, String>): User {
         if (type == "reg") {
-            write.inConsole(message.getMessage("enter_login"))
-            user.login = hash.encrypt(read.fromConsole())
-            user.password = hash.encrypt(regPassword() as String)
+            val login: String by params
+            val password: String by params
+            val repeatedPassword: String by params
+            user.login = hash.encrypt(login)
+            val pass = regPassword(password, repeatedPassword) as String
+            if (pass == message.getMessage("no_match_passwords")) {
+                user.login = message.getMessage("no_match_passwords") as String
+                return user
+            }
+            user.password = hash.encrypt(pass)
         } else if (type == "login") {
-            write.inConsole(message.getMessage("enter_login"))
-            user.login = hash.encrypt(read.fromConsole())
-            write.inConsole(message.getMessage("enter_password"))
-            user.password = hash.encrypt(read.fromConsole())
+            val login: String by params
+            val password: String by params
+            user.login = hash.encrypt(login)
+            user.password = hash.encrypt(password)
         }
         return user
     }
@@ -122,59 +140,18 @@ class ClientValidator: KoinComponent {
         )
     }
 
-    private fun regPassword(): Any {
+    private fun regPassword(checkPassword: String, repeatPassword: String): Any {
         var password = ""
         try {
-            write.inConsole(message.getMessage("enter_password"))
-            val checkPassword = read.fromConsole()
-            write.inConsole(message.getMessage("repeat_password"))
-            val repeatPassword = read.fromConsole()
             if (checkPassword != repeatPassword) {
                 throw WrongPasswordException()
             } else {
                 password = checkPassword
             }
         } catch (e: WrongPasswordException) {
-            write.linesInConsole(message.getMessage("no_match_password"))
-            return regPassword()
+            write.linesInConsole(message.getMessage("no_match_passwords"))
+            return message.getMessage("no_match_passwords") as String
         }
         return password
     }
-
-//    private fun preValidation (path: String): ArrayList<Array<String>> {
-//        val commands = arrayListOf<Array<String>>()
-//        val errorArray = arrayListOf<Array<String>>(arrayOf("ERROR"))
-//        val strings = File(path).readStrings()
-//        val params = arrayListOf<String>()
-//
-//        if (strings.isNotEmpty()) {
-//            for (index in 0 until strings.size) {
-//                val arr = arrayListOf<String>()
-//                val currentLine = strings[index].split(" ")
-//                val currentCommand = commandManager.getCommand(commandPackage, currentLine[0], "Command")
-//                if (currentCommand != null) {
-//                    if (currentLine[0] == "execute_script" && currentLine.last() == path) {
-//                        return errorArray
-//                    }
-//                    if (currentCommand.arg == ArgType.OBJECT || currentCommand.arg == ArgType.OBJECT_PLUS) {
-//                        for (n in 1..10) {
-//                            val param = strings.getOrElse(index + n) { "" }.trim().lowercase()
-//                            if (param.isNotEmpty()) {
-//                                params[n - 1] = param
-//                            }
-//                        }
-//                        //команда, список полей
-//                        currentLine.forEach { arr.add(it) }
-//                        params.forEach { arr.add(it) }
-//                        commands.add(arr.toTypedArray())
-//                    } else {
-//                        //команда, список аргументов
-//                        currentLine.forEach { arr.add(it) }
-//                        commands.add(arr.toTypedArray())
-//                    }
-//                }
-//            }
-//        }
-//        return commands
-//    }
 }

@@ -1,6 +1,6 @@
 package ru.itmo.se.prog.lab7.client
 
-import javafx.application.Application.launch
+import ConnectDi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
@@ -12,7 +12,8 @@ import ru.itmo.se.prog.lab7.client.utils.*
 import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
 import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
 import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
-import ru.itmo.se.prog.lab7.client.utils.validation.ClientValidator
+import ru.itmo.se.prog.lab7.client.utils.validation.ConsoleClientValidator
+import ru.itmo.se.prog.lab7.client.view.MainView
 import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
@@ -26,7 +27,7 @@ fun main() {
     }
     val di = ConnectDi()
     val commandManager = di.commandManager
-    val clientValidator = ClientValidator()
+    val consoleClientValidator = ConsoleClientValidator()
     val write = di.write
     val read = di.read
     val message = di.message
@@ -35,56 +36,81 @@ fun main() {
     val kotlinIsBetterThanJava = true
 
     launch<MyApp>()
+    var guiIsWorking = true
 
-    while (kotlinIsBetterThanJava) {
-        val flag = ::main.name
-        while (!clientApp.authorized) {
-            write.linesInConsole(message.getMessage("login_info"))
+    if (guiIsWorking) {
+        val guiFlag = true
+        while (kotlinIsBetterThanJava) {
+            val flag = ::main.name
+//            while (!clientApp.authorized) {
+//                val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
+//                if (command != null && command.arg == ArgType.TOKEN || command?.location == LocationType.CLIENT) {
+//                    val data = consoleClientValidator.validate(readFromConsole)
+//                    val dataStr = Json.encodeToString(data)
+//                    clientApp.request(dataStr)
+//                }
+//            }
+
             write.inConsole("> ")
-            val readFromConsole = (read.fromConsole().lowercase()).split(" ").toMutableList()
+            val readFromConsole = (readln().lowercase()).split(" ").toMutableList()
             readFromConsole.add(flag)
             val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
-            if (command != null && command.arg == ArgType.TOKEN || command?.location == LocationType.CLIENT) {
-                val data = clientValidator.validate(readFromConsole)
-                val dataStr = Json.encodeToString(data)
-                clientApp.request(dataStr)
+            if (command != null && command.arg != ArgType.TOKEN) {
+                if (command.status == StatusType.USER || (command.status == StatusType.ADMIN && !clientApp.user.isAdmin)) {
+                    val data = consoleClientValidator.validate(readFromConsole)
+                    val dataStr = Json.encodeToString(data)
+                    clientApp.request(dataStr)
+                } else if (command.status == StatusType.ADMIN && clientApp.user.isAdmin) {
+                    val data = consoleClientValidator.validate(readFromConsole)
+                    val dataStr = Json.encodeToString(data)
+                    clientApp.request(dataStr)
+                } else {
+                    write.linesInConsole(message.getMessage("permission_upgrade"))
+                }
+            } else {
+                write.linesInConsole(message.getMessage("weird_command"))
             }
         }
+    }
+    else {
+        val guiFlag = false
+        while (kotlinIsBetterThanJava) {
+            val flag = ::main.name
+            while (!clientApp.authorized) {
+                write.linesInConsole(message.getMessage("login_info"))
+                write.inConsole("> ")
+                val readFromConsole = (read.fromConsole().lowercase()).split(" ").toMutableList()
+                readFromConsole.add(flag)
+                val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
+                if (command != null && command.arg == ArgType.TOKEN || command?.location == LocationType.CLIENT) {
+                    val data = consoleClientValidator.validate(readFromConsole)
+                    val dataStr = Json.encodeToString(data)
+                    clientApp.request(dataStr)
+                }
+            }
 
-        write.inConsole("> ")
-        val readFromConsole = (readln().lowercase()).split(" ").toMutableList()
-        readFromConsole.add(flag)
-        println(readFromConsole)
-        val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
-        if (command != null && command.arg != ArgType.TOKEN) {
-            if (command.status == StatusType.USER || (command.status == StatusType.ADMIN && !clientApp.user.isAdmin)) {
-                val data = clientValidator.validate(readFromConsole)
-                val dataStr = Json.encodeToString(data)
-                clientApp.request(dataStr)
-            } else if (command.status == StatusType.ADMIN && clientApp.user.isAdmin) {
-                val data = clientValidator.validate(readFromConsole)
-                val dataStr = Json.encodeToString(data)
-                clientApp.request(dataStr)
+            write.inConsole("> ")
+            val readFromConsole = (readln().lowercase()).split(" ").toMutableList()
+            readFromConsole.add(flag)
+            val command = commandManager.getCommand(commandPackage, readFromConsole[0], "Command")
+            if (command != null && command.arg != ArgType.TOKEN) {
+                if (command.status == StatusType.USER || (command.status == StatusType.ADMIN && !clientApp.user.isAdmin)) {
+                    val data = consoleClientValidator.validate(readFromConsole)
+                    val dataStr = Json.encodeToString(data)
+                    clientApp.request(dataStr)
+                } else if (command.status == StatusType.ADMIN && clientApp.user.isAdmin) {
+                    val data = consoleClientValidator.validate(readFromConsole)
+                    val dataStr = Json.encodeToString(data)
+                    clientApp.request(dataStr)
+                } else {
+                    write.linesInConsole(message.getMessage("permission_upgrade"))
+                }
+            } else {
+                write.linesInConsole(message.getMessage("weird_command"))
             }
-            else {
-                write.linesInConsole(message.getMessage("permission_upgrade"))
-            }
-        } else {
-            write.linesInConsole(message.getMessage("weird_command"))
         }
     }
 }
-
-class ConnectDi: KoinComponent {
-    val commandManager: CommandManager by inject()
-    val write: PrinterManager by inject()
-    val read: ReaderManager by inject()
-    val message: Messages by inject()
-    val serializer: Serializer by inject()
-    val clientApp: ClientApp by inject()
-}
-
-
 
 //DONE: 1) Хэширование на клиенте (для защиты от ~воровства~ пакетов)
 //DONE: 2) Хэширование на сервере (для безопасного хранения в бд)
