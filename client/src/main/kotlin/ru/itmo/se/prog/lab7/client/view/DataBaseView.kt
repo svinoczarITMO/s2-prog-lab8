@@ -57,7 +57,7 @@ class DataBaseView() : View() {
 //                            textProperty().bind(MyApp.login)
                         }.style {
                             setAlignment(Pos.TOP_CENTER)
-                            fontFamily = "Small capital"
+                            fontFamily = "Arial"
                             fontSize = 20.px
                             padding = box(10.px, 20.px)
                         }
@@ -142,18 +142,18 @@ class DataBaseView() : View() {
                                 openInternalWindow(RemoveByIdView::class)
                             }
                         }
-//                        button(MyApp.bundle.getString("Remove\nlower_key")) {
-//                            style {
-//                                textFill = Color.WHITE
-//                                backgroundColor += Color.BLACK
-//                                padding = box(10.px, 5.px)
-//                            }
-//                            minWidth = 100.0
-//                            minHeight = 50.0
-//                            action {
-//                                openInternalWindow(RemoveByLowerKeyScreen::class)
-//                            }
-//                        }
+                        button(MyApp.bundle.getString("group_counting_by_nationality")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 50.0
+                            action {
+                                openInternalWindow(GroupCountingByNationalityView::class)
+                            }
+                        }
 //                        button(MyApp.bundle.getString("Count_less\nthan_group\nadmin")) {
 //                            style {
 //                                textFill = Color.WHITE
