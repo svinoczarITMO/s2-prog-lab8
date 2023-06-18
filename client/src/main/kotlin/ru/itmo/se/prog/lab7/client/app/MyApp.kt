@@ -16,8 +16,8 @@ import java.util.*
 class MyApp: App(MainView::class), KoinComponent{
     override fun createPrimaryScene(view: UIComponent): Scene {
         val scene = Scene(view.root)
-        primaryStage.width = 960.0
-        primaryStage.height = 540.0
+        primaryStage.width = 1920.0
+        primaryStage.height = 1080.0
         return scene
     }
     companion object {

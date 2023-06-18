@@ -12,7 +12,7 @@ class DataBaseView() : View() {
 
     override val root = tabpane {
         println(tableData)
-        tab("Таблица") {
+        tab(MyApp.bundle.getString("table")) {
             borderpane() {
                 primaryStage.isResizable = true
                 right {
@@ -28,6 +28,8 @@ class DataBaseView() : View() {
                             isEditable = false
                             column(MyApp.bundle.getString("id"), Person::id)
                             column(MyApp.bundle.getString("name"), Person::name)
+                            column(MyApp.bundle.getString("height"), Person::height)
+                            column(MyApp.bundle.getString("weight"), Person::weight)
                             column(MyApp.bundle.getString("coordinate_x"), Person::coordinates).cellFormat {
                                 text = it.x.toString()
                             }

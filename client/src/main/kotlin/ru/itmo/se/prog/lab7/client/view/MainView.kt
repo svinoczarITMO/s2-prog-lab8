@@ -1,6 +1,9 @@
 package ru.itmo.se.prog.lab7.client.view
 
+import javafx.geometry.Pos
+import ru.itmo.se.prog.lab7.client.app.MyApp
 import tornadofx.*
+import java.util.*
 
 
 class MainView : View() {
@@ -40,5 +43,22 @@ class MainView : View() {
             alignment = javafx.geometry.Pos.CENTER
             spacing = 20.px // Add some space between the buttons
         }
+
+        hbox(10, Pos.CENTER_LEFT) {
+            val toggle = togglegroup {
+                togglebutton("ru") {
+                    action {
+                        MyApp.setBundle = ResourceBundle.getBundle("messages", Locale("ru"))
+
+                    }
+                }
+                togglebutton("zh") {
+                    action {
+                        MyApp.setBundle = ResourceBundle.getBundle("messages", Locale("zh"))
+                    }
+                }
+            }
+        }
+        onRefresh()
     }
 }

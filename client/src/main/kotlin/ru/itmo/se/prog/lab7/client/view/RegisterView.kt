@@ -23,18 +23,18 @@ class RegisterView : View() {
 
     override val root = vbox {
         form {
-            fieldset("Register") {
-                field("Username (login)") {
+            fieldset(MyApp.bundle.getString("reg")) {
+                field(MyApp.bundle.getString("username")) {
                     loginField = textfield()
                 }
-                field("Password") {
+                field(MyApp.bundle.getString("pass")) {
                     passwordField = passwordfield()
                 }
-                field("Confirm Password") {
+                field(MyApp.bundle.getString("conf_pass")) {
                     repeatedPasswordField = passwordfield()
                 }
             }
-            button("Register") {
+            button(MyApp.bundle.getString("reg")) {
                 action {
                     val username = loginField.text
                     val password = passwordField.text

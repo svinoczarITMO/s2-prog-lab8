@@ -19,15 +19,15 @@ class LoginView : View(){
 
     override val root = vbox {
         form {
-            fieldset("Login") {
-                field("Username (login)") {
+            fieldset(MyApp.bundle.getString("login")) {
+                field(MyApp.bundle.getString("username")) {
                     loginField = textfield(inputLogin)
                 }
-                field("Password") {
+                field(MyApp.bundle.getString("pass")) {
                     passwordField = passwordfield(inputPassword)
                 }
             }
-            button("Login") {
+            button(MyApp.bundle.getString("login")) {
                 action {
                     val username = loginField.text
                     val password = passwordField.text
