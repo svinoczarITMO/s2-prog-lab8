@@ -130,18 +130,18 @@ class DataBaseView() : View() {
                                 openInternalWindow(AddView::class)
                             }
                         }
-//                        button(MyApp.bundle.getString("Remove\ngreater_key")) {
-//                            style {
-//                                textFill = Color.WHITE
-//                                backgroundColor += Color.BLACK
-//                                padding = box(10.px, 5.px)
-//                            }
-//                            minWidth = 100.0
-//                            minHeight = 50.0
-//                            action {
-//                                openInternalWindow(RemoveByGreaterKeyScreen::class)
-//                            }
-//                        }
+                        button(MyApp.bundle.getString("remove_by_id")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 50.0
+                            action {
+                                openInternalWindow(RemoveByIdView::class)
+                            }
+                        }
 //                        button(MyApp.bundle.getString("Remove\nlower_key")) {
 //                            style {
 //                                textFill = Color.WHITE

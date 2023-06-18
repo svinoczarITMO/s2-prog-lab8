@@ -10,21 +10,17 @@ import java.util.Date
 import ru.itmo.se.prog.lab7.common.data.Color as HairColor
 
 class AddView: View() {
-    private val inputName = SimpleStringProperty()
-    private val inputCoordinateX = SimpleStringProperty()
-    private val inputCoordinateY = SimpleStringProperty()
-    private val inputHeight = SimpleStringProperty()
-    private val inputWeight = SimpleStringProperty()
-    private val inputAM = SimpleStringProperty()
-    private val inputFOE = SimpleStringProperty()
-    private val inputAName = SimpleStringProperty()
-    private val inputAdminW = SimpleStringProperty()
-    private val inputHairColor = SimpleStringProperty()
-    private val inputCountry = SimpleStringProperty()
-    private val inputLocationX = SimpleStringProperty()
-    private val inputLocationY = SimpleStringProperty()
-    private val inputLocationZ = SimpleStringProperty()
-    private val answerText = SimpleStringProperty()
+    private var inputName = SimpleStringProperty()
+    private var inputCoordinateX = SimpleStringProperty()
+    private var inputCoordinateY = SimpleStringProperty()
+    private var inputHeight = SimpleStringProperty()
+    private var inputWeight = SimpleStringProperty()
+    private var inputHairColor = SimpleStringProperty()
+    private var inputCountry = SimpleStringProperty()
+    private var inputLocationX = SimpleStringProperty()
+    private var inputLocationY = SimpleStringProperty()
+    private var inputLocationZ = SimpleStringProperty()
+    private var answerText = SimpleStringProperty()
 
 
     override val root = form {
@@ -122,6 +118,17 @@ class AddView: View() {
                     } catch (e: Exception) {
                         answerText.set("Something wrong in add view")
                     }
+
+                    inputName.value = ""
+                    inputCoordinateX.value = ""
+                    inputCoordinateY.value = ""
+                    inputHeight.value = ""
+                    inputWeight.value = ""
+                    inputHairColor.value = ""
+                    inputCountry.value = ""
+                    inputLocationX.value = ""
+                    inputLocationY.value = ""
+                    inputLocationZ.value = ""
                 }
             }
             label(answerText).style {

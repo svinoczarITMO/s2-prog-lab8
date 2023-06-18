@@ -50,7 +50,7 @@ class GuiClientValidator: KoinComponent {
         dataObj.user = clientApp.user
 
         if (dataObj.argType == ArgType.ONE_ARG) {
-            oneArg = args.get("oneArg") as String
+            oneArg = args["oneArg"] as String
         }
 
         if (commandName == "execute_script") {

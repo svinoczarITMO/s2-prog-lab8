@@ -8,7 +8,6 @@ import tornadofx.*
 class ShowView: View() {
     private val resultText= SimpleStringProperty("")
 
-
     override val root= vbox {
         setPrefSize(350.0, 450.0)
         val result = MyApp.executeServerCommand.run("show", mutableMapOf())
