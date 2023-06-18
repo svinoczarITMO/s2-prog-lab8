@@ -94,7 +94,9 @@ class GuiClientValidator: KoinComponent {
             }
             return dataObj
         } else {
-            write.linesInConsole(command.execute(dataObj))
+            val result = command.execute(dataObj)
+            dataObj.answerStr = result
+            write.linesInConsole(result)
             return dataObj
         }
     }

@@ -16,7 +16,6 @@ class LoginView : View(){
     private var loginField: TextField by singleAssign()
     private var passwordField: PasswordField by singleAssign()
     private val guiClientValidator = GuiClientValidator()
-    private val di = ConnectDi()
     private val resultText = SimpleStringProperty("")
 
     override val root = vbox {
@@ -39,15 +38,14 @@ class LoginView : View(){
                     val paramList = mutableListOf(commandName, args, flag)
                     val data = guiClientValidator.validate(paramList)
                     val dataStr = Json.encodeToString(data)
-                    val result = di.clientApp.request(dataStr)
-                    when (result) {
-                        di.message.getMessage("successful_login") -> {
+                    when (MyApp.di.clientApp.request(dataStr)) {
+                        MyApp.di.message.getMessage("successful_login") -> {
                             replaceWith<DataBaseView>()
                         }
-                        di.message.getMessage("invalid_login1") -> {
+                        MyApp.di.message.getMessage("invalid_login1") -> {
                             resultText.set(MyApp.bundle.getString("invalid_login1"))
                         }
-                        di.message.getMessage("invalid_password") -> {
+                        MyApp.di.message.getMessage("invalid_password") -> {
                             resultText.set(MyApp.bundle.getString("invalid_password"))
                         }
                     }

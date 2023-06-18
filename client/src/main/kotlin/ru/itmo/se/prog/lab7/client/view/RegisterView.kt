@@ -19,7 +19,6 @@ class RegisterView : View() {
     private var passwordField: PasswordField by singleAssign()
     private var repeatedPasswordField: PasswordField by singleAssign()
     private val guiClientValidator = GuiClientValidator()
-    private val di = ConnectDi()
     private val resultText = SimpleStringProperty("")
 
     override val root = vbox {
@@ -45,17 +44,17 @@ class RegisterView : View() {
                     val args = mutableMapOf<String, String>("login" to username, "password" to password, "repeatedPassword" to repeatedPassword)
                     val paramList = mutableListOf(commandName, args, flag)
                     val data = guiClientValidator.validate(paramList)
-                    if (data.answerStr == di.message.getMessage("no_match_passwords")) {
+                    if (data.answerStr == MyApp.di.message.getMessage("no_match_passwords")) {
                         resultText.set(MyApp.bundle.getString("no_match_passwords"))
                     } else {
                         val dataStr = Json.encodeToString(data)
-                        val result = di.clientApp.request(dataStr)
+                        val result = MyApp.di.clientApp.request(dataStr)
                         when (result) {
-                            di.message.getMessage("successful_registration") -> {
+                            MyApp.di.message.getMessage("successful_registration") -> {
                                 replaceWith<DataBaseView>()
                             }
 
-                            di.message.getMessage("invalid_login2") -> {
+                            MyApp.di.message.getMessage("invalid_login2") -> {
                                 resultText.set(MyApp.bundle.getString("invalid_login2"))
                             }
                         }
