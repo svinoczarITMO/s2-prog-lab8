@@ -204,18 +204,18 @@ class DataBaseView() : View() {
 //                                replaceWith<LoginScreen>(sizeToScene = true)
 //                            }
 //                        }
-//                        button(MyApp.bundle.getString("Exit")) {
-//                            style {
-//                                textFill = Color.WHITE
-//                                backgroundColor += Color.BLACK
-//                                padding = box(10.px, 5.px)
-//                            }
-//                            minWidth = 100.0
-//                            minHeight = 50.0
-//                            action {
-//                                MyApp.readerOfCommands.readCommand("exit")
-//                            }
-//                        }
+                        button(MyApp.bundle.getString("exit")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 50.0
+                            action {
+                                MyApp.executeServerCommand.run("exit", mutableMapOf())
+                            }
+                        }
 //                    }
 //                }
 //                onRefresh()
