@@ -14,7 +14,7 @@ import java.util.*
 class ServerValidator : KoinComponent {
     private val commandManager: CommandManager by inject()
     private val commandPackage = "ru.itmo.se.prog.lab7.server.commands"
-    private val historyFile = File("D:\\ITMO\\2nd-semester\\prog-labs\\s2-prog-lab7\\common\\src\\main\\kotlin\\ru\\itmo\\se\\prog\\lab7\\common\\data\\history.log")
+    private val historyFile = File("D:\\ITMO\\2nd-semester\\prog-labs\\s2-prog-lab8\\common\\src\\main\\kotlin\\ru\\itmo\\se\\prog\\lab7\\common\\data\\history.log")
     private val commandBuffer = historyFile.readLines().toMutableList()
     private val nullData = Data("null", "null", Person(
         0, "whoami", Coordinates(1f,1f), Date(),
@@ -23,17 +23,7 @@ class ServerValidator : KoinComponent {
 
     fun validate (data: Data): Data? {
         val commandName = data.name
-        if (commandBuffer.size == 7) {
-            commandBuffer.removeAt(0)
-            commandBuffer.add(commandName)
-        } else if (commandBuffer.size > 7) {
-            while (commandBuffer.size >= 7) {
-                commandBuffer.removeAt(0)
-            }
-            commandBuffer.add(commandName)
-        } else {
-            commandBuffer.add(commandName)
-        }
+        commandBuffer.add(commandName)
         println(commandBuffer)
 
         historyFile.delete()

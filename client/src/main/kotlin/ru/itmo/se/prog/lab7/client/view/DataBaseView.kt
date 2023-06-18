@@ -166,18 +166,18 @@ class DataBaseView() : View() {
                                 openInternalWindow(MinByWeightView::class)
                             }
                         }
-//                        button(MyApp.bundle.getString("Remove")) {
-//                            style {
-//                                textFill = Color.WHITE
-//                                backgroundColor += Color.BLACK
-//                                padding = box(10.px, 5.px)
-//                            }
-//                            minWidth = 100.0
-//                            minHeight = 50.0
-//                            action {
-//                                openInternalWindow(RemoveScreen::class)
-//                            }
-//                        }
+                        button(MyApp.bundle.getString("history")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 50.0
+                            action {
+                                openInternalWindow(HistoryView::class)
+                            }
+                        }
 //                        button(MyApp.bundle.getString("Update_id")) {
 //                            style {
 //                                textFill = Color.WHITE
