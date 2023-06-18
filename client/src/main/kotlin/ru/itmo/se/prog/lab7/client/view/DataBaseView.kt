@@ -117,18 +117,19 @@ class DataBaseView() : View() {
                                 MyApp.executeServerCommand.run("clear", mutableMapOf())
                             }
                         }
-//                        button(MyApp.bundle.getString("Save")) {
-//                            style {
-//                                textFill = Color.WHITE
-//                                backgroundColor += Color.BLACK
-//                                padding = box(10.px, 5.px)
-//                            }
-//                            minWidth = 100.0
-//                            minHeight = 50.0
-//                            action {
-//                                MyApp.readerOfCommands.readCommand("save")
-//                            }
-//                        }
+
+                        button(MyApp.bundle.getString("add")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 50.0
+                            action {
+                                openInternalWindow(AddView::class)
+                            }
+                        }
 //                        button(MyApp.bundle.getString("Remove\ngreater_key")) {
 //                            style {
 //                                textFill = Color.WHITE
@@ -189,18 +190,7 @@ class DataBaseView() : View() {
 //                                openInternalWindow(UpdateIdScreen::class)
 //                            }
 //                        }
-//                        button(MyApp.bundle.getString("Insert")) {
-//                            style {
-//                                textFill = Color.WHITE
-//                                backgroundColor += Color.BLACK
-//                                padding = box(10.px, 5.px)
-//                            }
-//                            minWidth = 100.0
-//                            minHeight = 50.0
-//                            action {
-//                                openInternalWindow(InsertScreen::class)
-//                            }
-//                        }
+
 //                        button(MyApp.bundle.getString("Log_out")) {
 //                            style {
 //                                textFill = Color.WHITE

@@ -1,6 +1,7 @@
 package ru.itmo.se.prog.lab7.client.app
 
 import ConnectDi
+import javafx.beans.property.SimpleStringProperty
 import javafx.scene.Scene
 import org.koin.core.component.KoinComponent
 import ru.itmo.se.prog.lab7.client.ClientApp
@@ -29,6 +30,6 @@ class MyApp: App(MainView::class), KoinComponent{
             set(value) {
                 bundle = value
             }
-        var login=""
+        var login = SimpleStringProperty()
     }
 }

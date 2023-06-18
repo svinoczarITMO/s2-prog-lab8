@@ -26,7 +26,7 @@ class GuiClientValidator: KoinComponent {
     private val addPersonFields = AddPersonFields()
     private val hash = Hash()
     private var user = User(0, "LERA", "naponb")
-    private var params = arrayListOf("null parameter", "null parameter", "null parameter", "null parameter", "null parameter",
+    var params = arrayListOf("null parameter", "null parameter", "null parameter", "null parameter", "null parameter",
         "null parameter", "null parameter", "null parameter", "null parameter", "null parameter")
     private val dataObj = Data("command", "none",
         Person(0,"Nikita", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3), -1), "",

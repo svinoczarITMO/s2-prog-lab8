@@ -1,18 +1,17 @@
 package ru.itmo.se.prog.lab7.client.view
 
-import ConnectDi
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Pos
 import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
 import javafx.scene.text.FontWeight
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import ru.itmo.se.prog.lab7.client.app.MyApp
 import ru.itmo.se.prog.lab7.client.utils.validation.GuiClientValidator
 import tornadofx.*
 
 class LoginView : View(){
+    private val inputLogin = SimpleStringProperty()
+    private val inputPassword = SimpleStringProperty()
     private var loginField: TextField by singleAssign()
     private var passwordField: PasswordField by singleAssign()
     private val guiClientValidator = GuiClientValidator()
@@ -22,10 +21,10 @@ class LoginView : View(){
         form {
             fieldset("Login") {
                 field("Username (login)") {
-                    loginField = textfield()
+                    loginField = textfield(inputLogin)
                 }
                 field("Password") {
-                    passwordField = passwordfield()
+                    passwordField = passwordfield(inputPassword)
                 }
             }
             button("Login") {
@@ -44,6 +43,7 @@ class LoginView : View(){
                             resultText.set(MyApp.bundle.getString("invalid_password"))
                         }
                     }
+                    MyApp.login.set(inputLogin.value)
                 }
             }
         }
