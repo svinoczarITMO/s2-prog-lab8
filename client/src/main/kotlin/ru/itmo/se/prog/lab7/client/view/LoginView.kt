@@ -32,13 +32,8 @@ class LoginView : View(){
                 action {
                     val username = loginField.text
                     val password = passwordField.text
-                    val commandName = "login"
-                    val flag = "main"
                     val args = mutableMapOf<String, String>("login" to username, "password" to password)
-                    val paramList = mutableListOf(commandName, args, flag)
-                    val data = guiClientValidator.validate(paramList)
-                    val dataStr = Json.encodeToString(data)
-                    when (MyApp.di.clientApp.request(dataStr)) {
+                    when (MyApp.executeServerCommand.run("login", args)) {
                         MyApp.di.message.getMessage("successful_login") -> {
                             replaceWith<DataBaseView>()
                         }

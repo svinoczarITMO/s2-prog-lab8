@@ -48,8 +48,7 @@ class RegisterView : View() {
                         resultText.set(MyApp.bundle.getString("no_match_passwords"))
                     } else {
                         val dataStr = Json.encodeToString(data)
-                        val result = MyApp.di.clientApp.request(dataStr)
-                        when (result) {
+                        when (MyApp.di.clientApp.request(dataStr)) {
                             MyApp.di.message.getMessage("successful_registration") -> {
                                 replaceWith<DataBaseView>()
                             }

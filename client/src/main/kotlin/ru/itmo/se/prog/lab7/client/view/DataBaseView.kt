@@ -96,7 +96,7 @@ class DataBaseView() : View() {
 //                            }
 //                        }
                         spacing = 10.0
-                        button(MyApp.bundle.getString("Info")) {
+                        button(MyApp.bundle.getString("info")) {
                             style {
                                 textFill = Color.WHITE
                                 backgroundColor += Color.BLACK

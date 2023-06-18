@@ -22,6 +22,7 @@ class MyApp: App(MainView::class), KoinComponent{
     companion object {
         val di = ConnectDi()
         val guiClientValidator = GuiClientValidator()
+        val executeServerCommand = ExecuteServerCommand()
         var bundle = ResourceBundle.getBundle("messages", Locale("ru"), ResourceBundle.Control.getNoFallbackControl(ResourceBundle.Control.FORMAT_PROPERTIES))
         var setBundle: ResourceBundle
             get() = bundle
