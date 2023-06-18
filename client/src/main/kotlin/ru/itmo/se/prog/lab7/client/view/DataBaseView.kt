@@ -178,18 +178,18 @@ class DataBaseView() : View() {
                                 openInternalWindow(HistoryView::class)
                             }
                         }
-//                        button(MyApp.bundle.getString("Update_id")) {
-//                            style {
-//                                textFill = Color.WHITE
-//                                backgroundColor += Color.BLACK
-//                                padding = box(10.px, 5.px)
-//                            }
-//                            minWidth = 100.0
-//                            minHeight = 50.0
-//                            action {
-//                                openInternalWindow(UpdateIdScreen::class)
-//                            }
-//                        }
+                        button(MyApp.bundle.getString("update")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 50.0
+                            action {
+                                openInternalWindow(UpdateView::class)
+                            }
+                        }
 
                         button(MyApp.bundle.getString("log_out")) {
                             style {

@@ -25,10 +25,6 @@ class ServerValidator : KoinComponent {
         val commandName = data.name
         commandBuffer.add(commandName)
         println(commandBuffer)
-
-        historyFile.delete()
-        historyFile.writeText(commandBuffer.joinToString())
-
         val result = commandManager.getCommand(commandPackage, data.name, "Command")?.execute(data)
         println(result!!.answerStr)
         return if (data.locationType == LocationType.SERVER) {

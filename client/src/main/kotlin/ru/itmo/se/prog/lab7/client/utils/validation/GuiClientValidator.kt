@@ -49,7 +49,7 @@ class GuiClientValidator: KoinComponent {
         dataObj.token = clientApp.token
         dataObj.user = clientApp.user
 
-        if (dataObj.argType == ArgType.ONE_ARG) {
+        if (dataObj.argType == ArgType.ONE_ARG || dataObj.argType == ArgType.OBJECT_PLUS) {
             oneArg = args["oneArg"] as String
         }
 

@@ -2,14 +2,13 @@ package ru.itmo.se.prog.lab7.client.view
 
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Pos
-import javafx.scene.paint.Color
-import tornadofx.*
 import ru.itmo.se.prog.lab7.client.app.MyApp
-import ru.itmo.se.prog.lab7.common.data.*
-import java.util.Date
-import ru.itmo.se.prog.lab7.common.data.Color as HairColor
+import ru.itmo.se.prog.lab7.common.data.Color
+import ru.itmo.se.prog.lab7.common.data.Country
+import tornadofx.*
 
-class AddView: View() {
+class UpdateView: View() {
+    private var inputId = SimpleStringProperty()
     private var inputName = SimpleStringProperty()
     private var inputCoordinateX = SimpleStringProperty()
     private var inputCoordinateY = SimpleStringProperty()
@@ -20,12 +19,18 @@ class AddView: View() {
     private var inputLocationX = SimpleStringProperty()
     private var inputLocationY = SimpleStringProperty()
     private var inputLocationZ = SimpleStringProperty()
-    private var answerText = SimpleStringProperty()
+    private var resultText = SimpleStringProperty()
 
 
     override val root = form {
         setPrefSize(1000.0, 450.0)
         fieldset {
+            field(MyApp.bundle.getString("update_id")) {
+                textfield(inputId).useMaxWidth
+                style {
+                    fontFamily = "Arial"
+                }
+            }
             field(MyApp.bundle.getString("name")) {
                 textfield(inputName).useMaxWidth
                 style {
@@ -56,7 +61,7 @@ class AddView: View() {
                     fontFamily = "Arial"
                 }
             }
-            field("${MyApp.bundle.getString("hair_color")}: ${HairColor.values().map { it.toString() }}") {
+            field("${MyApp.bundle.getString("hair_color")}: ${Color.values().map { it.toString() }}") {
                 textfield(inputHairColor).useMaxWidth
                 style {
                     fontFamily = "Arial"
@@ -94,8 +99,8 @@ class AddView: View() {
             button("Execute") {
                 style {
                     setAlignment(Pos.TOP_CENTER)
-                    textFill = Color.WHITE
-                    backgroundColor += Color.BLACK
+                    textFill = javafx.scene.paint.Color.WHITE
+                    backgroundColor += javafx.scene.paint.Color.BLACK
                     padding = box(10.px, 20.px)
                 }
                 action {
@@ -112,10 +117,17 @@ class AddView: View() {
                             inputLocationY.value,
                             inputLocationZ.value
                         )
-                        println("всё ок")
-                        MyApp.executeServerCommand.run("add", mutableMapOf(), "gui")
+                        when (MyApp.executeServerCommand.run("update", mutableMapOf("oneArg" to inputId.value), "gui")) {
+                            MyApp.di.message.getMessage("updated") -> {
+                                resultText.set(MyApp.bundle.getString("updated"))
+                            }
+                            MyApp.di.message.getMessage("not_owner") -> {
+                                resultText.set(MyApp.bundle.getString("not_owner"))
+                            }
+                        }
+
                     } catch (e: Exception) {
-                        answerText.set("Something wrong in add view")
+                        resultText.set("Something wrong in update view")
                     }
 
                     inputName.value = ""
@@ -130,11 +142,10 @@ class AddView: View() {
                     inputLocationZ.value = ""
                 }
             }
-            label(answerText).style {
+            label(resultText).style {
                 setAlignment(Pos.TOP_CENTER)
                 padding = box(30.px, 20.px)
             }
         }
     }
-
 }

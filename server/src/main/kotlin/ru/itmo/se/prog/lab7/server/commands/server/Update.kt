@@ -34,27 +34,33 @@ class Update: Command(ArgType.OBJECT_PLUS, StatusType.USER, LocationType.SERVER)
         var result: String? = ""
         val id = data.oneArg.toInt()
         val ownerId = dbmanager.selectOwnerId(id)
-        if (data.user.id == ownerId) {
-            val element = data.obj
-            element.id = id
-            val bufferCollection = mutableListOf<Person>()
-            for (el in collectionManager.collection) {
-                if (el.id != element.id) {
-                    bufferCollection.add(el)
-                } else {
-                    bufferCollection.add(element)
+        try {
+            if (data.user.id == ownerId) {
+                val element = data.obj
+                element.id = id
+                val bufferCollection = mutableListOf<Person>()
+                for (el in collectionManager.collection) {
+                    if (el.id != element.id) {
+                        bufferCollection.add(el)
+                    } else {
+                        bufferCollection.add(element)
+                    }
                 }
+                dbmanager.updatePerson(
+                    element.id, element.name, element.coordinates.x, element.coordinates.y, element.creationDate,
+                    element.height, element.weight, element.hairColor, element.nationality,
+                    element.location.x, element.location.y!!, element.location.z, data.user.id
+                )
+                collectionManager.collection = bufferCollection
+                result = message.getMessage("updated")
+                data.answerStr = result
+            } else {
+                result = message.getMessage("not_owner")
+                data.answerStr = result
             }
-            dbmanager.updatePerson(
-                element.id, element.name, element.coordinates.x, element.coordinates.y, element.creationDate,
-                element.height, element.weight, element.hairColor, element.nationality,
-                element.location.x, element.location.y!!, element.location.z, data.user.id
-            )
-            collectionManager.collection = bufferCollection
-            result = message.getMessage("updated")
-            data.answerStr = result
-        } else {
-            result = message.getMessage("not_owner")
+        } catch (e: Exception) {
+            writeToConsole.linesInConsole("Something wrong in update command")
+            result = "update error"
             data.answerStr = result
         }
         return data
