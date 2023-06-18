@@ -191,19 +191,19 @@ class DataBaseView() : View() {
 //                            }
 //                        }
 
-//                        button(MyApp.bundle.getString("Log_out")) {
-//                            style {
-//                                textFill = Color.WHITE
-//                                backgroundColor += Color.BLACK
-//                                padding = box(10.px, 5.px)
-//                            }
-//                            minWidth = 100.0
-//                            minHeight = 50.0
-//                            action {
-//                                MyApp.readerOfCommands.readCommand("log_out")
-//                                replaceWith<LoginScreen>(sizeToScene = true)
-//                            }
-//                        }
+                        button(MyApp.bundle.getString("log_out")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 50.0
+                            action {
+                                MyApp.executeServerCommand.run("logout", mutableMapOf())
+                                replaceWith<MainView>()
+                            }
+                        }
                         button(MyApp.bundle.getString("exit")) {
                             style {
                                 textFill = Color.WHITE
