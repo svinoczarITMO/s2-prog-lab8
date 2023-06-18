@@ -32,7 +32,8 @@ class LoginView : View(){
                     val username = loginField.text
                     val password = passwordField.text
                     val args = mutableMapOf<String, String>("login" to username, "password" to password)
-                    when (MyApp.executeServerCommand.run("login", args)) {
+                    val result = MyApp.executeServerCommand.run("login", args)
+                    when (result.answerStr) {
                         MyApp.di.message.getMessage("successful_login") -> {
                             replaceWith<DataBaseView>()
                         }

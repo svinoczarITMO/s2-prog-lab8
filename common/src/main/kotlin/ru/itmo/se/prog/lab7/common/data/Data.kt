@@ -14,5 +14,6 @@ data class Data(
     var argType: ArgType,
     var statusType: StatusType,
     var locationType: LocationType,
-    var answerStr: String? = "not null"
+    var answerStr: String? = "not null",
+    var collection: MutableList<Person> = mutableListOf<Person>()
 )

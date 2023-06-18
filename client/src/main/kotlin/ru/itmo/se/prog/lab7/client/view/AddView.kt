@@ -112,7 +112,6 @@ class AddView: View() {
                             inputLocationY.value,
                             inputLocationZ.value
                         )
-                        println("всё ок")
                         MyApp.executeServerCommand.run("add", mutableMapOf(), "gui")
                     } catch (e: Exception) {
                         answerText.set("Something wrong in add view")

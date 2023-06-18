@@ -26,27 +26,33 @@ class Show: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER), KoinC
 
     override fun execute(data: Data): Data {
         var result: String? = ""
-        val id = data.user.id
-        println("id: $id")
-
-        if (collectionManager.collection.isNotEmpty()) {
-            val persons = dbmanager.selectPersonQuery.executeQuery()
-            while (persons.next()) {
-                val personId = persons.getInt("id")
-                println("pID: $personId")
-                val personName = persons.getString("name")
-                println("pName: $personName")
-                val ownerId = persons.getInt("owner_id")
-                println("oId: $ownerId")
-                result += ("Id: $personId, Name: $personName, Owner: ${checkOwner(id, ownerId)}")
-                if (personId != collectionManager.collection.last().id) {
-                    result += "\n"
-                }
-            }
-        } else {
-            result = (message.getMessage("clean_collection"))
-        }
+//        val id = data.user.id
+//        println("id: $id")
+//
+//        if (collectionManager.collection.isNotEmpty()) {
+//            val persons = dbmanager.selectPersonQuery.executeQuery()
+//            while (persons.next()) {
+//                val personId = persons.getInt("id")
+//                println("pID: $personId")
+//                val personName = persons.getString("name")
+//                println("pName: $personName")
+//                val ownerId = persons.getInt("owner_id")
+//                println("oId: $ownerId")
+//                result += ("Id: $personId, Name: $personName, Owner: ${checkOwner(id, ownerId)}")
+//                if (personId != collectionManager.collection.last().id) {
+//                    result += "\n"
+//                }
+//            }
+//        } else {
+//            result = (message.getMessage("clean_collection"))
+//        }
+        collectionManager.collection.clear()
+        dbmanager.uploadAllPersons()
         data.answerStr = result
+//        collectionManager.collection.forEach{
+//            println(it)
+//        }
+        data.collection = collectionManager.collection.toMutableList()
         return data
     }
 

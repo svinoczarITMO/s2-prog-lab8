@@ -11,6 +11,7 @@ class DataBaseView() : View() {
     private val tableData: ObservableList<Person> = mutableListOf<Person>().asObservable()
 
     override val root = tabpane {
+        println(tableData)
         tab("Таблица") {
             borderpane() {
                 primaryStage.isResizable = true
@@ -54,7 +55,7 @@ class DataBaseView() : View() {
                     maxWidth = 240.0
                     vbox {
                         label() {
-//                            textProperty().bind(MyApp.login)
+                            textProperty().bind(MyApp.login)
                         }.style {
                             setAlignment(Pos.TOP_CENTER)
                             fontFamily = "Arial"
@@ -100,11 +101,15 @@ class DataBaseView() : View() {
                             }
                             minWidth = 100.0
                             minHeight = 50.0
+//                            action {
+//                                openInternalWindow(ShowView::class)
+//                            }
                             action {
-                                openInternalWindow(ShowView::class)
+                                tableData.asObservable().removeAll()
+                                val result = MyApp.executeServerCommand.run("show", mutableMapOf())
+                                tableData.setAll(result.collection)
                             }
                         }
-
 
                         button(MyApp.bundle.getString("add")) {
                             style {
@@ -236,80 +241,9 @@ class DataBaseView() : View() {
                                 MyApp.executeServerCommand.run("exit", mutableMapOf())
                             }
                         }
-//                    }
-//                }
-//                onRefresh()
-//            }
-//        }
-//        tab("Карта") {
-//            pane {
-//                val imageView = imageview("/map1.png") {
-//                    isPreserveRatio = true
-//                }
-//                imageView.fitHeight = 900.0
-//                imageView.fitWidth = 1800.0
-//                val circle1 = circle(radius = 10.0) {
-//                    layoutX = 790.0
-//                    layoutY = 335.0
-//                    tooltip() {
-//                        textProperty().bind(spainC)
-//                    }
-//                    visibleProperty().bind(spainC.isNotEmpty)
-//                }
-//                val arrow1 = polygon(0.0, 0.0, 20.0, 10.0, 0.0, 20.0) {
-//                    layoutX = circle1.layoutX + 5
-//                    layoutY = circle1.layoutY - 37
-//                    isVisible = false
-//                }
-//                circle1.setOnMouseEntered {
-//                    arrow1.isVisible = true
-//                }
-//
-//                circle1.setOnMouseExited {
-//                    arrow1.isVisible = false
-//                }
-//                val circle2 = circle(radius = 10.0) {
-//                    layoutX = 835.0
-//                    layoutY = 287.0
-//                    tooltip() {
-//                        textProperty().bind(germanC)
-//                    }
-//                    visibleProperty().bind(germanC.isNotEmpty)
-//                }
-//                val arrow2 = polygon(0.0, 0.0, 20.0, 10.0, 0.0, 20.0) {
-//                    layoutX = circle2.layoutX + 5
-//                    layoutY = circle2.layoutY - 37
-//                    isVisible = false
-//                }
-//                circle2.setOnMouseEntered {
-//                    arrow2.isVisible = true
-//                }
-//
-//                circle2.setOnMouseExited {
-//                    arrow2.isVisible = false
-//                }
-//                val circle3 = circle(radius = 10.0) {
-//                    layoutX = 1200.0
-//                    layoutY = 400.0
-//                    tooltip {
-//                        textProperty().bind(indiaC)
-//                    }
-//                    visibleProperty().bind(indiaC.isNotEmpty)
-//                }
-//                val arrow3 = polygon(0.0, 0.0, 20.0, 10.0, 0.0, 20.0) {
-//                    layoutX = circle3.layoutX + 5
-//                    layoutY = circle3.layoutY - 37
-//                    isVisible = false
-//                }
-//                circle3.setOnMouseEntered {
-//                    arrow3.isVisible = true
-//                }
-//
-//                circle3.setOnMouseExited {
-//                    arrow3.isVisible = false
-//                }
                     }
                 }
+                onRefresh()
             }
         }
     }

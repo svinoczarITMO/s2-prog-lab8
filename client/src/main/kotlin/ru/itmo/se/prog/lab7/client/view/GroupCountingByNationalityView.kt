@@ -12,7 +12,7 @@ class GroupCountingByNationalityView: View() {
     override val root= vbox {
         setPrefSize(350.0, 125.0)
         val result = MyApp.executeServerCommand.run("group_counting_by_nationality", mutableMapOf())
-        resultText.set(result)
+        resultText.set(result.answerStr)
         label(resultText).style {
             setAlignment(Pos.TOP_CENTER)
             padding = box(10.px, 10.px)

@@ -11,7 +11,7 @@ class MinByWeightView: View() {
     override val root= vbox {
         setPrefSize(400.0, 65.0)
         val result = MyApp.executeServerCommand.run("min_by_weight", mutableMapOf())
-        resultText.set(result)
+        resultText.set(result.answerStr)
         label(resultText).style {
             setAlignment(Pos.TOP_CENTER)
             padding = box(10.px, 10.px)

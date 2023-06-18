@@ -48,7 +48,12 @@ class Serializer {
      *
      */
     fun deserializeData (whatToDeserialize: String): Data {
-        return json.decodeFromString<Data>(whatToDeserialize)
+        return try {
+            json.decodeFromString<Data>(whatToDeserialize)
+        } catch (e: Exception) {
+            println("Error deserializing data: ${e.message}")
+            null!!
+        }
     }
 }
 

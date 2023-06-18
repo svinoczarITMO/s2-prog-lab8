@@ -30,7 +30,7 @@ class ConsoleClientValidator: KoinComponent {
     private val dataObj = Data("command", "none",
         Person(0,"Nikita", Coordinates(1.4f, 8.8f), Date(),180, 68, Color.YELLOW, Country.VATICAN, Location(1,2,3), -1), "",
         User(0,"login", "password"),
-        "main", ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT, "")
+        "main", ArgType.NO_ARG, StatusType.USER, LocationType.CLIENT, "", mutableListOf())
 
     fun validate (data: MutableList<String>): Data {
         val commandName = data[0]

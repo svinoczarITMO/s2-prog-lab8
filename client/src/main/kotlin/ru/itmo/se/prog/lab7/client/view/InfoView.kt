@@ -15,7 +15,7 @@ class InfoView : View() {
     override val root= vbox {
         setPrefSize(350.0, 150.0)
         val result = MyApp.executeServerCommand.run("info", mutableMapOf())
-        resultText.set(result)
+        resultText.set(result.answerStr)
         label(resultText).style {
             setAlignment(Pos.CENTER)
             padding = box(10.px, 4.px)

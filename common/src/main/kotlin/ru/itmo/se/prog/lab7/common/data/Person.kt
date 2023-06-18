@@ -21,7 +21,7 @@ data class Person(
     var name: String,
     var coordinates: Coordinates,
     @Contextual
-    @Serializable(DateAsStringSerializer::class)
+    @Serializable(with = DateAsStringSerializer::class)
     var creationDate: Date,
     var height: Int,
     var weight: Long,

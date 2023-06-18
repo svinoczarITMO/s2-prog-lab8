@@ -9,8 +9,9 @@ import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
 import ru.itmo.se.prog.lab7.server.commands.server.Save
-import ru.itmo.se.prog.lab7.server.utils.Serializer
+import ru.itmo.se.prog.lab7.common.Serializer
 import ru.itmo.se.prog.lab7.server.utils.ServerValidator
+import ru.itmo.se.prog.lab7.server.utils.managers.CollectionManager
 import java.io.*
 import java.net.InetSocketAddress
 import java.nio.channels.ServerSocketChannel
@@ -37,6 +38,7 @@ class ServerApp: KoinComponent {
     private val cachedThreadPool = Executors.newCachedThreadPool()
     private val blockingRequestQueue = LinkedBlockingQueue<Data>()
     private val blockingResponseQueue = LinkedBlockingQueue<Data>()
+    private val collectionManager: CollectionManager by inject()
     var tokens = mutableSetOf<String>()
     var serverSessionUsers = mutableSetOf<User>()
 
@@ -78,7 +80,8 @@ class ServerApp: KoinComponent {
     fun response (clientSocketChannel: SocketChannel) {
         logger.info("Отправка ответа...")
         try {
-            val outputData = Json.encodeToString(blockingResponseQueue.take())
+            val data = blockingResponseQueue.take()
+            val outputData = Json.encodeToString(data)
             val output = PrintWriter(clientSocketChannel.socket().getOutputStream())
             output.write(outputData)
             output.flush()

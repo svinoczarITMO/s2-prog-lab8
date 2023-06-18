@@ -36,7 +36,7 @@ class CountByHairColorView: View() {
                 }
                 action {
                     val result = MyApp.executeServerCommand.run("count_by_hair_color", mutableMapOf("oneArg" to input.value))
-                    resultText.set(result)
+                    resultText.set(result.answerStr)
                     input.value=""
                 }
             }

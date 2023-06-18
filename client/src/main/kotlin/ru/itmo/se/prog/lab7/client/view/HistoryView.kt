@@ -11,7 +11,7 @@ class HistoryView: View() {
     override val root= vbox {
         setPrefSize(350.0, 450.0)
         val result = MyApp.executeServerCommand.run("history", mutableMapOf())
-        resultText.set(result)
+        resultText.set(result.answerStr)
         label(resultText).style {
             setAlignment(Pos.TOP_CENTER)
             padding = box(5.px, 5.px)

@@ -116,7 +116,8 @@ class UpdateView: View() {
                             inputLocationY.value,
                             inputLocationZ.value
                         )
-                        when (MyApp.executeServerCommand.run("update", mutableMapOf("oneArg" to inputId.value), "gui")) {
+                        val result = MyApp.executeServerCommand.run("update", mutableMapOf("oneArg" to inputId.value), "gui")
+                        when (result.answerStr) {
                             MyApp.di.message.getMessage("updated") -> {
                                 resultText.set(MyApp.bundle.getString("updated"))
                             }
