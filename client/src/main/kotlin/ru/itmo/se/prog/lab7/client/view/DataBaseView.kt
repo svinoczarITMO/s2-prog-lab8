@@ -154,18 +154,18 @@ class DataBaseView() : View() {
                                 openInternalWindow(GroupCountingByNationalityView::class)
                             }
                         }
-//                        button(MyApp.bundle.getString("Count_less\nthan_group\nadmin")) {
-//                            style {
-//                                textFill = Color.WHITE
-//                                backgroundColor += Color.BLACK
-//                                padding = box(10.px, 5.px)
-//                            }
-//                            minWidth = 100.0
-//                            minHeight = 70.0
-//                            action {
-//                                openInternalWindow(CountLessThenAdmin::class)
-//                            }
-//                        }
+                        button(MyApp.bundle.getString("min_by_weight")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 70.0
+                            action {
+                                openInternalWindow(MinByWeightView::class)
+                            }
+                        }
 //                        button(MyApp.bundle.getString("Remove")) {
 //                            style {
 //                                textFill = Color.WHITE
