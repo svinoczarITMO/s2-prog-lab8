@@ -105,19 +105,18 @@ class DataBaseView() : View() {
                             }
                         }
 
-
-//                        button(MyApp.bundle.getString("Clear")) {
-//                            style {
-//                                textFill = Color.WHITE
-//                                backgroundColor += Color.BLACK
-//                                padding = box(10.px, 5.px)
-//                            }
-//                            minWidth = 100.0
-//                            minHeight = 50.0
-//                            action {
-//                                MyApp.readerOfCommands.readCommand("clear")
-//                            }
-//                        }
+                        button(MyApp.bundle.getString("clear")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 50.0
+                            action {
+                                MyApp.executeServerCommand.run("clear", mutableMapOf())
+                            }
+                        }
 //                        button(MyApp.bundle.getString("Save")) {
 //                            style {
 //                                textFill = Color.WHITE
