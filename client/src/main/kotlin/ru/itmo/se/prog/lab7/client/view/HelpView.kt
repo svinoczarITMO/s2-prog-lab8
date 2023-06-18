@@ -11,7 +11,7 @@ class HelpView: View() {
     private val resultText= SimpleStringProperty("")
 
     override val root= vbox {
-        setPrefSize(950.0, 300.0)
+        setPrefSize(1000.0, 400.0)
         val flag = "main"
         val commandName = "help"
         val paramList = mutableListOf(commandName, mutableMapOf<String, String>(), flag)

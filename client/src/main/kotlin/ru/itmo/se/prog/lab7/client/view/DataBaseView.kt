@@ -2,12 +2,10 @@ package ru.itmo.se.prog.lab7.client.view
 
 import javafx.collections.ObservableList
 import javafx.geometry.Pos
-import javafx.scene.Parent
 import javafx.scene.paint.Color
 import ru.itmo.se.prog.lab7.client.app.MyApp
 import ru.itmo.se.prog.lab7.common.data.Person
 import tornadofx.*
-import java.util.Vector
 
 class DataBaseView() : View() {
     private val tableData: ObservableList<Person> = mutableListOf<Person>().asObservable()
@@ -68,46 +66,8 @@ class DataBaseView() : View() {
                             padding = box(30.px, 20.px)
                             setAlignment(Pos.TOP_CENTER)
                         }
-//                        button(MyApp.bundle.getString("Show")) {
-//                            style {
-//                                textFill = Color.WHITE
-//                                backgroundColor += Color.BLACK
-//                            }
-//                            minWidth = 100.0
-//                            minHeight = 50.0
-//                            action {
-//                                tableData.asObservable().removeAll()
-//                                val answer = MyApp.readerOfCommands.readCommand("show")
-//                                germanC.set("")
-//                                spainC.set("")
-//                                indiaC.set("")
-//                                answer.collectionForTable.forEach {
-//                                    if (it.getAdmin().getCountry() == Country.GERMANY) {
-//                                        germanC.set(germanC.value + "\n" + it.getName())
-//                                    }
-//                                    if (it.getAdmin().getCountry() == Country.SPAIN) {
-//                                        spainC.set(spainC.value + "\n" + it.getName())
-//                                    }
-//                                    if (it.getAdmin().getCountry() == Country.INDIA) {
-//                                        indiaC.set(indiaC.value + "\n" + it.getName())
-//                                    }
-//                                }
-//                                tableData.setAll(answer.collectionForTable)
-//                            }
-//                        }
                         spacing = 10.0
-                        button(MyApp.bundle.getString("info")) {
-                            style {
-                                textFill = Color.WHITE
-                                backgroundColor += Color.BLACK
-                                padding = box(10.px, 5.px)
-                            }
-                            minWidth = 100.0
-                            minHeight = 50.0
-                            action {
-                                openInternalWindow(InfoView::class)
-                            }
-                        }
+
                         button(MyApp.bundle.getString("help")) {
                             style {
                                 textFill = Color.WHITE
@@ -120,6 +80,32 @@ class DataBaseView() : View() {
                                 openInternalWindow(HelpView::class)
                             }
                         }
+
+                        button(MyApp.bundle.getString("info")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 50.0
+                            action {
+                                openInternalWindow(InfoView::class)
+                            }
+                        }
+                        button(MyApp.bundle.getString("show")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                            }
+                            minWidth = 100.0
+                            minHeight = 50.0
+                            action {
+                                openInternalWindow(ShowView::class)
+                            }
+                        }
+
+
 //                        button(MyApp.bundle.getString("Clear")) {
 //                            style {
 //                                textFill = Color.WHITE
