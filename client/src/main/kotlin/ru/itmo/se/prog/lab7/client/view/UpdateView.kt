@@ -21,7 +21,6 @@ class UpdateView: View() {
     private var inputLocationZ = SimpleStringProperty()
     private var resultText = SimpleStringProperty()
 
-
     override val root = form {
         setPrefSize(1000.0, 450.0)
         fieldset {
@@ -79,7 +78,7 @@ class UpdateView: View() {
                     fontFamily = "Arial"
                 }
             }
-            field(MyApp.bundle.getString("location_y")) {
+            field(MyApp.bundle.getString("enter_hair_color")) {
                 textfield(inputLocationY).useMaxWidth
                 style {
                     fontFamily = "Arial"

@@ -105,18 +105,6 @@ class DataBaseView() : View() {
                             }
                         }
 
-                        button(MyApp.bundle.getString("clear")) {
-                            style {
-                                textFill = Color.WHITE
-                                backgroundColor += Color.BLACK
-                                padding = box(10.px, 5.px)
-                            }
-                            minWidth = 100.0
-                            minHeight = 50.0
-                            action {
-                                MyApp.executeServerCommand.run("clear", mutableMapOf())
-                            }
-                        }
 
                         button(MyApp.bundle.getString("add")) {
                             style {
@@ -130,6 +118,33 @@ class DataBaseView() : View() {
                                 openInternalWindow(AddView::class)
                             }
                         }
+
+                        button(MyApp.bundle.getString("update")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 50.0
+                            action {
+                                openInternalWindow(UpdateView::class)
+                            }
+                        }
+
+                        button(MyApp.bundle.getString("clear")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 50.0
+                            action {
+                                MyApp.executeServerCommand.run("clear", mutableMapOf())
+                            }
+                        }
+
                         button(MyApp.bundle.getString("remove_by_id")) {
                             style {
                                 textFill = Color.WHITE
@@ -142,6 +157,7 @@ class DataBaseView() : View() {
                                 openInternalWindow(RemoveByIdView::class)
                             }
                         }
+
                         button(MyApp.bundle.getString("group_counting_by_nationality")) {
                             style {
                                 textFill = Color.WHITE
@@ -154,6 +170,7 @@ class DataBaseView() : View() {
                                 openInternalWindow(GroupCountingByNationalityView::class)
                             }
                         }
+
                         button(MyApp.bundle.getString("min_by_weight")) {
                             style {
                                 textFill = Color.WHITE
@@ -166,6 +183,20 @@ class DataBaseView() : View() {
                                 openInternalWindow(MinByWeightView::class)
                             }
                         }
+
+                        button(MyApp.bundle.getString("count_by_hair_color")) {
+                            style {
+                                textFill = Color.WHITE
+                                backgroundColor += Color.BLACK
+                                padding = box(10.px, 5.px)
+                            }
+                            minWidth = 100.0
+                            minHeight = 70.0
+                            action {
+                                openInternalWindow(CountByHairColorView::class)
+                            }
+                        }
+
                         button(MyApp.bundle.getString("history")) {
                             style {
                                 textFill = Color.WHITE
@@ -176,18 +207,6 @@ class DataBaseView() : View() {
                             minHeight = 50.0
                             action {
                                 openInternalWindow(HistoryView::class)
-                            }
-                        }
-                        button(MyApp.bundle.getString("update")) {
-                            style {
-                                textFill = Color.WHITE
-                                backgroundColor += Color.BLACK
-                                padding = box(10.px, 5.px)
-                            }
-                            minWidth = 100.0
-                            minHeight = 50.0
-                            action {
-                                openInternalWindow(UpdateView::class)
                             }
                         }
 
@@ -204,6 +223,7 @@ class DataBaseView() : View() {
                                 replaceWith<MainView>()
                             }
                         }
+
                         button(MyApp.bundle.getString("exit")) {
                             style {
                                 textFill = Color.WHITE

@@ -9,7 +9,7 @@ class ShowView: View() {
     private val resultText= SimpleStringProperty("")
 
     override val root= vbox {
-        setPrefSize(350.0, 450.0)
+        setPrefSize(400.0, 450.0)
         val result = MyApp.executeServerCommand.run("show", mutableMapOf())
         resultText.set(result)
         label(resultText).style {
