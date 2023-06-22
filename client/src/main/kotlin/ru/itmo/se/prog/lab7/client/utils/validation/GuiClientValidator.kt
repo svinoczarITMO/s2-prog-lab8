@@ -57,7 +57,7 @@ class GuiClientValidator: KoinComponent {
             isExecuteScript = true
         }
 
-        if (command.location == LocationType.SERVER) {
+        if (command.location == LocationType.SERVER || commandName == "logout") {
             if (!isExecuteScript) {
                 when (command.arg) {
                     ArgType.NO_ARG -> {

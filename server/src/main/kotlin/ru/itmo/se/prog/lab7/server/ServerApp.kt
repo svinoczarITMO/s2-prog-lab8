@@ -9,9 +9,8 @@ import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
 import ru.itmo.se.prog.lab7.server.commands.server.Save
-import ru.itmo.se.prog.lab7.common.Serializer
+import ru.itmo.se.prog.lab7.server.utils.Serializer
 import ru.itmo.se.prog.lab7.server.utils.ServerValidator
-import ru.itmo.se.prog.lab7.server.utils.managers.CollectionManager
 import java.io.*
 import java.net.InetSocketAddress
 import java.nio.channels.ServerSocketChannel
@@ -38,7 +37,6 @@ class ServerApp: KoinComponent {
     private val cachedThreadPool = Executors.newCachedThreadPool()
     private val blockingRequestQueue = LinkedBlockingQueue<Data>()
     private val blockingResponseQueue = LinkedBlockingQueue<Data>()
-    private val collectionManager: CollectionManager by inject()
     var tokens = mutableSetOf<String>()
     var serverSessionUsers = mutableSetOf<User>()
 
@@ -64,20 +62,22 @@ class ServerApp: KoinComponent {
         }
     }
 
-    fun request (clientSocketChannel: SocketChannel) {
+    private fun request (clientSocketChannel: SocketChannel) {
         logger.info("Ожидание запроса...")
         try {
             val inputJson: InputStream = clientSocketChannel.socket().getInputStream()
             val bufferedReader = BufferedReader(InputStreamReader(inputJson))
             val dataStr = bufferedReader.readLine()?.trim()!!
             val inputData: Data = serializer.deserializeData(dataStr)
+//            println("inputData: $inputData")
             blockingRequestQueue.put(inputData)
+//            println("blockingRequestQueue ДЛЯ РЕКВЕСТА: $blockingRequestQueue")
         } catch (e: Exception) {
             logger.severe(e.message + "Ошибка получения запроса.")
         }
     }
 
-    fun response (clientSocketChannel: SocketChannel) {
+    private fun response (clientSocketChannel: SocketChannel) {
         logger.info("Отправка ответа...")
         try {
             val data = blockingResponseQueue.take()
@@ -105,8 +105,9 @@ class ServerApp: KoinComponent {
         private fun process () {
             logger.info("Обработка запроса...")
             try {
+//                println("blockingRequestQueue ДЛЯ ПРОЦЕССА: $blockingRequestQueue")
                 val inputData = blockingRequestQueue.take()
-                println("\n\ntokens: $serverApp.tokens\n\n")
+//                println("\n\ntokens: $serverApp.tokens\n\n")
                 if (serverApp.tokens.contains(inputData.token) || !serverApp.serverSessionUsers.contains(inputData.user)) {
                     blockingResponseQueue.put(
                         serverValidator.validate(inputData)!!
@@ -116,7 +117,7 @@ class ServerApp: KoinComponent {
                     blockingResponseQueue.put(inputData)
                 }
             } catch (e: Exception) {
-                logger.severe(e.message + "Ошибка обработки запроса.")
+                logger.severe(e.stackTraceToString() + "Ошибка обработки запроса.")
             }
         }
     }

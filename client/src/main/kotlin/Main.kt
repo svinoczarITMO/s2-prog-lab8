@@ -1,20 +1,9 @@
-package ru.itmo.se.prog.lab7.client
-
-import ConnectDi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import org.koin.core.context.GlobalContext.startKoin
 import ru.itmo.se.prog.lab7.client.app.MyApp
 import ru.itmo.se.prog.lab7.client.di.notKoinModule
-import ru.itmo.se.prog.lab7.client.utils.*
-import ru.itmo.se.prog.lab7.client.utils.io.PrinterManager
-import ru.itmo.se.prog.lab7.client.utils.io.ReaderManager
-import ru.itmo.se.prog.lab7.client.utils.managers.CommandManager
 import ru.itmo.se.prog.lab7.client.utils.validation.ConsoleClientValidator
-import ru.itmo.se.prog.lab7.client.view.MainView
-import ru.itmo.se.prog.lab7.common.data.Messages
 import ru.itmo.se.prog.lab7.common.data.types.ArgType
 import ru.itmo.se.prog.lab7.common.data.types.LocationType
 import ru.itmo.se.prog.lab7.common.data.types.StatusType
@@ -36,7 +25,7 @@ fun main() {
     val kotlinIsBetterThanJava = true
 
     launch<MyApp>()
-    var guiIsWorking = true
+    var guiIsWorking = false
 
     if (guiIsWorking) {
         val guiFlag = true

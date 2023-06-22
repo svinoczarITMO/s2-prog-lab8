@@ -24,7 +24,7 @@ class Logout: Command(ArgType.NO_ARG, StatusType.USER, LocationType.SERVER), Koi
     }
 
     override fun execute(data: Data): String? {
-        var result: String? = ""
+        var result: String? = "."
         clientApp.token = ""
         clientApp.user = User(-999, "", "", false)
         clientApp.authorized = false

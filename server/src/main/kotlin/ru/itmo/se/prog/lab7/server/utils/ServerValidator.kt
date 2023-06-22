@@ -24,10 +24,11 @@ class ServerValidator : KoinComponent {
     fun validate (data: Data): Data? {
         val commandName = data.name
         commandBuffer.add(commandName)
-        println(commandBuffer)
+//        println(commandBuffer)
         val result = commandManager.getCommand(commandPackage, data.name, "Command")?.execute(data)
-        println(result!!.answerStr)
-        return if (data.locationType == LocationType.SERVER) {
+        println("result $result")
+//        println("server validator result: ${ result!!.answerStr }")
+        return if (data.locationType == LocationType.SERVER || data.name == "logout") {
             result
         } else {
             nullData

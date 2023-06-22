@@ -3,12 +3,17 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.8.10"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+    id("com.github.johnrengelman.shadow") version "7.1.0"
     id("org.openjfx.javafxplugin") version "0.0.10"
     application
 }
 
 group = "ru.itmo.se.prog.lab7"
 version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
 
 dependencies {
     val kotlinVersion = "1.8.10"
@@ -22,10 +27,9 @@ dependencies {
     implementation("org.reflections:reflections:0.10.2")
     implementation("io.insert-koin:koin-core:$koinVersion")
     testImplementation("io.insert-koin:koin-test-junit5:$koinVersion")
-    implementation(kotlin("stdlib-jdk8"))
-
     implementation("no.tornado:tornadofx:1.7.20")
     implementation("org.openjfx:javafx-controls:19.0.2.1")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.test {
@@ -36,17 +40,23 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "MainKt"
+    }
+    configurations["compileClasspath"].forEach { file: File ->
+        from(zipTree(file.absoluteFile))
+    }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
 application {
     mainClass.set("MainKt")
 }
 
-repositories {
-    mavenCentral()
-}
-
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "1.8"
+subprojects {
+    apply(plugin = "org.jetbrains.dokka")
 }
 
 javafx {
