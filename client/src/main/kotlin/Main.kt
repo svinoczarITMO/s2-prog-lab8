@@ -24,11 +24,10 @@ fun main() {
     val commandPackage = "ru.itmo.se.prog.lab7.client.commands"
     val kotlinIsBetterThanJava = true
 
-    launch<MyApp>()
+//    launch<MyApp>()
     var guiIsWorking = false
 
     if (guiIsWorking) {
-        val guiFlag = true
         while (kotlinIsBetterThanJava) {
             val flag = ::main.name
 //            while (!clientApp.authorized) {
